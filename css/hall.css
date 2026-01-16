@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+a {
+    color: inherit; 
+    text-decoration: none; 
+    background-color: transparent; 
+    cursor: pointer
+}
+
+body {
+    background: #fff url(../img/background.jpg) center no-repeat;
+    background-size: cover;
+}
+
+.container {
+    max-width: 990px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.header {
+    color: white;
+}
+  
+.logo {
+    font-size: 34px;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 14px;
+}
+
+.logo span {
+    font-weight: 100;
+}
+
+.seat-page {
+    max-width: 990px;
+    margin: 30px auto;
+    background: rgba(225, 225, 225, 0.9);
+    padding: 15px 0;
+    border-radius: 3px;
+}
+
+.session-info {
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+
+.hall-wrapper {
+    background: #141c26;
+    padding: 20px;
+    color: #fff;
+}
+
+.screen {
+    background: url(../img/screen.png) center no-repeat;
+    width: 100%;
+    height: 24px;
+    margin-bottom: 20px;
+    background-size: contain;
+}
+
+.seats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    gap: 6px;
+}
+
+.seat {
+    width: 22px;
+    height: 22px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.empty {
+    width: 22px;
+    height: 22px;
+}
+
+.free {
+    background: white;
+}
+  
+.vip {
+    background: orange;
+}
+  
+.taken {
+    background: #2c3542;
+    cursor: not-allowed;
+}
+  
+.selected {
+    background: #16a6af;
+}
+  
+.legend {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px 30px;
+    margin: 15px auto 0;
+    width: fit-content;
+    font-size: 13px;
+    color: #fff;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+  
+.legend .seat {
+   width: 18px;
+   height: 18px;
+   border-radius: 3px;
+}
+  
+.book-btn {
+    margin: 20px auto 0;
+    display: block;
+    background: #16a6af;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 14px;
+    cursor: pointer;
+}

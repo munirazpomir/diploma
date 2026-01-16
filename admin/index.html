@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИдёмВКино - Администратирование</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <header class="header">
+        <div class="container">
+          <a href="index.html" class="logo">Идём<span>В</span>Кино</a>
+          <div class="admin-subtitle">Администраторррская</div>
+        </div>
+      </header>
+
+      <main class="admin-page container">
+        <section class="admin-block">
+            <button class="admin-title">УПРАВЛЕНИЕ ЗАЛАМИ</button>
+            <div class="admin-content">
+                <div class="hall-manager">
+                    <p class="admin-text">Доступные залы:</p>
+                  
+                    <ul class="hall-list" id="hallList"></ul>
+                  
+                    <button class="add-hall-btn" id="addHallBtn">СОЗДАТЬ ЗАЛ</button>
+                  </div>
+            </div>
+        </section>
+
+        <section class="admin-block">
+            <button class="admin-title">КОНФИГУРАЦИЯ ЗАЛОВ</button>
+            <div class="admin-content">
+              <p class="admin-text">Выберите зал для конфигурации:</p>
+
+              <div class="hall-list">
+                <button class="hall-btn active" data-hall="1">Зал 1</button>
+                <button class="hall-btn" data-hall="2">Зал 2</button>
+              </div>
+
+              <p class="admin-text">Укажите количество рядов и максимальное количество кресел в ряду:</p>
+
+              <div class="hall-size">
+                <label>
+                  Рядов, шт
+                  <input type="number" id="rowsInput" min="1" max="10" value="10">
+                </label>
+
+                <label>
+                  Мест, шт
+                  <input type="number" id="seatsInput" min="1" max="12" value="8">
+                </label>
+              </div>
+
+              <p class="admin-text">Теперь вы можете указать типы кресел на схеме зала:</p>
+
+              <div class="legend">
+                <div class="legend-item">
+                  <span class="seat free"></span>
+                  <span class="legend-text">— обычные кресла</span>
+                </div>
+              
+                <div class="legend-item">
+                  <span class="seat vip"></span>
+                  <span class="legend-text">— VIP кресла</span>
+                </div>
+              
+                <div class="legend-item">
+                  <span class="seat disabled"></span>
+                  <span class="legend-text">— заблокированные (нет кресла)</span>
+                </div>
+              </div>
+
+              <p class="legend">Чтобы изменить вид кресла, нажмите по нему левой кнопкой мыши</p>
+              
+              <div class="hall-config">
+                <div class="screen">Экран</div>
+                <div class="hall-grid" id="hallGrid">
+
+                </div>
+              </div>
+
+              <div class="admin-actions">
+                <button class="btn cancel">Отмена</button>
+                <button class="btn save">Сохранить</button>
+              </div>
+            </div>
+        </section>
+
+        <section class="admin-block">
+            <button class="admin-title">КОНФИГУРАЦИЯ ЦЕН</button>
+            <div class="admin-content">
+
+              <p class="admin-text">Выберите зал для конфигурации:</p>
+
+              <div class="hall-list" id="priceHallList">
+
+              </div>
+
+              <p class="admin-text">Установите цены для типов кресел:</p>
+
+              <div class="price-config">
+
+<div class="price-config">
+  <div class="price-row">
+    <label>
+      Цена, рублей
+    <input type="number" id="priceRegular" min="0" value="250">
+  </label>
+    <span class="price-label">
+      за <span class="seat free"></span> обычные места
+    </span>
+  </div>
+
+  <div class="price-row">
+    <label>
+      Цена, рублей
+    <input type="number" id="priceVip" min="0" value="350">
+  </label>
+    <span class="price-label">
+      за <span class="seat vip"></span> VIP места
+    </span>
+  </div>
+</div>
+              </div>
+
+              <div class="admin-actions">
+                <button class="btn cancel" id="priceCancel">Отмена</button>
+                <button class="btn save" id="priceSave">Сохранить</button>
+              </div>
+
+            </div>
+        </section>
+
+        <section class="admin-block">
+          <button class="admin-title">СЕТКА СЕАНСОВ</button>
+        
+          <div class="admin-content">
+        
+            <div class="movies-panel">
+              <button class="add-movie-btn">Добавить фильм</button>
+        
+              <div class="movie-list" id="movieList">
+                
+              </div>
+            </div>
+        
+            <div class="halls-panel">
+        
+              <div class="hall-schedule" data-hall="1">
+                <div class="hall-name">Зал 1</div>
+                <div  class="timeline-wrapper">
+                  <div class="timeline"></div>
+                  <div class="timeline-times"></div>
+                </div>
+                
+              </div>
+        
+              <div class="hall-schedule" data-hall="2">
+                <div class="hall-name">Зал 2</div>
+                <div  class="timeline-wrapper">
+                  <div class="timeline"></div>
+                  <div class="timeline-times"></div>
+                </div>
+              </div>
+        
+            </div>
+        
+            <div class="admin-actions">
+              <button class="btn cancel">Отмена</button>
+              <button class="btn save">Сохранить</button>
+            </div>
+        
+          </div>
+        </section>
+
+        <section class="admin-block">
+          <button class="admin-title">ОТКРЫТЬ ПРОДАЖИ</button>
+
+          <div class="admin-content">
+
+            <p class="admin-text">
+              Выберите зал для открытия/закрытия продаж:
+            </p>
+
+            <div class="hall-list" id="salesHallList">
+
+            </div>
+
+            <p class="sales-status" id="salesStatus">
+              Все готово к открытию
+            </p>
+
+            <div class="admin-actions center">
+              <button class="btn primary" id="toggleSalesBtn">
+                Открыть продажу билетов
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <script src="../js/api.js"></script>
+      <script src="js/admin.js"></script>
+
+      <div class="modal-overlay" id="movieModal">
+        <div class="modal">
+
+          <div class="modal-header">
+            <span>ДОБАВЛЕНИЕ ФИЛЬМА</span>
+            <button class="modal-close" id="closeMovieModal"></button>
+          </div>
+
+          <div class="modal-body">
+            <label>
+              Название фильма
+              <input type="text" id="movieTitle" placeholder="Например, «Гражданин Кейн»">
+            </label>
+
+            <label>
+              Продолжительность фильма (мин.)
+              <input type="number" id="movieDuration">
+            </label>
+
+            <label>
+              Описание фильма
+              <textarea id="movieDescription"></textarea>
+            </label>
+
+            <label>
+              Страна
+              <input type="text" id="movieCountry">
+            </label>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn primary" id="addMovieConfirm">Добавить фильм</button>
+            <button class="btn primary">Загрузить постер</button>
+            <button class="btn cancel" id="cancelMovie">Отменить</button>
+          </div>
+        </div>
+      </div>
+
+          <div class="modal-overlay" id="sessionModal">
+            <div class="modal">
+          
+              <div class="modal-header">
+                <span>ДОБАВЛЕНИЕ СЕАНСА</span>
+                <button class="modal-close" id="closeSessionModal"></button>
+              </div>
+          
+              <div class="modal-body">
+                <label>
+                  Название зала
+                  <select id="sessionHall"></select>
+                </label>
+          
+                <label>
+                  Название фильма
+                  <select id="sessionMovie"></select>
+                </label>
+          
+                <label>
+                  Время начала
+                  <input type="time" id="sessionTime" value="00:00">
+                </label>
+              </div>
+          
+              <div class="modal-footer">
+                <button class="btn primary" id="addSessionConfirm">Добавить фильм</button>
+                <button class="btn cancel" id="cancelSession">Отменить</button>
+              </div>
+          
+            </div>
+          </div>
+
+          <div class="modal-overlay" id="hallModal">
+            <div class="modal">
+
+              <div class="modal-header">
+                <span>ДОБАВЛЕНИЕ ЗАЛА</span>
+                <button class="modal-close" id="closeHallModal"></button>
+              </div>
+
+              <div class="modal-body">
+                <label>
+                  Название зала
+                  <input type="text" id="hallNameInput" placeholder="Например, «Зал 1»">
+                </label>
+              </div>
+
+              <div class="modal-footer">
+                <button class="btn primary" id="addHallConfirm">Добавить зал</button>
+                <button class="btn cancel" id="cancelHall">Отменить</button>
+              </div>
+            </div>
+          </div>
+  </body>
+</html>

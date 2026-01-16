@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>ИдёмВКино — оплата</title>
+  <link rel="stylesheet" href="css/payment.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="container">
+    <a href="index.html" class="logo">Идём<span>В</span>Кино</a>
+    </div>
+</header>
+  <main class="payment-page">
+    <h2 class="payment-card title">ВЫ ВЫБРАЛИ БИЛЕТЫ:</h2>
+    <div class="payment-card">
+      <div class="divider"></div>
+      <section class="info">
+        <p>На фильм: <strong id="movie"></strong></p>
+        <p>Места: <strong id="seats"></strong></p>
+        <p>В зале: <strong id="hall"></strong></p>
+        <p>Начало сеанса: <strong id="time"></strong></p>
+        <p id="priceRow">
+          Стоимость: <strong><span id="price"></span> рублей</strong>
+        </p>
+      </section>
+      
+      <button class="pay-btn">ПОЛУЧИТЬ КОД БРОНИРОВАНИЯ</button>
+
+      <div class="qr-wrapper" id="qrWrapper">
+        <div id="qrcode"></div>
+        <p class="qr-text">
+          Покажите QR-код контролёру для подтверждения бронирования
+        </p>
+      </div>
+      
+      <p class="note">
+        После оплаты билет будет доступен в этом окне, а также придёт вам на почту.
+        Покажите QR-код нашему контролёру у входа в зал.
+      </p>
+      <p class="note enjoy">Приятного просмотра!</p>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script src="js/payment.js"></script>
+  
+</body>
+</html>

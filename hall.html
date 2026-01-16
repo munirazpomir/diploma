@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИдёмВКино - выбор места</title>
+    <link rel="stylesheet" href="css/hall.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+  
+  <body>
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">Идём<span>В</span>Кино</a>
+      </div>
+    </header>
+    
+    <main class="seat-page">
+      <div class="session-info">
+        <h2 id="movieTitle"></h2>
+        <p>Начало сеанса: <span id="sessionTime"></span></p>
+        <h3>Зал <strong id="hallNumber"></strong></h3>
+      </div>
+      
+      <div class="hall-wrapper">
+        <div class="screen"></div>
+        <div class="seats" id="seats"></div>
+        
+        <div class="legend">
+          <div class="legend-item">
+            <span class="seat free"></span>
+            <span>Свободно (250руб)</span>
+          </div>
+                  
+          <div class="legend-item">
+            <span class="seat taken"></span>
+            <span>Занято</span>
+          </div>
+                  
+          <div class="legend-item">
+            <span class="seat vip"></span>
+            <span>Свободно VIP (350руб)</span>
+          </div>
+                  
+          <div class="legend-item">
+            <span class="seat selected"></span>
+            <span>Выбрано</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="book-btn">ЗАБРОНИРОВАТЬ</button>
+    </main>
+    
+    <script src="js/api.js"></script>
+    <script src="js/seats.js"></script>
+  </body>
+</html>
