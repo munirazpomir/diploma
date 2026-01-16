@@ -128,16 +128,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function selectHallForConfig(hall) {
     selectedHallId = hall.id;
   
-    if (hall.config) {
-      hallConfig = JSON.parse(hall.config);
+    if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
+      hallConfig = hall.hall_config;
     } else {
-      hallConfig = Array.from({ length: hall.rows }, () =>
-        Array.from({ length: hall.places }, () => 'free')
-      );
+      createHallConfig(hall.hall_rows, hall.hall_places);
+      return;
     }
-  
-    rowsInput.value = hallConfig.length;
-    seatsInput.value = hallConfig[0].length;
   
     renderHallGrid();
   }
@@ -289,7 +285,7 @@ saveBtn.addEventListener('click', async () => {
   function updateSalesUI() {
     if (!selectedSalesHall) return;
 
-    if (selectedSalesHall.is_open) {
+    if (selectedSalesHall.hall_open === 1) {
       salesStatus.textContent = 'Продажа билетов открыта';
       toggleSalesBtn.textContent = 'Закрыть продажу билетов';
     } else {

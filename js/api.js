@@ -13,7 +13,6 @@ async function requestPublic(url, options = {}) {
 
 async function requestPrivate(url, options = {}) {
   const response = await fetch(API_URL + url, {
-    credentials: 'include',
     ...options
   });
 
