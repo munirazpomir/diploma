@@ -1,4 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+  let halls = [];
+  window.getHallConfigDebug = () => hallConfig;
+  
+  document.addEventListener('DOMContentLoaded', () => {
 
   /* ================== АВТОРИЗАЦИЯ ================== */
 
@@ -42,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const seatsInput = document.getElementById('seatsInput');
   const saveBtn = document.getElementById('saveHallConfig');
 
-  let halls = [];
   let movies = [];
 
   let selectedHallId = null;

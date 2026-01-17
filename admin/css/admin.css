@@ -258,7 +258,7 @@ body::before {
     cursor: pointer;
   }
   
-.seat.free {
+.seat.standart {
     background: #fff;
   }
   
