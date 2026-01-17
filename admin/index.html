@@ -37,9 +37,8 @@
             <div class="admin-content">
               <p class="admin-text">Выберите зал для конфигурации:</p>
 
-              <div class="hall-list">
-                <button class="hall-btn active" data-hall="1">Зал 1</button>
-                <button class="hall-btn" data-hall="2">Зал 2</button>
+              <div class="hall-list" id="configHallList">
+                
               </div>
 
               <p class="admin-text">Укажите количество рядов и максимальное количество кресел в ряду:</p>
@@ -60,7 +59,7 @@
 
               <div class="legend">
                 <div class="legend-item">
-                  <span class="seat free"></span>
+                  <span class="seat standart"></span>
                   <span class="legend-text">— обычные кресла</span>
                 </div>
               
@@ -86,7 +85,7 @@
 
               <div class="admin-actions">
                 <button class="btn cancel">Отмена</button>
-                <button class="btn save">Сохранить</button>
+                <button class="btn save" id="saveConfigBtn">Сохранить</button>
               </div>
             </div>
         </section>

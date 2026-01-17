@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       await createHall(name);
       closeHallModalFn();
       await loadData();
+      selectHallForConfig(halls[halls.length - 1]);
     } catch (err) {
       alert(err.message);
     }
@@ -165,7 +166,7 @@ function renderHallGrid() {
 }
 
 function toggleSeatType(row, seat) {
-  const order = ['free', 'vip', 'disabled'];
+  const order = ['standart', 'vip', 'disabled'];
   const current = hallConfig[row][seat];
   const next = order[(order.indexOf(current) + 1) % order.length];
 
@@ -175,7 +176,7 @@ function toggleSeatType(row, seat) {
 
 function createHallConfig(rows, seats) {
   hallConfig = Array.from({ length: rows }, () =>
-    Array.from({ length: seats }, () => 'free')
+    Array.from({ length: seats }, () => 'standart')
   );
 
   renderHallGrid();
@@ -187,6 +188,23 @@ rowsInput.addEventListener('change', () => {
 
 seatsInput.addEventListener('change', () => {
   createHallConfig(+rowsInput.value, +seatsInput.value);
+});
+
+const saveConfigBtn = document.getElementById('saveConfigBtn');
+
+saveConfigBtn.addEventListener('click', async () => {
+  if (!selectedHallId) {
+    alert('Выберите зал');
+    return;
+  }
+
+  try {
+    await updateHallConfig(selectedHallId, hallConfig);
+    alert('Конфигурация сохранена');
+    loadData();
+  } catch (err) {
+    alert(err.message);
+  }
 });
 
 
