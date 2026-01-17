@@ -189,7 +189,7 @@ seatsInput.addEventListener('change', () => {
   createHallConfig(+rowsInput.value, +seatsInput.value);
 });
 
-saveBtn.addEventListener('click', async () => {
+/*saveBtn.addEventListener('click', async () => {
   if (!selectedHallId) {
     alert('Выберите зал');
     return;
@@ -202,7 +202,7 @@ saveBtn.addEventListener('click', async () => {
   } catch (err) {
     alert(err.message);
   }
-});
+}); */
 
   /* ================== ЦЕНЫ ================== */
 
