@@ -1,7 +1,6 @@
-
-  let halls = [];
+ let hallConfig = [];
   window.getHallConfigDebug = () => hallConfig;
-  
+
   document.addEventListener('DOMContentLoaded', () => {
 
   /* ================== АВТОРИЗАЦИЯ ================== */
@@ -47,9 +46,9 @@
   const saveBtn = document.getElementById('saveHallConfig');
 
   let movies = [];
-
+  let halls = [];
   let selectedHallId = null;
-  let hallConfig = [];
+  
 
   /* ================== ЗАГРУЗКА ДАННЫХ ================== */
 
