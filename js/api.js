@@ -46,7 +46,7 @@ getAllData().then(data => {
 
 function createHall(name, rows, places) {
   const fd = new FormData();
-  fd.append('name', name);
+  fd.append('hall_name', name);
   fd.append('hall_rows', rows);
   fd.append('hall_places', places);
 
