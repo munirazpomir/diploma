@@ -139,9 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const hallGrid = document.getElementById('hallGrid');
+  const configHallList = document.getElementById('configHallList');
 
 function renderHallGrid() {
   hallGrid.innerHTML = '';
+  configHallList = '';
 
   if (!hallConfig.length) return;
 
@@ -161,6 +163,7 @@ function renderHallGrid() {
     });
 
     hallGrid.appendChild(rowEl);
+    configHallList.appendChild(btn);
   });
 }
 
