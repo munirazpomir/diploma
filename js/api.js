@@ -48,7 +48,7 @@ function createHall(name, rows, places) {
   const fd = new FormData();
   fd.append('name', name);
   fd.append('rows', rows);
-  fd.append('places' places);
+  fd.append('places', places);
 
   return requestPrivate('/hall', {
     method: 'POST',
