@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       movies = data.films || [];
 
       renderHalls();
+      renderConfigHallList();
       renderPriceHalls();
       renderSalesHalls();
       renderMovies();
@@ -141,9 +142,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const hallGrid = document.getElementById('hallGrid');
   const configHallList = document.getElementById('configHallList');
 
+  function renderConfigHallList() {
+    configHallList.innerHTML = '';
+  
+    halls.forEach(hall => {
+      const btn = document.createElement('button');
+      btn.className = 'hall-btn';
+      btn.textContent = hall.hall_name;
+  
+      btn.addEventListener('click', () => {
+        selectHallForConfig(hall);
+      });
+  
+      configHallList.appendChild(btn);
+    });
+  }
+
 function renderHallGrid() {
   hallGrid.innerHTML = '';
-  configHallList = '';
 
   if (!hallConfig.length) return;
 
@@ -163,7 +179,6 @@ function renderHallGrid() {
     });
 
     hallGrid.appendChild(rowEl);
-    configHallList.appendChild(btn);
   });
 }
 
