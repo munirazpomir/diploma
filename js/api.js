@@ -64,7 +64,7 @@ function deleteHall(id) {
 
 function updateHallConfig(id, config) {
   const fd = new FormData();
-  fd.append('config', JSON.stringify(config));
+  fd.append('hall_config', JSON.stringify(config));
 
   return requestPrivate(`/hall/${id}`, {
     method: 'POST',
@@ -74,8 +74,8 @@ function updateHallConfig(id, config) {
 
 function setHallPrices(id, price, vipPrice) {
   const fd = new FormData();
-  fd.append('price', price);
-  fd.append('vip_price', vipPrice);
+  fd.append('hall_price_standart', price);
+  fd.append('hall_price_vip', vipPrice);
 
   return requestPrivate(`/hall/${id}/price`, {
     method: 'POST',
@@ -85,7 +85,7 @@ function setHallPrices(id, price, vipPrice) {
 
 function toggleHallSales(id, open) {
   const fd = new FormData();
-  fd.append('open', open ? '1' : '0');
+  fd.append('hall_open', open ? '1' : '0');
 
   return requestPrivate(`/hall/${id}/open`, {
     method: 'POST',
