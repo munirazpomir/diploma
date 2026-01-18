@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const cancelHall = document.getElementById('cancelHall');
   const rowsInput = document.getElementById('rowsInput');
   const seatsInput = document.getElementById('seatsInput');
-  const saveBtn = document.getElementById('saveHallConfig');
 
   let movies = [];
   let halls = [];
@@ -262,8 +261,8 @@ saveConfigBtn.addEventListener('click', async () => {
         btn.classList.add('active');
         selectedPriceHall = hall;
 
-        priceRegularInput.value = hall.price || 0;
-        priceVipInput.value = hall.vip_price || 0;
+        priceRegularInput.value = hall.hall_price_standart || 0;
+        priceVipInput.value = hall.hall_price_vip || 0;
       });
 
       priceHallList.appendChild(btn);
@@ -333,9 +332,9 @@ saveConfigBtn.addEventListener('click', async () => {
       return;
     }
 
-    await openHallSales(
+    await toggleHallSales(
       selectedSalesHall.id,
-      !selectedSalesHall.is_open
+      !selectedSalesHall.hall_open === 0
     );
 
     loadData();
