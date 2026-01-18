@@ -1,3 +1,4 @@
+let selectedHallId = null;
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ================== АВТОРИЗАЦИЯ ================== */
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let movies = [];
   let halls = [];
-  let selectedHallId = null;
+  selectedHallId = null;
   let hallConfig = [];
 
   /* ================== ЗАГРУЗКА ДАННЫХ ================== */
