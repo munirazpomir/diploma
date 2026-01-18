@@ -1,4 +1,4 @@
-let selectedHallId = null;
+let selectedHall = null;
 let hallConfig = [];
 window.getHallConfigDebug = () => hallConfig;
 document.addEventListener('DOMContentLoaded', () => {
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function selectHallForConfig(hall) {
-    selectedHallId = hall.id;
+    selectedHall = hall.id;
   
     if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
@@ -213,17 +213,20 @@ seatsInput.addEventListener('change', () => {
 const saveConfigBtn = document.getElementById('saveConfigBtn');
 
 saveConfigBtn.addEventListener('click', async () => {
-  if (!selectedHallId) {
+  if (!selectedHall) {
     alert('Выберите зал');
     return;
   }
 
+  console.log({
+    id: selectedHall.id,
+    rows: selectedHall.hall_rows,
+    places: selectedHall.hall_places,
+    config: hallConfig
+  });
+
   try {
-    await updateHallConfig({
-      id: selectedHallId, 
-      hall_rows: hallConfig.length,
-      hall_places: hallConfig[0].length
-    });
+    await updateHallConfig(selectedHall, hallConfig);
     alert('Конфигурация сохранена');
     loadData();
   } catch (err) {
