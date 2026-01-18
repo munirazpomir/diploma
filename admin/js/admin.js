@@ -1,3 +1,4 @@
+let selectedHallId = null;
 let selectedHall = null;
 let hallConfig = [];
 window.getHallConfigDebug = () => hallConfig;
@@ -130,7 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function selectHallForConfig(hall) {
-    selectedHall = hall.id;
+    selectedHall = hall;
+    selectedHallId = hall.id;
   
     if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
@@ -226,7 +228,7 @@ saveConfigBtn.addEventListener('click', async () => {
   });
 
   try {
-    await updateHallConfig(selectedHall, hallConfig);
+    await updateHallConfig(selectedHall.id, hallConfig);
     alert('Конфигурация сохранена');
     loadData();
   } catch (err) {
