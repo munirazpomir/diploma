@@ -1,4 +1,6 @@
 let selectedHallId = null;
+let hallConfig = [];
+window.getHallConfigDebug = () => hallConfig;
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ================== АВТОРИЗАЦИЯ ================== */
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let movies = [];
   let halls = [];
   selectedHallId = null;
-  let hallConfig = [];
+  
 
   /* ================== ЗАГРУЗКА ДАННЫХ ================== */
 
