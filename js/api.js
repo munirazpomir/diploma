@@ -66,7 +66,7 @@ function updateHallConfig(id, config) {
   const fd = new FormData();
   fd.append('config', JSON.stringify(config));
 
-  return requestPrivate(`/hall/${id}`, {
+  return requestPrivate(`/hall/${id}/config`, {
     method: 'POST',
     body: fd
   });
