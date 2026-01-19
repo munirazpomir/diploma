@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderSalesHalls();
       renderMovies();
     } catch (err) {
-      console.error(err);
+      console.error('LOAD DATA ERROR', err);
       alert('Ошибка загрузки данных');
     }
   }
@@ -231,6 +231,7 @@ saveConfigBtn.addEventListener('click', async () => {
     alert('Конфигурация сохранена');
     loadData();
   } catch (err) {
+    console.error('SAVE CONFIG ERROR', err);
     alert(err.message);
   }
 });
