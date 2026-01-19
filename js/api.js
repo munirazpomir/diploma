@@ -62,7 +62,7 @@ function deleteHall(id) {
   });
 }
 
-function updateHallConfig(id, config) {
+function updateHallConfig(id, rows, places, config) {
   const fd = new FormData();
   fd.append('hall_rows', rows);
   fd.append('hall_places', places);
