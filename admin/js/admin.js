@@ -227,7 +227,12 @@ saveConfigBtn.addEventListener('click', async () => {
   });
 
   try {
-    await updateHallConfig(selectedHall.id, hallConfig);
+    await updateHallConfig(
+      selectedHall.id,
+      hallConfig.length,
+      hallConfig[0].length,
+      hallConfig
+    );
     alert('Конфигурация сохранена');
     loadData();
   } catch (err) {
