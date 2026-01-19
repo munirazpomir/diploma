@@ -64,9 +64,7 @@ function deleteHall(id) {
 
 function updateHallConfig(id, config) {
   const fd = new FormData();
-  fd.append('hall_rows', hall.hall_rows);
-  fd.append('hall_places', hall.hall_places);
-  fd.append('hall_config', JSON.stringify(config));
+  fd.append('config', JSON.stringify(config));
 
   return requestPrivate(`/hall/${id}`, {
     method: 'POST',
