@@ -66,10 +66,7 @@ function updateHallConfig(id, config) {
   const fd = new FormData();
   fd.append('hall_config', JSON.stringify(config));
 
-  console.log('SEND CONFIG:', {
-    id,
-    config
-  });
+  console.log('SEND CONFIG', config);
 
   return requestPrivate(`/hall/${id}`, {
     method: 'POST',
