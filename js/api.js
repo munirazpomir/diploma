@@ -62,17 +62,13 @@ function deleteHall(id) {
   });
 }
 
-function updateHallConfig(id, rows, places, config) {
+function updateHallConfig(id, config) {
   const fd = new FormData();
-  fd.append('hall_rows', rows);
-  fd.append('hall_places', places);
   fd.append('hall_config', JSON.stringify(config));
 
   console.log('SEND CONFIG:', {
     id,
-    hall_rows: rows,
-    hall_places: places,
-    hall_config: config
+    config
   });
 
   return requestPrivate(`/hall/${id}`, {
