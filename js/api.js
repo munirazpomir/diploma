@@ -68,6 +68,13 @@ function updateHallConfig(id, rows, places, config) {
   fd.append('hall_places', places);
   fd.append('hall_config', JSON.stringify(config));
 
+  console.log('SEND CONFIG:', {
+    id,
+    hall_rows: rows,
+    hall_places: places,
+    hall_config: config
+  });
+
   return requestPrivate(`/hall/${id}`, {
     method: 'POST',
     body: fd
