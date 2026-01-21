@@ -133,7 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedHall = hall;
     selectedHallId = hall.id;
   
-    if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
+    const localConfig = getLocalHallConfig(hall.id);
+  
+    if (localConfig.length) {
+      hallConfig = localConfig;
+    } else if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
     } else {
       createHallConfig(hall.hall_rows, hall.hall_places);
@@ -214,23 +218,13 @@ seatsInput.addEventListener('change', () => {
 const saveConfigBtn = document.getElementById('saveConfigBtn');
 
 saveConfigBtn.addEventListener('click', async () => {
-  if (!selectedHall) {
+  if (!selectedHallId) {
     alert('Выберите зал');
     return;
   }
 
-  const rows = hallConfig.length;
-  const places = hallConfig[0].length;
-
-  try {
     await updateHallConfig(selectedHall.id, hallConfig);
-
     alert('Конфигурация сохранена');
-    loadData();
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
 });
 
 

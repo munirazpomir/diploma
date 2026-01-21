@@ -107,17 +107,20 @@ async function deleteHall(id) {
   }
 }
 
-function updateHallConfig(id, config) {
-  const fd = new FormData();
-  fd.append('hall_config', JSON.stringify(config));
+async function updateHallConfig(hallId, config) {
+  try {
+    const fd = new FormData();
+    fd.append('hall_config', JSON.stringify(config));
 
-  console.log('SEND CONFIG TO', `/hall/${id}`);
-  console.log('DATA', config);
-
-  return requestPrivate(`/hall/${id}`, {
-    method: 'POST',
-    body: fd
-  });
+    return await requestPrivate(`/hall/${hallId}`, {
+      method: 'POST',
+      body: fd
+    });
+  } catch (e) {
+    console.warn('SERVER FAILED → SAVE CONFIG LOCAL');
+    saveLocalHallConfig(hallId, config);
+    return true;
+  }
 }
 
 function setHallPrices(id, price, vipPrice) {
@@ -201,4 +204,17 @@ function getLocalHalls() {
 
 function saveLocalHalls(halls) {
   localStorage.setItem('localHalls', JSON.stringify(halls));
+}
+
+function saveLocalHallConfig(hallId, config) {
+  localStorage.setItem(
+    `hallConfig_${hallId}`,
+    JSON.stringify(config)
+  );
+}
+
+function getLocalHallConfig(hallId) {
+  return JSON.parse(
+    localStorage.getItem(`hallConfig_${hallId}`) || '[]'
+  );
 }
