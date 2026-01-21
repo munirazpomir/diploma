@@ -214,18 +214,29 @@ seatsInput.addEventListener('change', () => {
 const saveConfigBtn = document.getElementById('saveConfigBtn');
 
 saveConfigBtn.addEventListener('click', async () => {
-  if (!selectedHallId) {
+  if (!selectedHall) {
     alert('Выберите зал');
     return;
   }
 
+  const rows = hallConfig.length;
+  const places = hallConfig[0].length;
+
+  console.log('SEND CONFIG', {
+    id: selectedHall.id,
+    rows,
+    places,
+    config: hallConfig
+  });
+
   try {
     await updateHallConfig(
       selectedHall.id,
-      hallConfig.length,
-      hallConfig[0].length,
+      rows,
+      places,
       hallConfig
     );
+
     alert('Конфигурация сохранена');
     loadData();
   } catch (err) {
