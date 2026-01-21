@@ -64,16 +64,13 @@ function deleteHall(id) {
 
 function updateHallConfig(id, rows, places, config) {
   const fd = new FormData();
-
-  fd.append('rows', String(rows));
-  fd.append('places', String(places));
   fd.append('config', JSON.stringify(config));
 
-  for (let pair of fd.entries()) {
+  for (const pair of fd.entries()) {
     console.log(pair[0], pair[1]);
   }
 
-  return requestPrivate(`/hall/${id}`, {
+  return requestPrivate(`/hall/${id}/config`, {
     method: 'POST',
     body: fd
   });

@@ -223,12 +223,7 @@ saveConfigBtn.addEventListener('click', async () => {
   const places = hallConfig[0].length;
 
   try {
-    await updateHallConfig(
-      selectedHall.id,
-      rows,
-      places,
-      hallConfig
-    );
+    await updateHallConfig(selectedHall.id, hallConfig);
 
     alert('Конфигурация сохранена');
     loadData();
