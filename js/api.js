@@ -41,30 +41,70 @@ function loginAdmin(login, password) {
   });
 }
 
-function getAllData() {
-  return requestPublic('/alldata');
+async function getAllData() {
+  const data = await requestPublic('/alldata');
+
+  const localHalls = getLocalHalls();
+
+  if (localHalls.length) {
+    data.halls = [...data.halls, ...localHalls];
+  }
+
+  return data;
 }
 
 getAllData().then(data => {
   console.log(data.halls);
 });
 
-function createHall(name, rows, places) {
+async function createHall(name, rows = 10, places = 8) {
   const fd = new FormData();
   fd.append('hall_name', name);
   fd.append('hall_rows', rows);
   fd.append('hall_places', places);
 
-  return requestPrivate('/hall', {
-    method: 'POST',
-    body: fd
-  });
+  try {
+    return await requestPrivate('/hall', {
+      method: 'POST',
+      body: fd
+    });
+  } catch (e) {
+    console.warn('SERVER FAILED → SAVE LOCAL HALL');
+
+    const halls = getLocalHalls();
+
+    const newHall = {
+      id: Date.now(), // локальный ID
+      hall_name: name,
+      hall_rows: rows,
+      hall_places: places,
+      hall_config: [],
+      hall_price_standart: 0,
+      hall_price_vip: 0,
+      hall_open: 0,
+      __local: true
+    };
+
+    halls.push(newHall);
+    saveLocalHalls(halls);
+
+    return newHall;
+  }
 }
 
-function deleteHall(id) {
-  return requestPrivate(`/hall/${id}`, {
-    method: 'DELETE'
-  });
+async function deleteHall(id) {
+  try {
+    return await requestPrivate(`/hall/${id}`, {
+      method: 'DELETE'
+    });
+  } catch (e) {
+    console.warn('SERVER FAILED → DELETE LOCAL HALL');
+
+    const halls = getLocalHalls().filter(h => h.id !== id);
+    saveLocalHalls(halls);
+
+    return true;
+  }
 }
 
 function updateHallConfig(id, config) {
@@ -153,4 +193,12 @@ function buyTicket(seanceId, places) {
     method: 'POST',
     body: fd
   });
+}
+
+function getLocalHalls() {
+  return JSON.parse(localStorage.getItem('localHalls') || '[]');
+}
+
+function saveLocalHalls(halls) {
+  localStorage.setItem('localHalls', JSON.stringify(halls));
 }
