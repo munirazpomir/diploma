@@ -1,7 +1,12 @@
 const API_URL = 'https://shfe-diplom.neto-server.ru';
 
 async function requestPublic(url, options = {}) {
-  const response = await fetch(API_URL + url, options);
+  const response = await fetch(API_URL + url, {
+    mode: 'cors',
+    credentials: 'include',
+    ...options
+  });
+
   const data = await response.json();
 
   if (!data.success) {
