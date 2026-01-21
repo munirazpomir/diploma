@@ -222,13 +222,6 @@ saveConfigBtn.addEventListener('click', async () => {
   const rows = hallConfig.length;
   const places = hallConfig[0].length;
 
-  console.log('SEND CONFIG', {
-    id: selectedHall.id,
-    rows,
-    places,
-    config: hallConfig
-  });
-
   try {
     await updateHallConfig(
       selectedHall.id,
@@ -240,7 +233,7 @@ saveConfigBtn.addEventListener('click', async () => {
     alert('Конфигурация сохранена');
     loadData();
   } catch (err) {
-    console.error('SAVE CONFIG ERROR', err);
+    console.error(err);
     alert(err.message);
   }
 });

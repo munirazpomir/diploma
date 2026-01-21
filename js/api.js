@@ -65,11 +65,10 @@ function deleteHall(id) {
 function updateHallConfig(id, rows, places, config) {
   const fd = new FormData();
 
-  fd.append('hall_rows', String(rows));
-  fd.append('hall_places', String(places));
-  fd.append('hall_config', JSON.stringify(config));
+  fd.append('rows', String(rows));
+  fd.append('places', String(places));
+  fd.append('config', JSON.stringify(config));
 
-  // ВАЖНО: логируем то, что реально уходит
   for (let pair of fd.entries()) {
     console.log(pair[0], pair[1]);
   }
