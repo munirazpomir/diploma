@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let movies = [];
   let halls = [];
+  let seances = JSON.parse(localStorage.getItem('seances') || '[]');
   selectedHallId = null;
   
 
@@ -80,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderPriceHalls();
       renderSalesHalls();
       renderMovies();
+      renderSeances();
+      initTimelineDnD();
     } catch (err) {
       console.error('LOAD DATA ERROR', err);
       alert('Ошибка загрузки данных');
@@ -374,18 +377,103 @@ saveConfigBtn.addEventListener('click', async () => {
 
   function renderMovies() {
     movieList.innerHTML = '';
-
-    if (!movies.length) return;
-
+  
     movies.forEach(movie => {
       const card = document.createElement('div');
       card.className = 'movie-card';
+      card.draggable = true;
+  
+      card.dataset.id = movie.id;
+      card.dataset.duration = movie.movie_duration;
+  
       card.innerHTML = `
         <div class="movie-title">${movie.movie_name}</div>
         <div class="movie-duration">${movie.movie_duration} мин</div>
       `;
+  
+      card.addEventListener('dragstart', e => {
+        e.dataTransfer.setData(
+          'application/json',
+          JSON.stringify({
+            id: movie.id,
+            title: movie.movie_name,
+            duration: movie.movie_duration
+          })
+        );
+      });
+  
       movieList.appendChild(card);
     });
+  }
+
+  function initTimelineDnD() {
+    document.querySelectorAll('.timeline').forEach(timeline => {
+      timeline.addEventListener('dragover', e => e.preventDefault());
+  
+      timeline.addEventListener('drop', e => {
+        e.preventDefault();
+  
+        const data = JSON.parse(
+          e.dataTransfer.getData('application/json')
+        );
+  
+        const hallId = timeline.closest('.hall-schedule').dataset.hall;
+  
+        const rect = timeline.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+  
+        const minutes = Math.floor(x / 2);
+  
+        addSeance({
+          hallId: Number(hallId),
+          movieId: data.id,
+          title: data.title,
+          start: minutes,
+          duration: data.duration
+        });
+      });
+    });
+  }
+
+  function addSeance(seance) {
+    seances.push({
+      ...seance,
+      id: Date.now()
+    });
+  
+    localStorage.setItem('seances', JSON.stringify(seances));
+    renderSeances();
+  }
+
+  function renderSeances() {
+    document.querySelectorAll('.timeline').forEach(t => t.innerHTML = '');
+  
+    seances.forEach(seance => {
+      const timeline = document.querySelector(
+        `.hall-schedule[data-hall="${seance.hallId}"] .timeline`
+      );
+  
+      if (!timeline) return;
+  
+      const el = document.createElement('div');
+      el.className = 'seance';
+      el.style.left = `${seance.start * 2}px`;
+      el.style.width = `${seance.duration * 2}px`;
+  
+      el.textContent = seance.title;
+  
+      el.addEventListener('dblclick', () => {
+        removeSeance(seance.id);
+      });
+  
+      timeline.appendChild(el);
+    });
+  }
+
+  function removeSeance(id) {
+    seances = seances.filter(s => s.id !== id);
+    localStorage.setItem('seances', JSON.stringify(seances));
+    renderSeances();
   }
 
   /* ================== СТАРТ ================== */
