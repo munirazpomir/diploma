@@ -134,16 +134,6 @@ function setHallPrices(id, price, vipPrice) {
   });
 }
 
-function toggleHallSales(id, open) {
-  const fd = new FormData();
-  fd.append('hall_open', open ? '1' : '0');
-
-  return requestPrivate(`/hall/${id}/open`, {
-    method: 'POST',
-    body: fd
-  });
-}
-
 function createMovie(title, duration, description, country) {
   const fd = new FormData();
   fd.append('title', title);

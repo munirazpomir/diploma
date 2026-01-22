@@ -57,14 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await getAllData();
       halls = data.halls;
       const savedPrices = JSON.parse(localStorage.getItem('hallPrices') || '[]');
-
-savedPrices.forEach(saved => {
-  const hall = halls.find(h => h.id === saved.id);
-  if (hall) {
-    hall.hall_price_standart = saved.price;
-    hall.hall_price_vip = saved.vip;
-  }
-});
+      savedPrices.forEach(saved => {
+        const hall = halls.find(h => h.id === saved.id);
+        if (hall) {
+          hall.hall_price_standart = saved.price;
+          hall.hall_price_vip = saved.vip;
+        }
+      });
+      
+      const savedOpen = JSON.parse(localStorage.getItem('hallOpen') || '[]');
+      
+      savedOpen.forEach(saved => {
+        const hall = halls.find(h => h.id === saved.id);
+        if (hall) {
+          hall.hall_open = saved.open;
+        }
+      });
       movies = data.films || [];
 
       renderHalls();
@@ -338,18 +346,26 @@ saveConfigBtn.addEventListener('click', async () => {
     }
   }
 
-  toggleSalesBtn.addEventListener('click', async () => {
+  toggleSalesBtn.addEventListener('click', () => {
     if (!selectedSalesHall) {
       alert('Выберите зал');
       return;
     }
-
-    await toggleHallSales(
-      selectedSalesHall.id,
-      !selectedSalesHall.hall_open === 0
+  
+    selectedSalesHall.hall_open =
+      selectedSalesHall.hall_open === 1 ? 0 : 1;
+  
+    localStorage.setItem(
+      'hallOpen',
+      JSON.stringify(
+        halls.map(h => ({
+          id: h.id,
+          open: h.hall_open
+        }))
+      )
     );
-
-    loadData();
+  
+    updateSalesUI();
   });
 
   /* ================== ФИЛЬМЫ (ПОКА ТОЛЬКО ОТОБРАЖЕНИЕ) ================== */
