@@ -56,6 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const data = await getAllData();
       halls = data.halls;
+      const savedPrices = JSON.parse(localStorage.getItem('hallPrices') || '[]');
+
+savedPrices.forEach(saved => {
+  const hall = halls.find(h => h.id === saved.id);
+  if (hall) {
+    hall.hall_price_standart = saved.price;
+    hall.hall_price_vip = saved.vip;
+  }
+});
       movies = data.films || [];
 
       renderHalls();
@@ -261,19 +270,30 @@ saveConfigBtn.addEventListener('click', async () => {
     });
   }
 
-  priceSaveBtn.addEventListener('click', async () => {
+  priceSaveBtn.addEventListener('click', () => {
     if (!selectedPriceHall) {
       alert('Выберите зал');
       return;
     }
-
-    await setHallPrices(selectedPriceHall.id,
-      priceRegularInput.value,
-      priceVipInput.value
+  
+    const regular = Number(priceRegularInput.value);
+    const vip = Number(priceVipInput.value);
+  
+    selectedPriceHall.hall_price_standart = regular;
+    selectedPriceHall.hall_price_vip = vip;
+  
+    localStorage.setItem(
+      'hallPrices',
+      JSON.stringify(
+        halls.map(h => ({
+          id: h.id,
+          price: h.hall_price_standart,
+          vip: h.hall_price_vip
+        }))
+      )
     );
-
+  
     alert('Цены сохранены');
-    loadData();
   });
 
   /* ================== ОТКРЫТИЕ ПРОДАЖ ================== */

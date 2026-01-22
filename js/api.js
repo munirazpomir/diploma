@@ -125,8 +125,8 @@ async function updateHallConfig(hallId, config) {
 
 function setHallPrices(id, price, vipPrice) {
   const fd = new FormData();
-  fd.append('hall_price_standart', price);
-  fd.append('hall_price_vip', vipPrice);
+  fd.append('price', price);
+  fd.append('vip_price', vipPrice);
 
   return requestPrivate(`/hall/${id}/price`, {
     method: 'POST',
