@@ -371,7 +371,7 @@ saveConfigBtn.addEventListener('click', async () => {
     updateSalesUI();
   });
 
-  /* ================== ФИЛЬМЫ (ПОКА ТОЛЬКО ОТОБРАЖЕНИЕ) ================== */
+  /* ================== ФИЛЬМЫ ================== */
 
   const movieList = document.getElementById('movieList');
 
@@ -405,6 +405,44 @@ saveConfigBtn.addEventListener('click', async () => {
       movieList.appendChild(card);
     });
   }
+
+  const addMovieBtn = document.querySelector('.add-movie-btn');
+const movieModal = document.getElementById('movieModal');
+const closeMovieModal = document.getElementById('closeMovieModal');
+const cancelMovie = document.getElementById('cancelMovie');
+const addMovieConfirm = document.getElementById('addMovieConfirm');
+
+addMovieBtn.addEventListener('click', () => {
+  movieModal.style.display = 'flex';
+});
+
+closeMovieModal.addEventListener('click', () => {
+  movieModal.style.display = 'none';
+});
+
+cancelMovie.addEventListener('click', () => {
+  movieModal.style.display = 'none';
+});
+
+addMovieConfirm.addEventListener('click', async () => {
+  const title = document.getElementById('movieTitle').value.trim();
+  const duration = document.getElementById('movieDuration').value;
+  const description = document.getElementById('movieDescription').value;
+  const country = document.getElementById('movieCountry').value;
+
+  if (!title || !duration) {
+    alert('Введите название и длительность');
+    return;
+  }
+
+  try {
+    await createMovie(title, duration, description, country);
+    movieModal.style.display = 'none';
+    loadData();
+  } catch (err) {
+    alert(err.message);
+  }
+});
 
   function initTimelineDnD() {
     document.querySelectorAll('.timeline').forEach(timeline => {
