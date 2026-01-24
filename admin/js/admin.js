@@ -87,9 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
       renderPriceHalls();
       renderSalesHalls();
       renderMovies();
+      renderHallSchedules();
       renderSeances();
       initTimelineDnD();
-      renderHallSchedules();
+      
     } catch (err) {
       console.error('LOAD DATA ERROR', err);
       alert('Ошибка загрузки данных');
@@ -549,6 +550,7 @@ addMovieConfirm.addEventListener('click', () => {
       const session = document.createElement('div');
       session.className = 'session';
       session.textContent = seance.title;
+      session.style.backgroundColor = seance.color;
   
       const [h, m] = seance.time.split(':').map(Number);
       const minutesFromStart = h * 60 + m;
