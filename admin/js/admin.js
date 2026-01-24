@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
       li.className = 'hall-item';
   
       const name = document.createElement('span');
-      button.className = 'hall-name';
-      button.textContent = `- ${hall.hall_name}`;
+      name.className = 'hall-name';
+      name.textContent = `- ${hall.hall_name}`;
   
       name.addEventListener('click', () => {
         selectHallForConfig(hall);
