@@ -105,11 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const li = document.createElement('li');
       li.className = 'hall-item';
   
-      const button = document.createElement('button');
-      button.className = 'hall-btn';
-      button.textContent = hall.hall_name;
+      const name = document.createElement('span');
+      button.className = 'hall-name';
+      button.textContent = `- ${hall.hall_name}`;
   
-      button.addEventListener('click', () => {
+      name.addEventListener('click', () => {
         selectHallForConfig(hall);
       });
   
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadData();
       });
   
-      li.append(button, del);
+      li.append(name, del);
       hallList.appendChild(li);
     });
   }
@@ -186,6 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = hall.hall_name;
   
       btn.addEventListener('click', () => {
+        document
+          .querySelectorAll('#configHallList .hall-btn')
+          .forEach(b => b.classList.remove('active'));
+      
+        btn.classList.add('active');
         selectHallForConfig(hall);
       });
   
@@ -397,9 +402,12 @@ saveConfigBtn.addEventListener('click', async () => {
       });
   
       card.innerHTML = `
+        <img class="movie-poster" src="../../img/poster1" alt="">
+        <div class="movie-info">
         <div class="movie-title">${movie.film_name}</div>
         <div class="movie-duration">${movie.film_duration} мин</div>
-        <button class="movie-delete">✖</button>
+        </div>
+        <button class="movie-delete"></button>
       `;
   
       card.querySelector('.movie-delete').addEventListener('click', () => {
@@ -502,17 +510,15 @@ addMovieConfirm.addEventListener('click', () => {
   function addLocalSeance(movieId, hallId, time) {
     const movie = movies.find(m => m.id == movieId);
     if (!movie) return;
-  
-    const [h, m] = time.split(':').map(Number);
-    const startMinutes = h * 60 + m;
-  
+
     seances.push({
       id: Date.now(),
       hallId: Number(hallId),
       movieId: Number(movieId),
       title: movie.film_name,
-      duration: movie.film_duration,
-      startMinutes
+      duration: Number(movie.film_duration),
+      time,
+      color: getRandomColor()
     });
   
     localStorage.setItem('seances', JSON.stringify(seances));
@@ -532,26 +538,37 @@ addMovieConfirm.addEventListener('click', () => {
   function renderSeances() {
     document.querySelectorAll('.timeline').forEach(t => t.innerHTML = '');
   
+    const TOTAL_MINUTES = 24 * 60;
+  
     seances.forEach(seance => {
       const timeline = document.querySelector(
         `.hall-schedule[data-hall="${seance.hallId}"] .timeline`
       );
-  
       if (!timeline) return;
   
-      const el = document.createElement('div');
-      el.className = 'seance';
+      const session = document.createElement('div');
+      session.className = 'session';
+      session.textContent = seance.title;
   
-      el.style.left = `${seance.startMinutes * 2}px`;
-      el.style.width = `${seance.duration * 2}px`;
+      const [h, m] = seance.time.split(':').map(Number);
+      const minutesFromStart = h * 60 + m;
   
-      el.textContent = seance.title;
+      let duration = Number(seance.duration);
   
-      el.addEventListener('dblclick', () => {
-        removeSeance(seance.id);
-      });
+      if (minutesFromStart >= TOTAL_MINUTES) return;
   
-      timeline.appendChild(el);
+      if (minutesFromStart + duration > TOTAL_MINUTES) {
+        duration = TOTAL_MINUTES - minutesFromStart;
+      }
+  
+      if (duration <= 0) return;
+  
+      session.style.left =
+        (minutesFromStart / TOTAL_MINUTES) * 100 + '%';
+      session.style.width =
+        (duration / TOTAL_MINUTES) * 100 + '%';
+  
+      timeline.appendChild(session);
     });
   }
 
@@ -583,6 +600,10 @@ function renderHallSchedules() {
   });
 
   initTimelineDnD();
+}
+
+function getRandomColor() {
+  return `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`;
 }
 
   /* ================== СТАРТ ================== */

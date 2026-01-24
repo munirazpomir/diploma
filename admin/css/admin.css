@@ -170,7 +170,7 @@ body::before {
 
 .hall-delete::before, .movie-delete::before{
     content: "";
-    background: url(../img/trash.png) no-repeat;
+    background: url(../../img/trash.png) no-repeat;
     position: absolute;
     width: 20px;
     height: 20px;
@@ -246,7 +246,7 @@ body::before {
     align-items: center;
   }
   
-  .row {
+  .conf-step__row {
     display: flex;
     gap: 6px;
   }
