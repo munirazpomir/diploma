@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderMovies();
       renderSeances();
       initTimelineDnD();
+      renderHallSchedules();
     } catch (err) {
       console.error('LOAD DATA ERROR', err);
       alert('Ошибка загрузки данных');
@@ -383,7 +384,6 @@ saveConfigBtn.addEventListener('click', async () => {
 
   function renderMovies() {
     movieList.innerHTML = '';
-  
     if (!movies.length) return;
   
     movies.forEach(movie => {
@@ -391,16 +391,24 @@ saveConfigBtn.addEventListener('click', async () => {
       card.className = 'movie-card';
       card.draggable = true;
       card.dataset.movieId = movie.id;
-      card.dataset.duration = movie.film_duration;
-
+  
       card.addEventListener('dragstart', e => {
         e.dataTransfer.setData('movieId', movie.id);
-      })
+      });
   
       card.innerHTML = `
         <div class="movie-title">${movie.film_name}</div>
         <div class="movie-duration">${movie.film_duration} мин</div>
+        <button class="movie-delete">✖</button>
       `;
+  
+      card.querySelector('.movie-delete').addEventListener('click', () => {
+        if (!confirm(`Удалить фильм «${movie.film_name}»?`)) return;
+  
+        movies = movies.filter(m => m.id !== movie.id);
+        localStorage.setItem('movies', JSON.stringify(movies));
+        renderMovies();
+      });
   
       movieList.appendChild(card);
     });
@@ -552,6 +560,30 @@ addMovieConfirm.addEventListener('click', () => {
     localStorage.setItem('seances', JSON.stringify(seances));
     renderSeances();
   }
+
+  const hallsPanel = document.getElementById('hallsPanel');
+
+function renderHallSchedules() {
+  hallsPanel.innerHTML = '';
+
+  halls.forEach(hall => {
+    const wrap = document.createElement('div');
+    wrap.className = 'hall-schedule';
+    wrap.dataset.hall = hall.id;
+
+    wrap.innerHTML = `
+      <div class="hall-name">${hall.hall_name}</div>
+      <div class="timeline-wrapper">
+        <div class="timeline"></div>
+        <div class="timeline-times"></div>
+      </div>
+    `;
+
+    hallsPanel.appendChild(wrap);
+  });
+
+  initTimelineDnD();
+}
 
   /* ================== СТАРТ ================== */
 
