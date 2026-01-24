@@ -1,6 +1,9 @@
 let selectedHallId = null;
 let selectedHall = null;
 let hallConfig = [];
+
+let pendingMovieId = null;
+let pendingHallId = null;
 window.getHallConfigDebug = () => hallConfig;
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -378,29 +381,24 @@ saveConfigBtn.addEventListener('click', async () => {
   function renderMovies() {
     movieList.innerHTML = '';
   
+    if (!movies.length) return;
+  
     movies.forEach(movie => {
       const card = document.createElement('div');
+      card.setAttribute('true');
       card.className = 'movie-card';
       card.draggable = true;
-  
-      card.dataset.id = movie.id;
-      card.dataset.duration = movie.movie_duration;
+      card.dataset.movieId = movie.id;
+      card.dataset.duration = movie.film_duration;
+
+      card.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('movieId', movie.id);
+      })
   
       card.innerHTML = `
-        <div class="movie-title">${movie.movie_name}</div>
-        <div class="movie-duration">${movie.movie_duration} мин</div>
+        <div class="movie-title">${movie.film_name}</div>
+        <div class="movie-duration">${movie.film_duration} мин</div>
       `;
-  
-      card.addEventListener('dragstart', e => {
-        e.dataTransfer.setData(
-          'application/json',
-          JSON.stringify({
-            id: movie.id,
-            title: movie.movie_name,
-            duration: movie.movie_duration
-          })
-        );
-      });
   
       movieList.appendChild(card);
     });
@@ -450,55 +448,85 @@ addMovieConfirm.addEventListener('click', async () => {
   
       timeline.addEventListener('drop', e => {
         e.preventDefault();
-  
-        const data = JSON.parse(
-          e.dataTransfer.getData('application/json')
-        );
-  
+
+        const movieId = e.dataTransfer.getData('movieId');
         const hallId = timeline.closest('.hall-schedule').dataset.hall;
-  
-        const rect = timeline.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-  
-        const minutes = Math.floor(x / 2);
-  
-        addSeance({
-          hallId: Number(hallId),
-          movieId: data.id,
-          title: data.title,
-          start: minutes,
-          duration: data.duration
-        });
+
+        openSessionModal(movieId, hallId);
       });
     });
   }
 
-  function addSeance(seance) {
+  function openSessionModal(movieId, hallId) {
+    pendingMovieId = movieId;
+    pendingHallId = hallId;
+  
+    sessionHall.innerHTML = '';
+    sessionMovie.innerHTML = '';
+  
+    halls.forEach(h => {
+      const option = document.createElement('option');
+      option.value = h.id;
+      option.textContent = h.hall_name;
+      if (h.id == hallId) option.selected = true;
+      sessionHall.appendChild(option);
+    });
+  
+    movies.forEach(m => {
+      const option = document.createElement('option');
+      option.value = m.id;
+      option.textContent = m.film_name;
+      if (m.id == movieId) option.selected = true;
+      sessionMovie.appendChild(option);
+    });
+  
+    sessionModal.style.display = 'flex';
+  }
+
+  function addLocalSeance(movieId, hallId, time) {
     seances.push({
-      ...seance,
-      id: Date.now()
+      id: Date.now(),
+      seance_filmid: movieId,
+      seance_hallid: hallId,
+      seance_time: time
     });
   
     localStorage.setItem('seances', JSON.stringify(seances));
-    renderSeances();
   }
+
+  addSessionConfirm.addEventListener('click', () => {
+    addLocalSeance(
+      sessionMovie.value,
+      sessionHall.value,
+      sessionTime.value
+    );
+  
+    sessionModal.style.display = 'none';
+    renderSeances();
+  });
 
   function renderSeances() {
     document.querySelectorAll('.timeline').forEach(t => t.innerHTML = '');
   
     seances.forEach(seance => {
       const timeline = document.querySelector(
-        `.hall-schedule[data-hall="${seance.hallId}"] .timeline`
+        `.hall-schedule[data-hall="${seance.seance_hallid}"] .timeline`
       );
   
       if (!timeline) return;
   
+      const movie = movies.find(m => m.id == seance.seance_filmid);
+      if (!movie) return;
+  
+      const startMinutes = parseInt(seance.seance_time.split(':')[0]) * 60 +
+                           parseInt(seance.seance_time.split(':')[1]);
+  
       const el = document.createElement('div');
       el.className = 'seance';
-      el.style.left = `${seance.start * 2}px`;
-      el.style.width = `${seance.duration * 2}px`;
+      el.style.left = `${startMinutes * 2}px`;
+      el.style.width = `${movie.film_duration * 2}px`;
   
-      el.textContent = seance.title;
+      el.textContent = movie.film_name;
   
       el.addEventListener('dblclick', () => {
         removeSeance(seance.id);

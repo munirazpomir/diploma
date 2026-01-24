@@ -134,12 +134,12 @@ function setHallPrices(id, price, vipPrice) {
   });
 }
 
-function createMovie(title, duration, description, country) {
+function createMovie(name, duration, description, country) {
   const fd = new FormData();
-  fd.append('title', title);
-  fd.append('duration', duration);
-  fd.append('description', description);
-  fd.append('country', country);
+  fd.append('film_name', name);
+  fd.append('film_duration', duration);
+  fd.append('film_description', description);
+  fd.append('film_origin', country);
 
   return requestPrivate('/movie', {
     method: 'POST',
