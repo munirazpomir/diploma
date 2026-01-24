@@ -385,7 +385,6 @@ saveConfigBtn.addEventListener('click', async () => {
   
     movies.forEach(movie => {
       const card = document.createElement('div');
-      card.setAttribute('true');
       card.className = 'movie-card';
       card.draggable = true;
       card.dataset.movieId = movie.id;
