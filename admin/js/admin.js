@@ -80,16 +80,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       movies = data.films || [];
-
       const localMovies = JSON.parse(localStorage.getItem('movies') || '[]');
-      movies = [...movies, ...localMovies];
-
-      movies = movies.map(movie => {
-        if(!movie.color) {
-          movie.color = getRandomColor();
-        }
-        return movie;
+      const movieMap = new Map();
+      
+      movies.forEach(m => {
+        movieMap.set(m.id, {
+          ...m,
+          color: m.color || getRandomColor()
+        });
       });
+      
+      localMovies.forEach(m => {
+        movieMap.set(m.id, {
+          ...m,
+          color: m.color || getRandomColor()
+        });
+      });
+      
+      movies = Array.from(movieMap.values());
+      localStorage.setItem('movies', JSON.stringify(movies));
 
       renderHalls();
       renderConfigHallList();
