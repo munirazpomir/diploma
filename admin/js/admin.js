@@ -4,6 +4,8 @@ let hallConfig = [];
 
 let pendingMovieId = null;
 let pendingHallId = null;
+
+let draggedSeanceId = null;
 window.getHallConfigDebug = () => hallConfig;
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -81,6 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const localMovies = JSON.parse(localStorage.getItem('movies') || '[]');
       movies = [...movies, ...localMovies];
+
+      movies = movies.map(movie => {
+        if(!movie.color) {
+          movie.color = getRandomColor();
+        }
+        return movie;
+      });
 
       renderHalls();
       renderConfigHallList();
@@ -559,7 +568,7 @@ addMovieConfirm.addEventListener('click', () => {
       session.dataset.seanceId = seance.id;
 
       session.addEventListener('dragstart', e => {
-        e.dataTransfer.setData('seanceId', seance.id);
+        draggedSeanceId = seance.id;
         session.classList.add('dragging');
       });
   
@@ -622,26 +631,27 @@ seanceTrash.addEventListener('dragover', e => e.preventDefault());
 seanceTrash.addEventListener('drop', e => {
   e.preventDefault();
 
-  const seanceId = Number(e.dataTransfer.getData('seanceId'));
-  if (!seanceId) return;
+  if (!draggedSeanceId) return;
 
-  seances = seances.filter(s => s.id !== seanceId);
+  seances = seances.filter(s => s.id !== draggedSeanceId);
   localStorage.setItem('seances', JSON.stringify(seances));
+  draggedSeanceId = null;
 
   renderSeances();
 });
 
 document.addEventListener('dragend', e => {
-  const seanceId = Number(e.dataTransfer?.getData('seanceId'));
-  if (!seanceId) return;
+  if (!draggedSeanceId) return;
 
   const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
 
   if (!dropTarget || !dropTarget.closest('.timeline')) {
-    seances = seances.filter(s => s.id !== seanceId);
+    seances = seances.filter(s => s.id !== draggedSeanceId);
     localStorage.setItem('seances', JSON.stringify(seances));
     renderSeances();
   }
+
+  draggedSeanceId = null;
 });
 
   /* ================== СТАРТ ================== */
