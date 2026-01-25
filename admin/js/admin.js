@@ -542,6 +542,8 @@ addMovieConfirm.addEventListener('click', () => {
     const TOTAL_MINUTES = 24 * 60;
   
     seances.forEach(seance => {
+      if (!seance.time || typeof seance.time !== 'string') return;
+  
       const timeline = document.querySelector(
         `.hall-schedule[data-hall="${seance.hallId}"] .timeline`
       );
@@ -550,25 +552,21 @@ addMovieConfirm.addEventListener('click', () => {
       const session = document.createElement('div');
       session.className = 'session';
       session.textContent = seance.title;
-      session.style.backgroundColor = seance.color;
+      session.style.background = seance.color;
   
       const [h, m] = seance.time.split(':').map(Number);
       const minutesFromStart = h * 60 + m;
   
       let duration = Number(seance.duration);
-  
       if (minutesFromStart >= TOTAL_MINUTES) return;
   
       if (minutesFromStart + duration > TOTAL_MINUTES) {
         duration = TOTAL_MINUTES - minutesFromStart;
       }
-  
       if (duration <= 0) return;
   
-      session.style.left =
-        (minutesFromStart / TOTAL_MINUTES) * 100 + '%';
-      session.style.width =
-        (duration / TOTAL_MINUTES) * 100 + '%';
+      session.style.left = (minutesFromStart / TOTAL_MINUTES) * 100 + '%';
+      session.style.width = (duration / TOTAL_MINUTES) * 100 + '%';
   
       timeline.appendChild(session);
     });
