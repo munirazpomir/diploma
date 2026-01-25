@@ -576,3 +576,70 @@ display: none;
   padding: 15px;
   border: none;
 }
+
+/* ================== LOGIN ================== */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-block {
+  width: 360px;
+}
+
+.login-block .admin-content {
+  margin-left: 0;
+}
+
+.login-block.admin-block {
+  border-radius: 3px;
+}
+
+.login-block.admin-block::before {
+  display: none;
+}
+
+.login-block .admin-title {
+  padding: 10px;
+  text-align: center;
+}
+
+.login-block .admin-title::after, .login-block .admin-title::before {
+  display: none;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.login-label span {
+  color: #555;
+}
+
+.login-label input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.login-label input:focus {
+  outline: none;
+  border-color: #999;
+}
+
+.login-btn {
+  margin-top: 10px;
+  align-self: flex-end;
+}

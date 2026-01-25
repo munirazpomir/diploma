@@ -10,14 +10,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
-  <form id="login-form">
-    <input type="text" name="login" placeholder="Логин" required>
-    <input type="password" name="password" placeholder="Пароль" required>
-    <button type="submit">Войти</button>
-  </form>
-</body>
+<body class="login-page">
 
-<script src="../js/api.js"></script>
-<script src="js/admin.js"></script>
+  <section class="admin-block login-block">
+    <button class="admin-title">АВТОРИЗАЦИЯ</button>
+
+    <div class="admin-content">
+      <form id="login-form" class="login-form">
+        <label class="login-label">
+          <span>Логин</span>
+          <input type="text" name="login" required />
+        </label>
+
+        <label class="login-label">
+          <span>Пароль</span>
+          <input type="password" name="password" required />
+        </label>
+
+        <button type="submit" class="btn primary login-btn">
+          Войти
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <script src="../js/admin.js"></script>
+  <script src="js/admin.js"></script>
+</body>
 </html>
