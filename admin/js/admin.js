@@ -397,6 +397,7 @@ saveConfigBtn.addEventListener('click', async () => {
       card.className = 'movie-card';
       card.draggable = true;
       card.dataset.movieId = movie.id;
+      card.style.background = `${movie.color}`;
   
       card.addEventListener('dragstart', e => {
         e.dataTransfer.setData('movieId', movie.id);
@@ -457,7 +458,8 @@ addMovieConfirm.addEventListener('click', () => {
     film_name: title,
     film_duration: duration,
     film_description: description,
-    film_country: country
+    film_country: country,
+    color: getRandomColor()
   };
 
   movies.push(newMovie);
@@ -519,7 +521,7 @@ addMovieConfirm.addEventListener('click', () => {
       title: movie.film_name,
       duration: Number(movie.film_duration),
       time,
-      color: getRandomColor()
+      color: movie.color
     });
   
     localStorage.setItem('seances', JSON.stringify(seances));
@@ -553,6 +555,13 @@ addMovieConfirm.addEventListener('click', () => {
       session.className = 'session';
       session.textContent = seance.title;
       session.style.background = seance.color;
+      session.draggable = true;
+      session.dataset.seanceId = seance.id;
+
+      session.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('seanceId', seance.id);
+        session.classList.add('dragging');
+      });
   
       const [h, m] = seance.time.split(':').map(Number);
       const minutesFromStart = h * 60 + m;
@@ -605,6 +614,35 @@ function renderHallSchedules() {
 function getRandomColor() {
   return `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`;
 }
+
+const seanceTrash = document.getElementById('seanceTrash');
+
+seanceTrash.addEventListener('dragover', e => e.preventDefault());
+
+seanceTrash.addEventListener('drop', e => {
+  e.preventDefault();
+
+  const seanceId = Number(e.dataTransfer.getData('seanceId'));
+  if (!seanceId) return;
+
+  seances = seances.filter(s => s.id !== seanceId);
+  localStorage.setItem('seances', JSON.stringify(seances));
+
+  renderSeances();
+});
+
+document.addEventListener('dragend', e => {
+  const seanceId = Number(e.dataTransfer?.getData('seanceId'));
+  if (!seanceId) return;
+
+  const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
+
+  if (!dropTarget || !dropTarget.closest('.timeline')) {
+    seances = seances.filter(s => s.id !== seanceId);
+    localStorage.setItem('seances', JSON.stringify(seances));
+    renderSeances();
+  }
+});
 
   /* ================== СТАРТ ================== */
 
