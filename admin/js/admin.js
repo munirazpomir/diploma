@@ -613,12 +613,6 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
     });
   }
 
-  function removeSeance(id) {
-    seances = seances.filter(s => s.id !== id);
-    localStorage.setItem('seances', JSON.stringify(seances));
-    renderSeances();
-  }
-
   const hallsPanel = document.getElementById('hallsPanel');
 
 function renderHallSchedules() {

@@ -1,15 +1,4 @@
-const hallScheme = [
-  [0,0,0,0,0,1,1,0,0,0,0,0],
-  [0,0,0,0,3,1,1,1,0,0,0,0],
-  [0,1,1,1,1,1,1,1,1,0,0,0],
-  [1,1,1,1,1,2,2,1,1,0,0,0],
-  [1,1,1,1,2,2,2,2,1,0,0,0],
-  [1,1,1,1,2,3,3,3,1,0,0,0],
-  [1,1,1,1,2,3,3,2,1,0,0,0],
-  [1,1,1,1,1,1,1,1,1,0,0,0],
-  [1,3,1,3,1,3,1,1,1,1,1,1],
-  [1,1,1,1,1,3,3,3,1,1,1,1],
-];
+const hallScheme = hall.scheme;
 
 const seatsContainer = document.getElementById('seats');
 
@@ -59,16 +48,32 @@ hallScheme.forEach((row, rowIndex) => {
 });
 
 const params = new URLSearchParams(window.location.search);
+const seanceId = params.get('seanceId');
 
-const movie = params.get('movie');
-const time = params.get('time');
-const hall = params.get('hall');
+if (!seanceId) {
+  alert('Сеанс не найден');
+  throw new Error('No seanceId');
+}
 
-document.getElementById('movieTitle').textContent = movie || 'Название фильма';
+const seances = JSON.parse(localStorage.getItem('seances')) || [];
+const movies = JSON.parse(localStorage.getItem('movies')) || [];
+const halls = JSON.parse(localStorage.getItem('halls')) || [];
 
-document.getElementById('sessionTime').textContent = time || '--:--';
+const seance = seances.find(s => s.id == seanceId);
 
-document.getElementById('hallNumber').textContent = hall || '-';
+if (!seance) {
+  alert('Сеанс не найден');
+  throw new Error('Invalid seanceId');
+}
+
+const movie = movies.find(m => m.id === seance.movieId);
+const hall = halls.find(h => h.id === seance.hallId);
+
+document.getElementById('movieTitle').textContent = movie?.title || 'Название фильма';
+
+document.getElementById('sessionTime').textContent = seance.time || '--:--';
+
+document.getElementById('hallNumber').textContent = hall?.tittle || '-';
 
 const bookBtn = document.querySelector('.book-btn');
 
@@ -89,9 +94,7 @@ bookBtn.addEventListener('click', () => {
     if (!price) return;
   
     totalPrice += price;
-    seatsNumbers.push(
-      `${seat.dataset.seat}`
-    );
+    seatsNumbers.push(`${seat.dataset.row}-${seat.dataset.seat}`);
   });
 
   const params = new URLSearchParams({
@@ -101,6 +104,12 @@ bookBtn.addEventListener('click', () => {
     seats: seatsNumbers.join(','),
     price: totalPrice
   });
+
+  const booking ={
+    seanceId,
+    seats: seatsNumbers,
+    totalPrice
+  };
 
   window.location.href = `payment.html?${params.toString()}`;
 });
