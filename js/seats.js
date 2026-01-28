@@ -1,4 +1,4 @@
-const hallScheme = hall.scheme;
+const hallScheme = hall.hallConfig;
 
 const seatsContainer = document.getElementById('seats');
 
