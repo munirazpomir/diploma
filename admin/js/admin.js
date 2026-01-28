@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const data = await getAllData();
       halls = data.halls;
+
+      localStorage.setItem('halls', JSON.stringify(halls));
+      
       const savedPrices = JSON.parse(localStorage.getItem('hallPrices') || '[]');
       savedPrices.forEach(saved => {
         const hall = halls.find(h => h.id === saved.id);
