@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       halls = data.halls;
 
       localStorage.setItem('halls', JSON.stringify(halls));
-      
+
       const savedPrices = JSON.parse(localStorage.getItem('hallPrices') || '[]');
       savedPrices.forEach(saved => {
         const hall = halls.find(h => h.id === saved.id);
@@ -489,6 +489,21 @@ addMovieConfirm.addEventListener('click', () => {
   movieModal.style.display = 'none';
   renderMovies();
 });
+
+const sessionModal = document.getElementById('sessionModal');
+const closeSessionBtn = document.getElementById('closeSessionModal');
+const cancelSessionBtn = document.getElementById('cancelSession');
+
+addSessionBtn.addEventListener('click', () => {
+  sessionModal.style.display = 'flex';
+});
+
+function closeSessionModal() {
+  sessionModal.style.display = 'none';
+}
+
+closeSessionBtn.addEventListener('click', closeSessionModal);
+  cancelSessionBtn.addEventListener('click', closeSessionModal);
 
   function initTimelineDnD() {
     document.querySelectorAll('.timeline').forEach(timeline => {
