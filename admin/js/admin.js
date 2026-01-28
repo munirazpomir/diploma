@@ -494,10 +494,6 @@ const sessionModal = document.getElementById('sessionModal');
 const closeSessionBtn = document.getElementById('closeSessionModal');
 const cancelSessionBtn = document.getElementById('cancelSession');
 
-addSessionBtn.addEventListener('click', () => {
-  sessionModal.style.display = 'flex';
-});
-
 function closeSessionModal() {
   sessionModal.style.display = 'none';
 }
