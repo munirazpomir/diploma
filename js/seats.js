@@ -1,4 +1,4 @@
-const hallScheme = hall.hallConfig;
+
 
 const seatsContainer = document.getElementById('seats');
 
@@ -68,6 +68,7 @@ if (!seance) {
 
 const movie = movies.find(m => m.id === seance.movieId);
 const hall = halls.find(h => h.id === seance.hallId);
+const hallScheme = hall.hall_config;
 
 document.getElementById('movieTitle').textContent = movie?.title || 'Название фильма';
 
