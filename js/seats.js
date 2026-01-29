@@ -19,13 +19,19 @@ if (!seance) {
 }
 
 // 4. Фильм и зал
-const movie = movies.find(m => m.id === seance.movieId);
-const hall = halls.find(h => h.id === seance.hallId);
+const movie = movies.find(m => m.id == seance.movieId);
+const hall = halls.find(h => h.id == seance.hallId);
 
 if (!hall) {
   alert('Зал не найден');
   throw new Error('Hall not found');
 }
+
+const regularPrice = hall.hall_price_standart;
+const vipPrice = hall.hall_price_vip;
+
+document.getElementById('regularPrice').textContent = `Свободно (${regularPrice} руб)`;
+document.getElementById('vipPrice').textContent = `Свободно VIP (${vipPrice} руб)`;
 
 // 5. Схема зала 
 const hallScheme = hall.hall_config; 
@@ -62,17 +68,19 @@ hallScheme.forEach((row, rowIndex) => {
     seat.dataset.row = rowIndex + 1;
     seat.dataset.seat = seatIndex + 1;
 
-    if (seatType === 1) {
-      seat.classList.add('free');
-      seat.dataset.price = 250;
+    const type = Number(seatType);
+
+    if (type === 1) {
+      seat.classList.add('standart');
+      seat.dataset.price = regularPrice;
     }
 
-    if (seatType === 2) {
+    if (type === 2) {
       seat.classList.add('vip');
-      seat.dataset.price = 350;
+      seat.dataset.price = vipPrice;
     }
 
-    if (seatType === 3) {
+    if (type === 3) {
       seat.classList.add('taken');
     }
 
