@@ -1,6 +1,48 @@
+const params = new URLSearchParams(window.location.search);
+const seanceId = params.get('seanceId');
 
+if (!seanceId) {
+  alert('Сеанс не найден');
+  throw new Error('No seanceId');
+}
 
+// 2. Данные из localStorage
+const seances = JSON.parse(localStorage.getItem('seances')) || [];
+const movies = JSON.parse(localStorage.getItem('movies')) || [];
+const halls = JSON.parse(localStorage.getItem('halls')) || [];
+
+// 3. Находим сеанс
+const seance = seances.find(s => s.id == seanceId);
+if (!seance) {
+  alert('Сеанс не найден');
+  throw new Error('Invalid seanceId');
+}
+
+// 4. Фильм и зал
+const movie = movies.find(m => m.id === seance.movieId);
+const hall = halls.find(h => h.id === seance.hallId);
+
+if (!hall) {
+  alert('Зал не найден');
+  throw new Error('Hall not found');
+}
+
+// 5. Схема зала 
+const hallScheme = hall.hall_config; 
+
+// 6. Заполняем информацию о сеансе
+document.getElementById('movieTitle').textContent =
+  movie?.title || 'Название фильма';
+
+document.getElementById('sessionTime').textContent =
+  seance.time || '--:--';
+
+document.getElementById('hallNumber').textContent =
+  hall?.title || '-';
+
+// 7. Рисуем зал
 const seatsContainer = document.getElementById('seats');
+seatsContainer.innerHTML = '';
 
 hallScheme.forEach((row, rowIndex) => {
   const rowDiv = document.createElement('div');
@@ -25,7 +67,7 @@ hallScheme.forEach((row, rowIndex) => {
       seat.dataset.price = 250;
     }
 
-    if (seatType === 2) { 
+    if (seatType === 2) {
       seat.classList.add('vip');
       seat.dataset.price = 350;
     }
@@ -33,11 +75,9 @@ hallScheme.forEach((row, rowIndex) => {
     if (seatType === 3) {
       seat.classList.add('taken');
     }
-    
 
     seat.addEventListener('click', () => {
       if (seat.classList.contains('taken')) return;
-    
       seat.classList.toggle('selected');
     });
 
@@ -47,35 +87,7 @@ hallScheme.forEach((row, rowIndex) => {
   seatsContainer.appendChild(rowDiv);
 });
 
-const params = new URLSearchParams(window.location.search);
-const seanceId = params.get('seanceId');
-
-if (!seanceId) {
-  alert('Сеанс не найден');
-  throw new Error('No seanceId');
-}
-
-const seances = JSON.parse(localStorage.getItem('seances')) || [];
-const movies = JSON.parse(localStorage.getItem('movies')) || [];
-const halls = JSON.parse(localStorage.getItem('halls')) || [];
-
-const seance = seances.find(s => s.id == seanceId);
-
-if (!seance) {
-  alert('Сеанс не найден');
-  throw new Error('Invalid seanceId');
-}
-
-const movie = movies.find(m => m.id === seance.movieId);
-const hall = halls.find(h => h.id === seance.hallId);
-const hallScheme = hall.hall_config;
-
-document.getElementById('movieTitle').textContent = movie?.title || 'Название фильма';
-
-document.getElementById('sessionTime').textContent = seance.time || '--:--';
-
-document.getElementById('hallNumber').textContent = hall?.tittle || '-';
-
+// 8. Бронирование
 const bookBtn = document.querySelector('.book-btn');
 
 bookBtn.addEventListener('click', () => {
@@ -89,28 +101,21 @@ bookBtn.addEventListener('click', () => {
   let totalPrice = 0;
   const seatsNumbers = [];
 
-  selectedSeats.forEach((seat, index) => {
+  selectedSeats.forEach(seat => {
     const price = Number(seat.dataset.price);
-  
     if (!price) return;
-  
+
     totalPrice += price;
     seatsNumbers.push(`${seat.dataset.row}-${seat.dataset.seat}`);
   });
 
-  const params = new URLSearchParams({
-    movie,
-    time,
-    hall,
-    seats: seatsNumbers.join(','),
-    price: totalPrice
-  });
-
-  const booking ={
+  const booking = {
     seanceId,
     seats: seatsNumbers,
     totalPrice
   };
 
-  window.location.href = `payment.html?${params.toString()}`;
+  localStorage.setItem('currentBooking', JSON.stringify(booking));
+
+  window.location.href = payment.html;
 });
