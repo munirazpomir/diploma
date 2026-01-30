@@ -33,20 +33,19 @@ const vipPrice = hall.hall_price_vip;
 document.getElementById('regularPrice').textContent = `Свободно (${regularPrice} руб)`;
 document.getElementById('vipPrice').textContent = `Свободно VIP (${vipPrice} руб)`;
 
-// 5. Схема зала 
-const hallScheme = hall.hall_config; 
-
-// 6. Заполняем информацию о сеансе
+// 5. Заполняем информацию о сеансе
 document.getElementById('movieTitle').textContent =
-  movie?.title || 'Название фильма';
+  movie?.title ?? 'Название фильма';
 
 document.getElementById('sessionTime').textContent =
-  seance.time || '--:--';
+  seance.time ?? '--:--';
 
 document.getElementById('hallNumber').textContent =
-  hall?.hall_name || '-';
+  hall?.hall_name ?? '-';
 
-// 7. Рисуем зал
+// 6. Схема зала
+const hallScheme = hall.hall_config;
+
 const seatsContainer = document.getElementById('seats');
 seatsContainer.innerHTML = '';
 
@@ -95,7 +94,7 @@ hallScheme.forEach((row, rowIndex) => {
   seatsContainer.appendChild(rowDiv);
 });
 
-// 8. Бронирование
+// 7. Бронирование
 const bookBtn = document.querySelector('.book-btn');
 
 bookBtn.addEventListener('click', () => {
