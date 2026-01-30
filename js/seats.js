@@ -19,8 +19,8 @@ if (!seance) {
 }
 
 // 4. Фильм и зал
-const movie = movies.find(m => m.id == seance.movieId);
-const hall = halls.find(h => h.id == seance.hallId);
+const movie = movies.find(m => m.id == seance.movie_id);
+const hall = halls.find(h => h.id == seance.hall_id);
 
 if (!hall) {
   alert('Зал не найден');
@@ -44,7 +44,7 @@ document.getElementById('sessionTime').textContent =
   seance.time || '--:--';
 
 document.getElementById('hallNumber').textContent =
-  hall?.title || '-';
+  hall?.hall_name || '-';
 
 // 7. Рисуем зал
 const seatsContainer = document.getElementById('seats');
@@ -125,5 +125,5 @@ bookBtn.addEventListener('click', () => {
 
   localStorage.setItem('currentBooking', JSON.stringify(booking));
 
-  window.location.href = payment.html;
+  window.location.href = 'payment.html';
 });
