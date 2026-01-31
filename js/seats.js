@@ -70,34 +70,30 @@ hallScheme.forEach((row, rowIndex) => {
       rowDiv.appendChild(empty);
       return;
     }
-
+  
     const seat = document.createElement('div');
-    seat.classList.add('seat');
-
+    seat.classList.add('seat', seatType);
+  
     seat.dataset.row = rowIndex + 1;
     seat.dataset.seat = seatIndex + 1;
-
-    const type = Number(seatType);
-
-    if (type === 'standart') {
-      seat.classList.add('seat', 'standart');
+  
+    if (seatType === 'standart') {
       seat.dataset.price = regularPrice;
     }
-
-    if (type === 'vip') {
-      seat.classList.add('vip');
+  
+    if (seatType === 'vip') {
       seat.dataset.price = vipPrice;
     }
-
-    if (type === 'taken') {
+  
+    if (seatType === 'taken') {
       seat.classList.add('taken');
     }
-
+  
     seat.addEventListener('click', () => {
       if (seat.classList.contains('taken')) return;
       seat.classList.toggle('selected');
     });
-
+  
     rowDiv.appendChild(seat);
   });
 
