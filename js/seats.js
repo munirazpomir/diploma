@@ -80,7 +80,7 @@ hallScheme.forEach((row, rowIndex) => {
     const type = Number(seatType);
 
     if (type === 'standart') {
-      seat.classList.add('standart');
+      seat.classList.add('seat', 'standart');
       seat.dataset.price = regularPrice;
     }
 
