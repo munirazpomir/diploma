@@ -64,15 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       halls = data.halls;
 
       localStorage.setItem('halls', JSON.stringify(halls));
-
-      const savedPrices = JSON.parse(localStorage.getItem('halls', JSON.stringify(halls)) || '[]');
-      savedPrices.forEach(saved => {
-        const hall = halls.find(h => h.id === saved.id);
-        if (hall) {
-          hall.hall_price_standart = saved.price;
-          hall.hall_price_vip = saved.vip;
-        }
-      });
       
       const savedOpen = JSON.parse(localStorage.getItem('hallOpen') || '[]');
       
@@ -321,11 +312,13 @@ saveConfigBtn.addEventListener('click', async () => {
       return;
     }
   
-    const regular = Number(priceRegularInput.value);
-    const vip = Number(priceVipInput.value);
+    selectedPriceHall.hall_price_standart =
+      Number(priceRegularInput.value) || 0;
   
-    selectedPriceHall.hall_price_standart = regular;
-    selectedPriceHall.hall_price_vip = vip;
+    selectedPriceHall.hall_price_vip =
+      Number(priceVipInput.value) || 0;
+  
+    localStorage.setItem('halls', JSON.stringify(halls));
   
     alert('Цены сохранены');
   });
