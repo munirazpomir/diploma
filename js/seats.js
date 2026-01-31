@@ -45,7 +45,7 @@ document.getElementById('vipPrice').textContent = `Свободно VIP (${vipPr
 
 // 5. Заполняем информацию о сеансе
 document.getElementById('movieTitle').textContent =
-  movie?.title ?? 'Название фильма';
+  seance.title || movie?.title || 'Название фильма';
 
 document.getElementById('sessionTime').textContent =
   seance.time ?? '--:--';
