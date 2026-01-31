@@ -64,9 +64,9 @@ hallScheme.forEach((row, rowIndex) => {
   rowDiv.classList.add('row');
 
   row.forEach((seatType, seatIndex) => {
-    if (seatType === 0) {
+    if (seatType === 'disabled') {
       const empty = document.createElement('div');
-      empty.classList.add('empty');
+      empty.classList.add('seat', 'empty');
       rowDiv.appendChild(empty);
       return;
     }
@@ -79,17 +79,17 @@ hallScheme.forEach((row, rowIndex) => {
 
     const type = Number(seatType);
 
-    if (type === 1) {
+    if (type === 'standart') {
       seat.classList.add('standart');
       seat.dataset.price = regularPrice;
     }
 
-    if (type === 2) {
+    if (type === 'vip') {
       seat.classList.add('vip');
       seat.dataset.price = vipPrice;
     }
 
-    if (type === 3) {
+    if (type === 'taken') {
       seat.classList.add('taken');
     }
 
