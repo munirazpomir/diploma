@@ -84,25 +84,25 @@ body {
     cursor: pointer;
 }
 
-.empty {
+.seat.empty {
     width: 22px;
     height: 22px;
 }
 
-.standart {
+.seat.standart {
     background: white;
 }
   
-.vip {
+.seat.vip {
     background: orange;
 }
   
-.taken {
+.seat.taken {
     background: #2c3542;
     cursor: not-allowed;
 }
   
-.selected {
+.seat.selected {
     background: #16a6af;
 }
   
