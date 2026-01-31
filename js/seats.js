@@ -12,15 +12,25 @@ const movies = JSON.parse(localStorage.getItem('movies')) || [];
 const halls = JSON.parse(localStorage.getItem('halls')) || [];
 
 // 3. Находим сеанс
-const seance = seances.find(s => s.id == seanceId);
+const seance = seances.find(s => 
+  s.id == seanceId && 
+  s.hallId &&
+  halls.some(h => Number(h.id) === Number(s.hallId))
+);
+
 if (!seance) {
   alert('Сеанс не найден');
   throw new Error('Invalid seanceId');
 }
 
 // 4. Фильм и зал
-const movie = movies.find(m => m.id == seance.movie_id);
-const hall = halls.find(h => h.id == seance.hall_id);
+const movie = movies.find(
+  m => Number(m.id) === Number(seance.movieId)
+);
+
+const hall = halls.find(
+  h => Number(h.id) === Number(seance.hallId)
+);
 
 if (!hall) {
   alert('Зал не найден');
