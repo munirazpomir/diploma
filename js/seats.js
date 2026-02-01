@@ -12,7 +12,7 @@ const movies = JSON.parse(localStorage.getItem('movies')) || [];
 const halls = JSON.parse(localStorage.getItem('halls')) || [];
 
 // 3. Находим сеанс
-const seance = seances.find(s => Number(s.id) === Namber(seanceId));
+const seance = seances.find(s => Number(s.id) === Number(seanceId));
 
 if (!seance) {
   alert('Сеанс не найден');
