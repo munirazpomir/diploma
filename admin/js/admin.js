@@ -180,7 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
     } else {
-      createHallConfig(hall.hall_rows, hall.hall_places);
+      hallConfig = [];
+      renderHallGrid();
       return;
     }
   
@@ -244,22 +245,6 @@ function toggleSeatType(row, seat) {
   renderHallGrid();
 }
 
-function createHallConfig(rows, seats) {
-  hallConfig = Array.from({ length: rows }, () =>
-    Array.from({ length: seats }, () => 'standart')
-  );
-
-  renderHallGrid();
-}
-
-rowsInput.addEventListener('change', () => {
-  createHallConfig(+rowsInput.value, +seatsInput.value);
-});
-
-seatsInput.addEventListener('change', () => {
-  createHallConfig(+rowsInput.value, +seatsInput.value);
-});
-
 const saveConfigBtn = document.getElementById('saveConfigBtn');
 
 saveConfigBtn.addEventListener('click', async () => {
@@ -268,8 +253,11 @@ saveConfigBtn.addEventListener('click', async () => {
     return;
   }
 
-    await updateHallConfig(selectedHall.id, hallConfig);
-    alert('Конфигурация сохранена');
+  selectedHall.hall_config = JSON.parse(JSON.stringify(hallConfig));
+  localStorage.setItem('halls', JSON.stringify(halls));
+  
+  await updateHallConfig(selectedHall.id, hallConfig);
+  alert('Конфигурация сохранена');
 });
 
 
