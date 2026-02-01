@@ -106,7 +106,7 @@ const bookBtn = document.querySelector('.book-btn');
 bookBtn.addEventListener('click', () => {
   const selectedSeats = document.querySelectorAll('.seat.selected');
 
-  if (selectedSeats.length === 0) {
+  if (!selectedSeats.length) {
     alert('Выберите хотя бы одно место');
     return;
   }
@@ -116,19 +116,19 @@ bookBtn.addEventListener('click', () => {
 
   selectedSeats.forEach(seat => {
     const price = Number(seat.dataset.price);
-    if (!price) return;
-
     totalPrice += price;
     seatsNumbers.push(`${seat.dataset.row}-${seat.dataset.seat}`);
   });
 
-  const booking = {
-    seanceId,
-    seats: seatsNumbers,
-    totalPrice
-  };
+  const params = new URLSearchParams({
+    seanceId: seance.id,
+    hallId: hall.id,
+    movie: movie.title,
+    time: seance.time || seance.seance_time,
+    hall: hall.hall_name,
+    seats: seatsNumbers.join(','),
+    price: totalPrice
+  });
 
-  localStorage.setItem('currentBooking', JSON.stringify(booking));
-
-  window.location.href = 'payment.html';
+  window.location.href = `payment.html?${params.toString()}`;
 });
