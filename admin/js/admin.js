@@ -247,17 +247,17 @@ function toggleSeatType(row, seat) {
 
 const saveConfigBtn = document.getElementById('saveConfigBtn');
 
-saveConfigBtn.addEventListener('click', async () => {
-  if (!selectedHallId) {
+saveConfigBtn.addEventListener('click', () => {
+  if (!selectedHall) {
     alert('Выберите зал');
     return;
   }
 
   selectedHall.hall_config = JSON.parse(JSON.stringify(hallConfig));
+
   localStorage.setItem('halls', JSON.stringify(halls));
-  
-  await updateHallConfig(selectedHall.id, hallConfig);
-  alert('Конфигурация сохранена');
+
+  alert('Конфигурация зала сохранена');
 });
 
 
