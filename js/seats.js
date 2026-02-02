@@ -25,11 +25,11 @@ const seanceTime    = seance.seance_time ?? seance.time ?? '--:--';
 
 // 4. Фильм и зал
 const movie = movies.find(
-  m => Number(m.id) === Number(seance.movieId)
+  m => Number(m.id) === Number(seanceMovieId)
 );
 
 const hall = halls.find(
-  h => Number(h.id) === Number(seance.hallId)
+  h => Number(h.id) === Number(seanceHallId)
 );
 
 if (!hall) {
@@ -45,7 +45,7 @@ document.getElementById('vipPrice').textContent = `Свободно VIP (${vipPr
 
 // 5. Заполняем информацию о сеансе
 document.getElementById('movieTitle').textContent =
-  seance.title || movie?.title || 'Название фильма';
+  movie?.title || 'Название фильма';
 
 document.getElementById('sessionTime').textContent =
   seance.time ?? '--:--';
@@ -122,7 +122,7 @@ bookBtn.addEventListener('click', () => {
 
   const booking = {
     seanceId: seance.id,
-    movie: movie?.title ?? seance.title ?? 'Название фильма',
+    movie: movie?.title || 'Название фильма',
     hall: hall.hall_name,
     time: seanceTime,
     seats: seatsNumbers.join(', '),
