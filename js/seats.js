@@ -24,9 +24,7 @@ const seanceHallId  = seance.hallId ?? seance.seance_hallid;
 const seanceTime    = seance.seance_time ?? seance.time ?? '--:--';
 
 // 4. Фильм и зал
-const movie = movies.find(
-  m => Number(m.id) === Number(seanceMovieId)
-);
+const movieTitle = seance.title || movie?.title || 'Название фильма';
 
 const hall = halls.find(
   h => Number(h.id) === Number(seanceHallId)
@@ -44,8 +42,7 @@ document.getElementById('regularPrice').textContent = `Свободно (${regul
 document.getElementById('vipPrice').textContent = `Свободно VIP (${vipPrice} руб)`;
 
 // 5. Заполняем информацию о сеансе
-document.getElementById('movieTitle').textContent =
-  movie?.title || 'Название фильма';
+document.getElementById('movieTitle').textContent = movieTitle;
 
 document.getElementById('sessionTime').textContent =
   seance.time ?? '--:--';
@@ -67,6 +64,7 @@ hallScheme.forEach((row, rowIndex) => {
     if (seatType === 'disabled') {
       const empty = document.createElement('div');
       empty.classList.add('seat', 'empty');
+      empty.dataset.disabled = 'true';
       rowDiv.appendChild(empty);
       return;
     }
@@ -104,7 +102,8 @@ hallScheme.forEach((row, rowIndex) => {
 const bookBtn = document.querySelector('.book-btn');
 
 bookBtn.addEventListener('click', () => {
-  const selectedSeats = document.querySelectorAll('.seat.selected');
+  const selectedSeats = [...document.querySelectorAll('.seat.selected')]
+  .filter(seat => seat.dataset.row && seat.dataset.seat);
 
   if (!selectedSeats.length) {
     alert('Выберите хотя бы одно место');
@@ -122,7 +121,7 @@ bookBtn.addEventListener('click', () => {
 
   const booking = {
     seanceId: seance.id,
-    movie: movie?.title || 'Название фильма',
+    movie: movieTitle,
     hall: hall.hall_name,
     time: seanceTime,
     seats: seatsNumbers.join(', '),
