@@ -120,15 +120,16 @@ bookBtn.addEventListener('click', () => {
     seatsNumbers.push(`${seat.dataset.row}-${seat.dataset.seat}`);
   });
 
-  const params = new URLSearchParams({
+  const booking = {
     seanceId: seance.id,
-    hallId: hall.id,
-    movie: movie.title,
-    time: seance.time || seance.seance_time,
+    movie: movie?.title ?? seance.title ?? 'Название фильма',
     hall: hall.hall_name,
-    seats: seatsNumbers.join(','),
+    time: seanceTime,
+    seats: seatsNumbers.join(', '),
     price: totalPrice
-  });
+  };
 
-  window.location.href = `payment.html?${params.toString()}`;
+  localStorage.setItem('currentBooking', JSON.stringify(booking));
+
+  window.location.href = 'payment.html';
 });

@@ -1,20 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
+  const booking = JSON.parse(localStorage.getItem('currentBooking'));
 
-  const movie = params.get('movie') || 'Название фильма';
-  const time = params.get('time') || '--:--';
-  const hall = params.get('hall') || '-';
-  const seatsStr = params.get('seats') || '';
-  const price = params.get('price') || '0';
-  const seanceId = Number(params.get('seanceId'));
-  const hallId = Number(params.get('hallId'));
+  if (!booking) {
+    alert('Данные бронирования не найдены');
+    return;
+  }
 
-  // вывод данных
-  document.getElementById('movie').textContent = movie;
-  document.getElementById('time').textContent = time;
-  document.getElementById('hall').textContent = hall;
-  document.getElementById('seats').textContent = seatsStr;
-  document.getElementById('price').textContent = price;
+  // вывод информации
+  document.getElementById('movie').textContent = booking.movie;
+  document.getElementById('hall').textContent = booking.hall;
+  document.getElementById('time').textContent = booking.time;
+  document.getElementById('seats').textContent = booking.seats;
+  document.getElementById('price').textContent = booking.price;
 
   const getCodeBtn = document.querySelector('.pay-btn');
   const qrWrapper = document.getElementById('qrWrapper');
@@ -23,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const note = document.querySelector('.note');
 
   getCodeBtn.addEventListener('click', () => {
-    // генерация кода бронирования
     const bookingCode =
       'VK-' +
       Math.random()
@@ -31,33 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
         .substring(2, 10)
         .toUpperCase();
 
-    // сохраняем бронь
-    const seats = seatsStr
-      .split(',')
-      .filter(Boolean)
-      .map(s => {
-        const [row, seat] = s.split('-').map(Number);
-        return { row, seat };
-      });
-
-    const booking = {
-      seanceId,
-      hallId,
-      movie,
-      time,
-      hall,
-      seats,
-      price: Number(price),
-      code: bookingCode
-    };
-
+    // сохраняем итоговую бронь
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.push(booking);
+
+    bookings.push({
+      ...booking,
+      code: bookingCode,
+      createdAt: Date.now()
+    });
+
     localStorage.setItem('bookings', JSON.stringify(bookings));
 
-    // QR-код
+    // QR
     qrContainer.innerHTML = '';
-
     new QRCode(qrContainer, {
       text: bookingCode,
       width: 200,
