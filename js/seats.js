@@ -129,6 +129,8 @@ bookBtn.addEventListener('click', () => {
     price: totalPrice
   };
 
+  console.log('BOOKING', booking);
+
   localStorage.setItem('currentBooking', JSON.stringify(booking));
 
   window.location.href = 'payment.html';
