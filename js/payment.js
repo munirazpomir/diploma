@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
       createdAt: Date.now()
     });
 
+    console.log('BOOKING', booking);
+
     localStorage.setItem('bookings', JSON.stringify(bookings));
 
     // QR
