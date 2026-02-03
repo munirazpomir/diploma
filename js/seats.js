@@ -140,7 +140,10 @@ bookBtn.addEventListener('click', () => {
   selectedSeats.forEach(seat => {
     const price = Number(seat.dataset.price);
     totalPrice += price;
-    seatsNumbers.push(`${seat.dataset.row}-${seat.dataset.seat}`);
+    seatsNumbers.push({
+      row: Number(seat.dataset.row),
+      seat: Number(seat.dataset.seat)
+    });
   });
 
   const booking = {
@@ -149,7 +152,7 @@ bookBtn.addEventListener('click', () => {
     hall: hall.hall_name,
     time: seanceTime,
     date: new Date().toLocaleDateString('ru-Ru'),
-    seats: seatsNumbers.join(', '),
+    seats: seatsNumbers,
     price: totalPrice
   };
 

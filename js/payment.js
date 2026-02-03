@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('movie').textContent = booking.movie;
   document.getElementById('hall').textContent = booking.hall;
   document.getElementById('time').textContent = booking.time;
-  document.getElementById('seats').textContent = booking.seats;
+  document.getElementById('seats').textContent = booking.seats.map(s => `${s.row}-${s.seat}`).join(', ');
   document.getElementById('price').textContent = booking.price;
 
   const getCodeBtn = document.querySelector('.pay-btn');
@@ -45,10 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
       takenSeats[booking.seanceId] = [];
     }
     
-    booking.seats.split(',').forEach(s => {
-      const [row, seat] = s.trim().split('-').map(Number);
+    booking.seats.forEach(({ row, seat }) => {
       takenSeats[booking.seanceId].push({ row, seat });
-    });localStorage.setItem('takenSeats', JSON.stringify(takenSeats));
+    });
+    
+    localStorage.setItem('takenSeats', JSON.stringify(takenSeats));
 
     // QR
     qrContainer.innerHTML = '';
