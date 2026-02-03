@@ -149,7 +149,7 @@ bookBtn.addEventListener('click', () => {
     hall: hall.hall_name,
     time: seanceTime,
     date: new Date().toLocaleDateString('ru-Ru'),
-    seats: seatsNumbers,
+    seats: seatsNumbers.join(', '),
     price: totalPrice
   };
 
