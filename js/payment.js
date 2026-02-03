@@ -36,9 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
       createdAt: Date.now()
     });
 
-    console.log('BOOKING', booking);
-
     localStorage.setItem('bookings', JSON.stringify(bookings));
+
+    // сохраняем занятые места
+    const takenSeats = JSON.parse(localStorage.getItem('takenSeats') || '{}');
+    
+    if (!takenSeats[booking.seanceId]) {
+      takenSeats[booking.seanceId] = [];
+    }
+    
+    booking.seats.split(',').forEach(s => {
+      const [row, seat] = s.trim().split('-').map(Number);
+      takenSeats[booking.seanceId].push({ row, seat });
+    });
+    
+    localStorage.setItem('takenSeats', JSON.stringify(takenSeats));
 
     // QR
     qrContainer.innerHTML = '';

@@ -1,6 +1,13 @@
 const params = new URLSearchParams(window.location.search);
 const seanceId = params.get('seanceId');
 
+// загружаем занятые места для сеанса
+const takenSeatsMap =
+  JSON.parse(localStorage.getItem('takenSeats') || '{}');
+
+const takenSeatsForSeance =
+  takenSeatsMap[seanceId] || [];
+
 if (!seanceId) {
   alert('Сеанс не найден');
   throw new Error('No seanceId');
@@ -74,13 +81,26 @@ hallScheme.forEach((row, rowIndex) => {
   
     seat.dataset.row = rowIndex + 1;
     seat.dataset.seat = seatIndex + 1;
-  
-    if (seatType === 'standart') {
-      seat.dataset.price = regularPrice;
+    
+    const isTaken = takenSeatsForSeance.some(
+      s =>
+        s.row === rowIndex + 1 &&
+      s.seat === seatIndex + 1
+    );
+    
+    if (isTaken) {
+      seat.classList.add('taken');
+      seat.dataset.price = 0;
     }
   
-    if (seatType === 'vip') {
-      seat.dataset.price = vipPrice;
+    if (!seat.classList.contains('taken')) {
+      if (seatType === 'standart') {
+        seat.dataset.price = regularPrice;
+      }
+    
+      if (seatType === 'vip') {
+        seat.dataset.price = vipPrice;
+      }
     }
   
     if (seatType === 'taken') {
@@ -88,7 +108,11 @@ hallScheme.forEach((row, rowIndex) => {
     }
   
     seat.addEventListener('click', () => {
-      if (seat.classList.contains('taken')) return;
+      if (
+        seat.classList.contains('taken') ||
+        seat.classList.contains('empty')
+      ) return;
+    
       seat.classList.toggle('selected');
     });
   
