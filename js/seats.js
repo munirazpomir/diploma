@@ -148,7 +148,8 @@ bookBtn.addEventListener('click', () => {
     movie: movieTitle,
     hall: hall.hall_name,
     time: seanceTime,
-    seats: seatsNumbers.join(', '),
+    date: new Date().toLocaleDateString('ru-Ru'),
+    seats: seatsNumbers,
     price: totalPrice
   };
 
