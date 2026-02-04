@@ -8,6 +8,14 @@ function renderDates() {
   datesContainer.innerHTML = '';
 
   const today = new Date();
+
+  if (!localStorage.getItem('selectedDate')) {
+    localStorage.setItem(
+      'selectedDate',
+      today.toISOString().slice(0, 10)
+    );
+  }
+  
   const prevBtn = document.createElement('button');
   prevBtn.textContent = '<';
   prevBtn.disabled = offset === 0;
@@ -34,13 +42,22 @@ function renderDates() {
         ? `Сегодня, ${dayNumber}`
         : `${dayName}, ${dayNumber}`;
 
-    if (i === 0) button.classList.add('active');
+        const savedDate = localStorage.getItem('selectedDate');
+        const currentDate = date.toISOString().slice(0, 10);
+        
+        if (savedDate === currentDate) {
+          button.classList.add('active');
+        }
 
     button.addEventListener('click', () => {
       document
         .querySelectorAll('.dates button')
         .forEach(b => b.classList.remove('active'));
+    
       button.classList.add('active');
+    
+      const selectedDate = date.toISOString().slice(0, 10);
+      localStorage.setItem('selectedDate', selectedDate);
     });
 
     datesContainer.appendChild(button);
