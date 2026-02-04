@@ -61,8 +61,19 @@ function renderClientPage() {
         const a = document.createElement('a');
         a.className = 'time';
         a.textContent = seance.time;
-        a.href = `hall.html?seanceId=${seance.id}`;
-
+      
+        const [hours, minutes] = seance.time.split(':').map(Number);
+        const seanceMinutes = hours * 60 + minutes;
+      
+        const now = new Date();
+        const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      
+        if (seanceMinutes < nowMinutes) {
+          a.classList.add('time--disabled');
+        } else {
+          a.href = `hall.html?seanceId=${seance.id}`;
+        }
+      
         times.appendChild(a);
       });
 
