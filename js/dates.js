@@ -49,16 +49,14 @@ function renderDates() {
           button.classList.add('active');
         }
 
-    button.addEventListener('click', () => {
-      document
-        .querySelectorAll('.dates button')
-        .forEach(b => b.classList.remove('active'));
-    
-      button.classList.add('active');
-    
-      const selectedDate = date.toISOString().slice(0, 10);
-      localStorage.setItem('selectedDate', selectedDate);
-    });
+        button.addEventListener('click', () => {
+          const selectedDate = date.toISOString().slice(0, 10);
+          localStorage.setItem('selectedDate', selectedDate);
+        
+          if (typeof renderClientPage === 'function') {
+            renderClientPage();
+          }
+        });
 
     datesContainer.appendChild(button);
   }
