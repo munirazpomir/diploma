@@ -62,13 +62,24 @@ function renderClientPage() {
         a.className = 'time';
         a.textContent = seance.time;
       
+        const selectedDate = localStorage.getItem('selectedDate') || new Date().toISOString().slice(0, 10);
+        
+        const today = new Date().toISOString().slice(0, 10);
+        
         const [hours, minutes] = seance.time.split(':').map(Number);
+        
         const seanceMinutes = hours * 60 + minutes;
-      
+        
         const now = new Date();
         const nowMinutes = now.getHours() * 60 + now.getMinutes();
-      
-        if (seanceMinutes < nowMinutes) {
+        
+        let isPast = false;
+        
+        if (selectedDate === today && seanceMinutes < nowMinutes) {
+          isPast = true;
+        }
+        
+        if (isPast) {
           a.classList.add('time--disabled');
         } else {
           a.href = `hall.html?seanceId=${seance.id}`;
