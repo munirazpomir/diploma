@@ -56,7 +56,7 @@ function renderDates() {
     
       button.classList.add('active');
     
-      const selectedDate = date.toISOString().slice(0, 10);
+      const selectedDate = currentDate;
       localStorage.setItem('selectedDate', selectedDate);
 
       if (typeof renderClientPage === 'function') {
