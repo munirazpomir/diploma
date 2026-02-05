@@ -6,7 +6,6 @@ let pendingMovieId = null;
 let pendingHallId = null;
 
 let draggedSeanceId = null;
-window.getHallConfigDebug = () => hallConfig;
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ================== АВТОРИЗАЦИЯ ================== */

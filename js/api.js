@@ -53,10 +53,6 @@ async function getAllData() {
   return data;
 }
 
-getAllData().then(data => {
-  console.log(data.halls);
-});
-
 async function createHall(name, rows = 10, places = 8) {
   const fd = new FormData();
   fd.append('hall_name', name);
