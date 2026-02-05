@@ -90,7 +90,7 @@ hallScheme.forEach((row, rowIndex) => {
     
     if (isTaken) {
       seat.classList.add('taken');
-      return;
+      seat.dataset.price = 0;
     }
   
     if (!seat.classList.contains('taken')) {
@@ -101,6 +101,10 @@ hallScheme.forEach((row, rowIndex) => {
       if (seatType === 'vip') {
         seat.dataset.price = vipPrice;
       }
+    }
+  
+    if (seatType === 'taken') {
+      seat.classList.add('taken');
     }
   
     seat.addEventListener('click', () => {
