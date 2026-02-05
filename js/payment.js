@@ -52,25 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('takenSeats', JSON.stringify(takenSeats));
 
     // QR
-    const seatsText = booking.seats
-  .map(s => `Ряд ${s.row}, Место ${s.seat}`)
-  .join('; ');
-
-const ticketText = `
-Билет № ${bookingCode}
-Фильм: ${booking.movie}
-Дата: ${booking.date}
-Время: ${booking.time}
-Зал: ${booking.hall}
-Места: ${seatsText}
-Стоимость: ${booking.price} руб.
-
-Билет действителен строго на свой сеанс
-`;
-
     qrContainer.innerHTML = '';
     new QRCode(qrContainer, {
-      text: ticketText,
+      text: bookingCode,
       width: 200,
       height: 200,
       correctLevel: QRCode.CorrectLevel.L
