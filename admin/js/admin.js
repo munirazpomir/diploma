@@ -180,9 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
     } else {
-      hallConfig = [];
-      renderHallGrid();
-      return;
+      const rows = Number(rowsInput.value);
+      const seats = Number(seatsInput.value);
+    
+      hallConfig = Array.from({ length: rows }, () =>
+        Array.from({ length: seats }, () => 'standart')
+      );
     }
   
     renderHallGrid();
