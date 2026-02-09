@@ -1,16 +1,12 @@
 const moviesContainer = document.getElementById('moviesContainer');
 
-function loadClientData() {
-  const movies = JSON.parse(localStorage.getItem('movies') || '[]');
-  const seances = JSON.parse(localStorage.getItem('seances') || '[]');
-  const halls = JSON.parse(localStorage.getItem('halls') || '[]');
+async function renderClientPage() {
+  const data = await getAllData();
+
+  const movies = data.films;
+  const seances = data.seances;
+  const halls = data.halls;
   const hallOpen = JSON.parse(localStorage.getItem('hallOpen') || '[]');
-
-  return { movies, seances, halls, hallOpen };
-}
-
-function renderClientPage() {
-  const { movies, seances, halls, hallOpen } = loadClientData();
 
   moviesContainer.innerHTML = '';
 

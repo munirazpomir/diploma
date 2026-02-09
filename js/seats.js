@@ -13,10 +13,10 @@ if (!seanceId) {
   throw new Error('No seanceId');
 }
 
-// 2. Данные из localStorage
-const seances = JSON.parse(localStorage.getItem('seances')) || [];
+const data = await getAllData();
+const seances = data.seances;
 const movies = JSON.parse(localStorage.getItem('movies')) || [];
-const halls = JSON.parse(localStorage.getItem('halls')) || [];
+const halls = data.halls;
 
 // 3. Находим сеанс
 const seance = seances.find(s => Number(s.id) === Number(seanceId));

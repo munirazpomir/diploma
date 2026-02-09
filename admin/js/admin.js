@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const data = await getAllData();
       halls = data.halls;
+      seances = data.seances;
 
       localStorage.setItem('halls', JSON.stringify(halls));
       
