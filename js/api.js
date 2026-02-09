@@ -1,206 +1,121 @@
 const API_URL = 'https://shfe-diplom.neto-server.ru';
 
-async function requestPublic(url, options = {}) {
-  const response = await fetch(API_URL + url, {
+/**
+ * Универсальный запрос
+ */
+async function request(endpoint, options = {}) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
     ...options
   });
 
-  const data = await response.json();
-
-  if (!data.success) {
-    throw new Error(data.error || 'Ошибка сервера');
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
   }
 
-  return data.result;
+  return response.json();
 }
 
-async function requestPrivate(url, options = {}) {
-  const response = await fetch(API_URL + url, {
-    mode: 'cors',
-    credentials: 'include',
-    ...options
-  });
-
-  const data = await response.json();
-
-  if (!data.success) {
-    throw new Error(data.error || 'Ошибка сервера');
-  }
-
-  return data.result;
+/**
+ * Получить все данные (ГЛАВНЫЙ запрос)
+ */
+export function getAllData() {
+  return request('/alldata');
 }
 
-function loginAdmin(login, password) {
-  const fd = new FormData();
-  fd.append('login', login);
-  fd.append('password', password);
-
-  return requestPublic('/login', {
+/**
+ * Авторизация
+ */
+export function login(email, password) {
+  return request('/login', {
     method: 'POST',
-    body: fd
+    body: JSON.stringify({ email, password })
   });
 }
 
-async function getAllData() {
-  const data = await requestPublic('/alldata');
-
-  const localHalls = getLocalHalls();
-
-  if (localHalls.length) {
-    data.halls = [...data.halls, ...localHalls];
-  }
-
-  return data;
-}
-
-async function createHall(name, rows = 10, places = 8) {
-  const fd = new FormData();
-  fd.append('hall_name', name);
-  fd.append('hall_rows', rows);
-  fd.append('hall_places', places);
-
-  try {
-    return await requestPrivate('/hall', {
-      method: 'POST',
-      body: fd
-    });
-  } catch (e) {
-    console.warn('SERVER FAILED → SAVE LOCAL HALL');
-
-    const halls = getLocalHalls();
-
-    const newHall = {
-      id: Date.now(), // локальный ID
-      hall_name: name,
-      hall_rows: rows,
-      hall_places: places,
-      hall_config: [],
-      hall_price_standart: 0,
-      hall_price_vip: 0,
-      hall_open: 0,
-      __local: true
-    };
-
-    halls.push(newHall);
-    saveLocalHalls(halls);
-
-    return newHall;
-  }
-}
-
-async function deleteHall(id) {
-  try {
-    return await requestPrivate(`/hall/${id}`, {
-      method: 'DELETE'
-    });
-  } catch (e) {
-    console.warn('SERVER FAILED → DELETE LOCAL HALL');
-
-    const halls = getLocalHalls().filter(h => h.id !== id);
-    saveLocalHalls(halls);
-
-    return true;
-  }
-}
-
-async function updateHallConfig(hallId, config) {
-  try {
-    const fd = new FormData();
-    fd.append('hall_config', JSON.stringify(config));
-
-    return await requestPrivate(`/hall/${hallId}`, {
-      method: 'POST',
-      body: fd
-    });
-  } catch (e) {
-    console.warn('SERVER FAILED → SAVE CONFIG LOCAL');
-    saveLocalHallConfig(hallId, config);
-    return true;
-  }
-}
-
-function setHallPrices(id, price, vipPrice) {
-  const fd = new FormData();
-  fd.append('price', price);
-  fd.append('vip_price', vipPrice);
-
-  return requestPrivate(`/hall/${id}/price`, {
+/**
+ * Залы
+ */
+export function createHall(name) {
+  return request('/hall', {
     method: 'POST',
-    body: fd
+    body: JSON.stringify({ name })
   });
 }
 
-function createMovie(name, duration, description, country) {
-  const fd = new FormData();
-  fd.append('film_name', name);
-  fd.append('film_duration', duration);
-  fd.append('film_description', description);
-  fd.append('film_origin', country);
-
-  return requestPrivate('/movie', {
-    method: 'POST',
-    body: fd
-  });
-}
-
-function deleteMovie(id) {
-  return requestPrivate(`/movie/${id}`, {
+export function deleteHall(hallId) {
+  return request(`/hall/${hallId}`, {
     method: 'DELETE'
   });
 }
 
-function createSeance(movieId, hallId, time) {
-  const fd = new FormData();
-  fd.append('movie_id', movieId);
-  fd.append('hall_id', hallId);
-  fd.append('time', time);
-
-  return requestPrivate('/seance', {
+export function updateHall(hallId, rows, seats, config) {
+  return request(`/hall/${hallId}`, {
     method: 'POST',
-    body: fd
+    body: JSON.stringify({ rows, seats, config })
   });
 }
 
-function deleteSeance(id) {
-  return requestPrivate(`/seance/${id}`, {
+export function setPrices(hallId, priceStandard, priceVip) {
+  return request(`/price/${hallId}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      priceStandart: priceStandard,
+      priceVip: priceVip
+    })
+  });
+}
+
+export function openSales(hallId) {
+  return request(`/open/${hallId}`, {
+    method: 'POST'
+  });
+}
+
+export function getHallConfig() {
+  return request('/hallconfig');
+}
+
+/**
+ * Фильмы
+ */
+export function createFilm(filmData) {
+  return request('/film', {
+    method: 'POST',
+    body: JSON.stringify(filmData)
+  });
+}
+
+export function deleteFilm(filmId) {
+  return request(`/film/${filmId}`, {
     method: 'DELETE'
   });
 }
 
-function getHallConfig(seanceId, date) {
-  return requestPublic(
-    `/hallconfig?seance_id=${seanceId}&date=${date}`
-  );
-}
-
-function buyTicket(seanceId, places) {
-  const fd = new FormData();
-  fd.append('seance_id', seanceId);
-  fd.append('places', JSON.stringify(places));
-
-  return requestPrivate('/ticket', {
+/**
+ * Сеансы
+ */
+export function createSeance(seanceData) {
+  return request('/seance', {
     method: 'POST',
-    body: fd
+    body: JSON.stringify(seanceData)
   });
 }
 
-function getLocalHalls() {
-  return JSON.parse(localStorage.getItem('localHalls') || '[]');
+export function deleteSeance(seanceId) {
+  return request(`/seance/${seanceId}`, {
+    method: 'DELETE'
+  });
 }
 
-function saveLocalHalls(halls) {
-  localStorage.setItem('localHalls', JSON.stringify(halls));
-}
-
-function saveLocalHallConfig(hallId, config) {
-  localStorage.setItem(
-    `hallConfig_${hallId}`,
-    JSON.stringify(config)
-  );
-}
-
-function getLocalHallConfig(hallId) {
-  return JSON.parse(
-    localStorage.getItem(`hallConfig_${hallId}`) || '[]'
-  );
+/**
+ * Покупка билетов
+ */
+export function buyTicket(ticketData) {
+  return request('/ticket', {
+    method: 'POST',
+    body: JSON.stringify(ticketData)
+  });
 }
