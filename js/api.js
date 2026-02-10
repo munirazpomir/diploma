@@ -28,10 +28,10 @@ export function getAllData() {
 /**
  * Авторизация
  */
-export function login(email, password) {
+export function login(login, password) {
   return request('/login', {
     method: 'POST',
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ login, password })
   });
 }
 
