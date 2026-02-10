@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let movies = [];
   let halls = [];
-  let seances = JSON.parse(localStorage.getItem('seances') || '[]');
+  let seances = [];
   selectedHallId = null;
   
 
@@ -60,40 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadData() {
     try {
       const data = await getAllData();
-      halls = data.halls;
-      seances = data.seances;
-
-      localStorage.setItem('halls', JSON.stringify(halls));
-      
-      const savedOpen = JSON.parse(localStorage.getItem('hallOpen') || '[]');
-      
-      savedOpen.forEach(saved => {
-        const hall = halls.find(h => h.id === saved.id);
-        if (hall) {
-          hall.hall_open = saved.open;
-        }
-      });
+  
+      halls = data.halls || [];
       movies = data.films || [];
-      const localMovies = JSON.parse(localStorage.getItem('movies') || '[]');
-      const movieMap = new Map();
-      
-      movies.forEach(m => {
-        movieMap.set(m.id, {
-          ...m,
-          color: m.color || getRandomColor()
-        });
-      });
-      
-      localMovies.forEach(m => {
-        movieMap.set(m.id, {
-          ...m,
-          color: m.color || getRandomColor()
-        });
-      });
-      
-      movies = Array.from(movieMap.values());
-      localStorage.setItem('movies', JSON.stringify(movies));
-
+      seances = data.seances || [];
+  
       renderHalls();
       renderConfigHallList();
       renderPriceHalls();
@@ -102,7 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
       renderHallSchedules();
       renderSeances();
       initTimelineDnD();
-      
+  
+      if (halls.length && !selectedHallId) {
+        selectHallForConfig(halls[0]);
+
+        const firstBtn = configHallList.querySelector('.hall-btn');
+        if (firstBtn) firstBtn.classList.add('active');
+      }
+  
     } catch (err) {
       console.error('LOAD DATA ERROR', err);
       alert('Ошибка загрузки данных');
@@ -172,12 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function selectHallForConfig(hall) {
     selectedHall = hall;
     selectedHallId = hall.id;
-  
-    const localConfig = getLocalHallConfig(hall.id);
-  
-    if (localConfig.length) {
-      hallConfig = localConfig;
-    } else if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
+
+    if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
     } else {
       const rows = Number(rowsInput.value);
@@ -250,17 +224,27 @@ function toggleSeatType(row, seat) {
 
 const saveConfigBtn = document.getElementById('saveConfigBtn');
 
-saveConfigBtn.addEventListener('click', () => {
-  if (!selectedHall) {
+saveConfigBtn.addEventListener('click', async () => {
+  if (!selectedHallId) {
     alert('Выберите зал');
     return;
   }
 
-  selectedHall.hall_config = JSON.parse(JSON.stringify(hallConfig));
+  const rows = Number(rowsInput.value);
+  const seats = Number(seatsInput.value);
 
-  localStorage.setItem('halls', JSON.stringify(halls));
+  if (rows <= 0 || seats <= 0) {
+    alert('Некорректное количество рядов или мест');
+    return;
+  }
 
-  alert('Конфигурация зала сохранена');
+  try {
+    await updateHall(selectedHallId, rows, seats, hallConfig);
+    await loadData();
+    alert('Конфигурация зала сохранена');
+  } catch (e) {
+    alert('Ошибка сохранения конфигурации');
+  }
 });
 
 
@@ -297,19 +281,22 @@ saveConfigBtn.addEventListener('click', () => {
     });
   }
 
-  priceSaveBtn.addEventListener('click', () => {
+  priceSaveBtn.addEventListener('click', async () => {
     if (!selectedPriceHall) {
       alert('Выберите зал');
       return;
     }
   
-    selectedPriceHall.hall_price_standart =
-      Number(priceRegularInput.value) || 0;
+    const regular = Number(priceRegularInput.value);
+    const vip = Number(priceVipInput.value);
   
-    selectedPriceHall.hall_price_vip =
-      Number(priceVipInput.value) || 0;
+    if (regular < 0 || vip < 0) {
+      alert('Цена не может быть отрицательной');
+      return;
+    }
   
-    localStorage.setItem('halls', JSON.stringify(halls));
+    await setPrices(selectedPriceHall.id, regular, vip);
+    await loadData();
   
     alert('Цены сохранены');
   });
@@ -356,26 +343,14 @@ saveConfigBtn.addEventListener('click', () => {
     }
   }
 
-  toggleSalesBtn.addEventListener('click', () => {
+  toggleSalesBtn.addEventListener('click', async () => {
     if (!selectedSalesHall) {
       alert('Выберите зал');
       return;
     }
   
-    selectedSalesHall.hall_open =
-      selectedSalesHall.hall_open === 1 ? 0 : 1;
-  
-    localStorage.setItem(
-      'hallOpen',
-      JSON.stringify(
-        halls.map(h => ({
-          id: h.id,
-          open: h.hall_open
-        }))
-      )
-    );
-  
-    updateSalesUI();
+    await openSales(selectedSalesHall.id);
+    await loadData();
   });
 
   /* ================== ФИЛЬМЫ ================== */
@@ -406,12 +381,15 @@ saveConfigBtn.addEventListener('click', () => {
         <button class="movie-delete"></button>
       `;
   
-      card.querySelector('.movie-delete').addEventListener('click', () => {
+      card.querySelector('.movie-delete').addEventListener('click', async () => {
         if (!confirm(`Удалить фильм «${movie.film_name}»?`)) return;
-  
-        movies = movies.filter(m => m.id !== movie.id);
-        localStorage.setItem('movies', JSON.stringify(movies));
-        renderMovies();
+      
+        try {
+          await deleteFilm(movie.id);
+          await loadData();
+        } catch (err) {
+          alert('Ошибка удаления фильма');
+        }
       });
   
       movieList.appendChild(card);
@@ -436,31 +414,30 @@ cancelMovie.addEventListener('click', () => {
   movieModal.style.display = 'none';
 });
 
-addMovieConfirm.addEventListener('click', () => {
+addMovieConfirm.addEventListener('click', async () => {
   const title = document.getElementById('movieTitle').value.trim();
   const duration = Number(document.getElementById('movieDuration').value);
   const description = document.getElementById('movieDescription').value;
   const country = document.getElementById('movieCountry').value;
 
-  if (!title || !duration) {
-    alert('Введите название и длительность');
+  if (!title || duration <= 0) {
+    alert('Введите корректное название и длительность');
     return;
   }
 
-  const newMovie = {
-    id: Date.now(),
-    film_name: title,
-    film_duration: duration,
-    film_description: description,
-    film_country: country,
-    color: getRandomColor()
-  };
+  try {
+    await createFilm({
+      film_name: title,
+      film_duration: duration,
+      film_description: description,
+      film_country: country
+    });
 
-  movies.push(newMovie);
-  localStorage.setItem('movies', JSON.stringify(movies));
-
-  movieModal.style.display = 'none';
-  renderMovies();
+    movieModal.style.display = 'none';
+    await loadData();
+  } catch (err) {
+    alert('Ошибка добавления фильма');
+  }
 });
 
 const sessionModal = document.getElementById('sessionModal');
@@ -515,32 +492,28 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
     sessionModal.style.display = 'flex';
   }
 
-  function addLocalSeance(movieId, hallId, time) {
-    const movie = movies.find(m => m.id == movieId);
-    if (!movie) return;
-
-    seances.push({
-      id: Date.now(),
-      hallId: Number(hallId),
-      movieId: Number(movieId),
-      title: movie.film_name,
-      duration: Number(movie.film_duration),
-      time,
-      color: movie.color
-    });
+  addSessionConfirm.addEventListener('click', async () => {
+    const hallId = Number(sessionHall.value);
+    const movieId = Number(sessionMovie.value);
+    const time = sessionTime.value;
   
-    localStorage.setItem('seances', JSON.stringify(seances));
-  }
-
-  addSessionConfirm.addEventListener('click', () => {
-    addLocalSeance(
-      sessionMovie.value,
-      sessionHall.value,
-      sessionTime.value
-    );
+    if (!hallId || !movieId || !time) {
+      alert('Заполните все поля');
+      return;
+    }
   
-    sessionModal.style.display = 'none';
-    renderSeances();
+    try {
+      await createSeance({
+        seance_hallid: hallId,
+        seance_filmid: movieId,
+        seance_time: time
+      });
+  
+      sessionModal.style.display = 'none';
+      await loadData();
+    } catch (err) {
+      alert('Ошибка добавления сеанса');
+    }
   });
 
   function renderSeances() {
@@ -618,30 +591,19 @@ const seanceTrash = document.getElementById('seanceTrash');
 
 seanceTrash.addEventListener('dragover', e => e.preventDefault());
 
-seanceTrash.addEventListener('drop', e => {
+seanceTrash.addEventListener('drop', async e => {
   e.preventDefault();
 
   if (!draggedSeanceId) return;
 
-  seances = seances.filter(s => s.id !== draggedSeanceId);
-  localStorage.setItem('seances', JSON.stringify(seances));
-  draggedSeanceId = null;
-
-  renderSeances();
-});
-
-document.addEventListener('dragend', e => {
-  if (!draggedSeanceId) return;
-
-  const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
-
-  if (!dropTarget || !dropTarget.closest('.timeline')) {
-    seances = seances.filter(s => s.id !== draggedSeanceId);
-    localStorage.setItem('seances', JSON.stringify(seances));
-    renderSeances();
+  try {
+    await deleteSeance(draggedSeanceId);
+    await loadData();
+  } catch (err) {
+    alert('Ошибка удаления сеанса');
+  } finally {
+    draggedSeanceId = null;
   }
-
-  draggedSeanceId = null;
 });
 
   /* ================== СТАРТ ================== */
