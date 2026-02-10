@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = form.querySelector('[name="password"]').value;
 
       try {
-        await loginAdmin(login, password);
+        await login(login, password);
         window.location.href = 'index.html';
       } catch (err) {
         alert('Ошибка входа: ' + err.message);
