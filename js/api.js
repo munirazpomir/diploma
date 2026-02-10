@@ -6,7 +6,8 @@ const API_URL = 'https://shfe-diplom.neto-server.ru';
 async function request(endpoint, options = {}) {
   const response = await fetch(`${API_URL}${endpoint}`, {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
     },
     ...options
   });
@@ -28,11 +29,16 @@ export function getAllData() {
 /**
  * Авторизация
  */
-export function login(login, password) {
-  return request('/login', {
+let token = null;
+
+export async function login(login, password) {
+  const data = await request('/login', {
     method: 'POST',
     body: JSON.stringify({ login, password })
   });
+
+  token = data.token;
+  return data;
 }
 
 /**

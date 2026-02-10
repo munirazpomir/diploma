@@ -63,7 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
       halls = data.halls || [];
       movies = data.films || [];
-      seances = data.seances || [];
+      seances = data.seances.map(s => ({
+        id: s.id,
+        hallId: s.seance_hallid,
+        movieId: s.seance_filmid,
+        time: s.seance_time,
+        duration: movies.find(m => m.id === s.seance_filmid)?.film_duration || 0,
+        title: movies.find(m => m.id === s.seance_filmid)?.film_name || '',
+        color: '#ccc'
+      }));
   
       renderHalls();
       renderConfigHallList();
@@ -373,7 +381,7 @@ saveConfigBtn.addEventListener('click', async () => {
       });
   
       card.innerHTML = `
-        <img class="movie-poster" src="../../img/poster1" alt="">
+        <img class="movie-poster" src="${movie.film_poster}" alt="">
         <div class="movie-info">
         <div class="movie-title">${movie.film_name}</div>
         <div class="movie-duration">${movie.film_duration} мин</div>
@@ -608,6 +616,14 @@ seanceTrash.addEventListener('drop', async e => {
 
   /* ================== СТАРТ ================== */
 
-  loadData();
+  (async () => {
+    try {
+      await login('admin', 'admin');
+      await loadData();
+    } catch (e) {
+      console.error(e);
+      alert('Ошибка загрузки данных');
+    }
+  })();
 
 });
