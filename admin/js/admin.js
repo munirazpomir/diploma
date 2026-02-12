@@ -1,3 +1,17 @@
+import {
+  login,
+  getAllData,
+  createHall,
+  deleteHall,
+  updateHall,
+  setPrices,
+  openSales,
+  createFilm,
+  deleteFilm,
+  createSeance,
+  deleteSeance
+} from '../../js/api.js';
+
 let selectedHallId = null;
 let selectedHall = null;
 let hallConfig = [];
