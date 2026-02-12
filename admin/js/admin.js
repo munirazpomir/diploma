@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const login = form.querySelector('[name="login"]').value;
-      const password = form.querySelector('[name="password"]').value;
+      const loginValue = form.querySelector('[name="login"]').value;
+      const passwordValue = form.querySelector('[name="password"]').value;
 
       try {
-        await login(login, password);
+        await login(loginValue, passwordValue);
         window.location.href = 'index.html';
       } catch (err) {
         alert('Ошибка входа: ' + err.message);
