@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadData() {
     try {
       const data = await getAllData();
+
+      console.log('SERVER RESPONSE', data);
   
       halls = data.halls || [];
       movies = data.films || [];
