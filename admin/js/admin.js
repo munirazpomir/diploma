@@ -12,8 +12,6 @@ import {
   deleteSeance
 } from '../../js/api.js';
 
-console.log('LOGIN IMPORT:', login);
-
 let selectedHallId = null;
 let selectedHall = null;
 let hallConfig = [];

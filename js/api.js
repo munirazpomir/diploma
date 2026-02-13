@@ -47,7 +47,7 @@ export async function login(login, password) {
 export function createHall(name) {
   return request('/hall', {
     method: 'POST',
-    body: JSON.stringify({ name })
+    body: JSON.stringify({ hall_name: name })
   });
 }
 
