@@ -29,7 +29,7 @@ export function getAllData() {
 /**
  * Авторизация
  */
-let token = null;
+let token = localStorage.getItem('token');
 
 export async function login(login, password) {
   const data = await request('/login', {
@@ -37,7 +37,10 @@ export async function login(login, password) {
     body: JSON.stringify({ login, password })
   });
 
-  token = data.token;
+  token = data.result?.token || data.token;
+
+  localStorage.setItem('token', token);
+
   return data;
 }
 

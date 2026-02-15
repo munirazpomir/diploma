@@ -636,7 +636,6 @@ seanceTrash.addEventListener('drop', async e => {
 
   (async () => {
     try {
-      await login('admin', 'admin');
       await loadData();
     } catch (e) {
       console.error(e);
