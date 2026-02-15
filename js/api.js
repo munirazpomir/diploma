@@ -12,6 +12,12 @@ async function request(endpoint, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
+  // Если body — обычный объект, превращаем в JSON
+  if (options.body && !(options.body instanceof URLSearchParams)) {
+    headers['Content-Type'] = 'application/json';
+    options.body = JSON.stringify(options.body);
+  }
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers
@@ -27,7 +33,7 @@ async function request(endpoint, options = {}) {
 }
 
 /**
- * Получить все данные (ГЛАВНЫЙ запрос)
+ * Получить все данные
  */
 export function getAllData() {
   return request('/alldata');
@@ -38,14 +44,16 @@ export function getAllData() {
  */
 let token = localStorage.getItem('token');
 
-export async function login(login, password) {
+export async function login(loginValue, passwordValue) {
   const data = await request('/login', {
     method: 'POST',
-    body: JSON.stringify({ login, password })
+    body: {
+      login: loginValue,
+      password: passwordValue
+    }
   });
 
   token = data.result?.token || data.token;
-
   localStorage.setItem('token', token);
 
   return data;
@@ -55,11 +63,10 @@ export async function login(login, password) {
  * Залы
  */
 export function createHall(name) {
-  return fetch(`/hall`, {
+  return request('/hall', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
       hall_name: name
