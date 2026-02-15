@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await getAllData();
   
       console.log('ALDATA RESPONSE:', response);
+      console.log('HALLS FROM SERVERE:', response.result?.halls);
   
       const data = response.result || response;
   
@@ -110,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  console.log('HALLS FROM SERVERE:', response.result?.halls);
+  
 
   /* ================== ЗАЛЫ ================== */
 
