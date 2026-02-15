@@ -45,10 +45,16 @@ export async function login(login, password) {
  * Залы
  */
 export function createHall(name) {
-  return request('/hall', {
+  return fetch(`${API_URL}/hall`, {
     method: 'POST',
-    body: JSON.stringify({ hall_name: name })
-  });
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    body: new URLSearchParams({
+      hall_name: name
+    })
+  }).then(res => res.json());
 }
 
 export function deleteHall(hallId) {
