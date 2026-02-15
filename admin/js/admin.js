@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  console.log('HALLS FROM SERVERE:', response);
+  console.log('HALLS FROM SERVERE:', response.result?.halls);
 
   /* ================== ЗАЛЫ ================== */
 
