@@ -1,5 +1,6 @@
 const API_URL = 'https://shfe-diplom.neto-server.ru';
 
+let token = localStorage.getItem('token');
 /**
  * Универсальный запрос
  */
@@ -8,11 +9,12 @@ async function request(endpoint, options = {}) {
     ...(options.headers || {})
   };
 
+  // добавляем токен, если есть
   if (token) {
-    headers.Authorization = `Bearer ${token}`;
+    headers['X-Auth-Token'] = token;
   }
 
-  // Если body — обычный объект, превращаем в JSON
+  // если body — обычный объект, отправляем как JSON
   if (options.body && !(options.body instanceof URLSearchParams)) {
     headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(options.body);
@@ -42,22 +44,32 @@ export function getAllData() {
 /**
  * Авторизация
  */
-let token = localStorage.getItem('token');
+
 
 export async function login(loginValue, passwordValue) {
-  const data = await request('/login', {
+  const response = await fetch(`${API_URL}/login`, {
     method: 'POST',
-    body: {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
       login: loginValue,
       password: passwordValue
-    }
+    })
   });
 
-  token = data.result?.token || data.token;
+  const data = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'Ошибка авторизации');
+  }
+
+  token = data.result.token;
   localStorage.setItem('token', token);
 
   return data;
 }
+
 
 /**
  * Залы
