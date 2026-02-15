@@ -4,19 +4,26 @@ const API_URL = 'https://shfe-diplom.neto-server.ru';
  * Универсальный запрос
  */
 async function request(endpoint, options = {}) {
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {})
-    },
-    ...options
-  });
+  const headers = {
+    ...(options.headers || {})
+  };
 
-  if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
 
-  return response.json();
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers
+  });
+
+  const data = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'API error');
+  }
+
+  return data;
 }
 
 /**
@@ -48,7 +55,7 @@ export async function login(login, password) {
  * Залы
  */
 export function createHall(name) {
-  return fetch(`${API_URL}/hall`, {
+  return fetch(`/hall`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -57,7 +64,7 @@ export function createHall(name) {
     body: new URLSearchParams({
       hall_name: name
     })
-  }).then(res => res.json());
+  });
 }
 
 export function deleteHall(hallId) {
