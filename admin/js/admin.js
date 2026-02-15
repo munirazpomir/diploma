@@ -74,12 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadData() {
     try {
       const response = await getAllData();
-
-      const data = response.result;
+  
+      console.log('ALDATA RESPONSE:', response);
+  
+      const data = response.result || response;
   
       halls = data.halls || [];
       movies = data.films || [];
-      seances = data.seances.map(s => ({
+      seances = (data.seances || []).map(s => ({
         id: s.id,
         hallId: s.seance_hallid,
         movieId: s.seance_filmid,
@@ -100,9 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
       if (halls.length && !selectedHallId) {
         selectHallForConfig(halls[0]);
-
-        const firstBtn = configHallList.querySelector('.hall-btn');
-        if (firstBtn) firstBtn.classList.add('active');
       }
   
     } catch (err) {
@@ -110,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Ошибка загрузки данных');
     }
   }
+
+  console.log('HALLS FROM SERVERE:', response);
 
   /* ================== ЗАЛЫ ================== */
 
