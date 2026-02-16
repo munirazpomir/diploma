@@ -63,16 +63,20 @@ export async function login(loginValue, passwordValue) {
 /**
  * Залы
  */
-export function createHall(name) {
-  return request('/hall', {
+export async function createHall(name) {
+  const response = await fetch(`${API_URL}/hall`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: new URLSearchParams({
-      hall_name: name
-    })
+    body: `hall_name=${encodeURIComponent(name)}`
   });
+
+  const data = await response.json();
+
+  console.log('CREATE HALL RESPONSE:', data);
+
+  return data;
 }
 
 export function deleteHall(hallId) {
