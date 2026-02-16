@@ -64,12 +64,12 @@ export async function login(loginValue, passwordValue) {
  * Залы
  */
 export async function createHall(name) {
+  const params = new FormData();
+  params.set('hallName', name);
+
   const response = await fetch(`${API_URL}/hall`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: `hall_name=${encodeURIComponent(name)}`
+    body: params
   });
 
   const data = await response.json();
