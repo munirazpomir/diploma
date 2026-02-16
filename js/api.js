@@ -14,8 +14,7 @@ async function request(endpoint, options = {}) {
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers,
-    credentials: 'include'
+    headers
   });
 
   const data = await response.json();
@@ -49,7 +48,6 @@ export async function login(loginValue, passwordValue) {
       login: loginValue,
       password: passwordValue
     }),
-    credentials: 'include'
   });
 
   const data = await response.json();
