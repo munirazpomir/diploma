@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         await login(loginValue, passwordValue);
-        //window.location.href = 'index.html';
+        window.location.href = 'index.html';
       } catch (err) {
         alert('Ошибка входа: ' + err.message);
       }
