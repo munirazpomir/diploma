@@ -60,11 +60,16 @@ export async function login(loginValue, passwordValue) {
 
   const data = await response.json();
 
+  console.log('LOGIN RESPONSE FULL:', data);
+
   if (!data.success) {
     throw new Error(data.error || 'Ошибка авторизации');
   }
 
-  token = data.result.token;
+  token = data.token || data.result?.token;
+
+  console.log('TOKEN AFTER LOGIN:', token);
+
   localStorage.setItem('token', token);
 
   return data;
