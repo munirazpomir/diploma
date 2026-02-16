@@ -1,6 +1,4 @@
 const API_URL = 'https://shfe-diplom.neto-server.ru';
-
-let token = localStorage.getItem('token');
 /**
  * Универсальный запрос
  */
@@ -9,12 +7,6 @@ async function request(endpoint, options = {}) {
     ...(options.headers || {})
   };
 
-  // добавляем токен, если есть
-  if (token) {
-    headers['X-Auth-Token'] = token;
-  }
-
-  // если body — обычный объект, отправляем как JSON
   if (options.body && !(options.body instanceof URLSearchParams)) {
     headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(options.body);
@@ -22,7 +14,8 @@ async function request(endpoint, options = {}) {
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers
+    headers,
+    credentials: 'include'
   });
 
   const data = await response.json();
@@ -55,22 +48,15 @@ export async function login(loginValue, passwordValue) {
     body: JSON.stringify({
       login: loginValue,
       password: passwordValue
-    })
+    }),
+    credentials: 'include'
   });
 
   const data = await response.json();
 
-  console.log('LOGIN RESPONSE FULL:', data);
-
   if (!data.success) {
     throw new Error(data.error || 'Ошибка авторизации');
   }
-
-  token = data.token || data.result?.token;
-
-  console.log('TOKEN AFTER LOGIN:', token);
-
-  localStorage.setItem('token', token);
 
   return data;
 }
