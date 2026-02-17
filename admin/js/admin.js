@@ -264,6 +264,12 @@ saveConfigBtn.addEventListener('click', async () => {
     return;
   }
 
+  console.log('=== BEFORE SAVE ===');
+console.log('ROWS:', rows);
+console.log('SEATS:', seats);
+console.log('CONFIG TYPE:', typeof hallConfig);
+console.log('CONFIG VALUE:', hallConfig);
+
   try {
     await updateHall(selectedHallId, rows, seats, hallConfig);
     await loadData();
