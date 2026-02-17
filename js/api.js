@@ -85,11 +85,23 @@ export function deleteHall(hallId) {
   });
 }
 
-export function updateHall(hallId, rows, seats, config) {
-  return request(`/hall/${hallId}`, {
+export async function updateHall(hallId, rowCount, placeCount, configArray) {
+  const params = new FormData();
+
+  params.set('rowCount', rowCount);
+  params.set('placeCount', placeCount);
+  params.set('config', JSON.stringify(configArray));
+
+  const response = await fetch(`${API_URL}/hall/${hallId}`, {
     method: 'POST',
-    body: JSON.stringify({ rows, seats, config })
+    body: params
   });
+
+  const data = await response.json();
+
+  console.log('UPDATE HALL RESPONSE:', data);
+
+  return data;
 }
 
 export function setPrices(hallId, priceStandard, priceVip) {
