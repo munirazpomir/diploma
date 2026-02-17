@@ -88,9 +88,9 @@ export function deleteHall(hallId) {
 export async function updateHall(hallId, rowCount, placeCount, configArray) {
   const params = new FormData();
 
-  params.set('rowCount', rowCount);
-  params.set('placeCount', placeCount);
-  params.set('config', JSON.stringify(configArray));
+  params.set('hall_rows', rowCount);
+  params.set('hall_places', placeCount);
+  params.set('hall_config', JSON.stringify(configArray));
 
   const response = await fetch(`${API_URL}/hall/${hallId}`, {
     method: 'POST',
