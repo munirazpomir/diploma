@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const rowsInput = document.getElementById('rowsInput');
   const seatsInput = document.getElementById('seatsInput');
 
+  rowsInput.addEventListener('change', rebuildHallConfig);
+  seatsInput.addEventListener('change', rebuildHallConfig);
+
   let movies = [];
   let halls = [];
   let seances = [];
@@ -179,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
       hallConfig = hall.hall_config;
+    
+      rowsInput.value = hall.hall_rows;
+      seatsInput.value = hall.hall_places;
     } else {
       const rows = Number(rowsInput.value);
       const seats = Number(seatsInput.value);
@@ -245,6 +251,19 @@ function toggleSeatType(row, seat) {
   const next = order[(order.indexOf(current) + 1) % order.length];
 
   hallConfig[row][seat] = next;
+  renderHallGrid();
+}
+
+function rebuildHallConfig() {
+  const rows = Number(rowsInput.value);
+  const seats = Number(seatsInput.value);
+
+  if (rows <= 0 || seats <= 0) return;
+
+  hallConfig = Array.from({ length: rows }, () =>
+    Array.from({ length: seats }, () => 'standart')
+  );
+
   renderHallGrid();
 }
 
