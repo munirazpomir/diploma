@@ -575,6 +575,11 @@ display: none;
   margin: 20px auto;
   padding: 15px;
   border: none;
+  display: none;
+}
+
+.seance-trash:active {
+  display: block;
 }
 
 /* ================== LOGIN ================== */

@@ -629,6 +629,12 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
       session.addEventListener('dragstart', e => {
         draggedSeanceId = seance.id;
         session.classList.add('dragging');
+        seanceTrash.classList.add('active')
+      });
+
+      session.addEventListener('dragend', () => {
+        draggedSeanceId = null;
+        seanceTrash.classList.remove('active');
       });
   
       const [h, m] = seance.time.split(':').map(Number);
@@ -678,22 +684,49 @@ function getRandomColor() {
 }
 
 const seanceTrash = document.getElementById('seanceTrash');
+const deleteSeanceModal = document.getElementById('deleteSeanceModal');
+const confirmDeleteSeance = document.getElementById('confirmDeleteSeance');
+const cancelDeleteSeance = document.getElementById('cancelDeleteSeance');
+const deleteSeanceText = document.getElementById('deleteSeanceText');
+
+let pendingDeleteSeanceId = null;
 
 seanceTrash.addEventListener('dragover', e => e.preventDefault());
 
-seanceTrash.addEventListener('drop', async e => {
+seanceTrash.addEventListener('drop', e => {
   e.preventDefault();
 
   if (!draggedSeanceId) return;
 
+  const seance = seances.find(s => s.id === draggedSeanceId);
+  const movie = movies.find(m => m.id === seance.movieId);
+
+  deleteSeanceText.textContent =
+    `Вы действительно хотите снять с сеанса фильм «${movie.film_name}»?`;
+
+  pendingDeleteSeanceId = draggedSeanceId;
+  deleteSeanceModal.style.display = 'flex';
+});
+
+confirmDeleteSeance.addEventListener('click', async () => {
+  if (!pendingDeleteSeanceId) return;
+
   try {
-    await deleteSeance(draggedSeanceId);
+    await deleteSeance(pendingDeleteSeanceId);
     await loadData();
   } catch (err) {
     alert('Ошибка удаления сеанса');
-  } finally {
-    draggedSeanceId = null;
   }
+
+  deleteSeanceModal.style.display = 'none';
+  seanceTrash.classList.remove('active');
+  pendingDeleteSeanceId = null;
+});
+
+cancelDeleteSeance.addEventListener('click', () => {
+  deleteSeanceModal.style.display = 'none';
+  seanceTrash.classList.remove('active');
+  pendingDeleteSeanceId = null;
 });
 
   /* ================== СТАРТ ================== */
