@@ -176,11 +176,29 @@ export function deleteFilm(filmId) {
 /**
  * Сеансы
  */
-export function createSeance(seanceData) {
-  return request('/seance', {
-    method: 'POST',
-    body: JSON.stringify(seanceData)
-  });
+export async function createSeance(data) {
+  const params = new FormData();
+
+  params.set('seanceHallid', data.hallId);
+  params.set('seanceFilmid', data.movieId);
+  params.set('seanceTime', data.time);
+
+  const response = await fetch(
+    'https://shfe-diplom.neto-server.ru/seance',
+    {
+      method: 'POST',
+      body: params
+    }
+  );
+
+  const result = await response.json();
+  console.log('CREATE SEANCE RESPONSE:', result);
+
+  if (!result.success) {
+    throw new Error(result.error);
+  }
+
+  return result.result;
 }
 
 export function deleteSeance(seanceId) {

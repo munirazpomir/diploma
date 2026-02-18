@@ -566,17 +566,43 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
       return;
     }
   
-    try {
-      await createSeance({
-        seance_hallid: hallId,
-        seance_filmid: movieId,
-        seance_time: time
-      });
+    const movie = movies.find(m => m.id === movieId);
+    const duration = Number(movie.film_duration);
   
+    const [h, m] = time.split(':').map(Number);
+    const startMinutes = h * 60 + m;
+    const endMinutes = startMinutes + duration;
+  
+    if (endMinutes > 23 * 60 + 59) {
+      alert('Сеанс выходит за пределы 23:59');
+      return;
+    }
+  
+    const hallSeances = seances.filter(s => s.hallId === hallId);
+  
+    for (const s of hallSeances) {
+      const existingMovie = movies.find(m => m.id === s.movieId);
+      const existingDuration = Number(existingMovie.film_duration);
+  
+      const [eh, em] = s.time.split(':').map(Number);
+      const existingStart = eh * 60 + em;
+      const existingEnd = existingStart + existingDuration;
+  
+      if (
+        startMinutes < existingEnd &&
+        endMinutes > existingStart
+      ) {
+        alert('Сеансы пересекаются!');
+        return;
+      }
+    }
+  
+    try {
+      await createSeance({ hallId, movieId, time });
       sessionModal.style.display = 'none';
       await loadData();
     } catch (err) {
-      alert('Ошибка добавления сеанса');
+      alert(err.message);
     }
   });
 
