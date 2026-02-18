@@ -140,11 +140,31 @@ export function getHallConfig() {
 /**
  * Фильмы
  */
-export function createFilm(filmData) {
-  return request('/film', {
-    method: 'POST',
-    body: JSON.stringify(filmData)
-  });
+export async function createFilm(filmData) {
+  const params = new FormData();
+
+  params.set('filmName', filmData.name);
+  params.set('filmDuration', filmData.duration);
+  params.set('filmDescription', filmData.description);
+  params.set('filmOrigin', filmData.origin);
+  params.set('filePoster', filmData.poster);
+
+  const response = await fetch(
+    'https://shfe-diplom.neto-server.ru/film',
+    {
+      method: 'POST',
+      body: params
+    }
+  );
+
+  const data = await response.json();
+  console.log('CREATE FILM RESPONSE:', data);
+
+  if (!data.success) {
+    throw new Error(data.error);
+  }
+
+  return data.result;
 }
 
 export function deleteFilm(filmId) {

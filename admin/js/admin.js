@@ -468,26 +468,39 @@ cancelMovie.addEventListener('click', () => {
 addMovieConfirm.addEventListener('click', async () => {
   const title = document.getElementById('movieTitle').value.trim();
   const duration = Number(document.getElementById('movieDuration').value);
-  const description = document.getElementById('movieDescription').value;
-  const country = document.getElementById('movieCountry').value;
+  const description = document.getElementById('movieDescription').value.trim();
+  const country = document.getElementById('movieCountry').value.trim();
+  const posterInput = document.getElementById('moviePoster');
+  const file = posterInput.files[0];
 
-  if (!title || duration <= 0) {
-    alert('Введите корректное название и длительность');
+  if (!title || duration <= 0 || !description || !country || !file) {
+    alert('Заполните все поля и загрузите постер');
+    return;
+  }
+
+  if (file.type !== 'image/png') {
+    alert('Файл должен быть PNG');
+    return;
+  }
+
+  if (file.size > 3 * 1024 * 1024) {
+    alert('Файл больше 3MB');
     return;
   }
 
   try {
     await createFilm({
-      film_name: title,
-      film_duration: duration,
-      film_description: description,
-      film_country: country
+      name: title,
+      duration,
+      description,
+      origin: country,
+      poster: file
     });
 
     movieModal.style.display = 'none';
     await loadData();
   } catch (err) {
-    alert('Ошибка добавления фильма');
+    alert(err.message);
   }
 });
 

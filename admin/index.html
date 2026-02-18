@@ -222,7 +222,10 @@
 
           <div class="modal-footer">
             <button class="btn primary" id="addMovieConfirm">Добавить фильм</button>
-            <button class="btn primary">Загрузить постер</button>
+            <label class="btn primary" style="cursor:pointer;">
+              Загрузить постер
+              <input type="file" id="moviePoster" accept="image/png" hidden>
+            </label>
             <button class="btn cancel" id="cancelMovie">Отменить</button>
           </div>
         </div>
