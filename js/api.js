@@ -104,14 +104,27 @@ export async function updateHall(hallId, rowCount, placeCount, configArray) {
   return data;
 }
 
-export function setPrices(hallId, priceStandard, priceVip) {
-  return request(`/price/${hallId}`, {
-    method: 'POST',
-    body: JSON.stringify({
-      priceStandart: priceStandard,
-      priceVip: priceVip
-    })
-  });
+export async function setPrices(hallId, regular, vip) {
+  const params = new FormData();
+  params.set('priceStandart', regular);
+  params.set('priceVip', vip);
+
+  const response = await fetch(
+    `https://shfe-diplom.neto-server.ru/price/${hallId}`,
+    {
+      method: 'POST',
+      body: params
+    }
+  );
+
+  const data = await response.json();
+  console.log('SET PRICE RESPONSE:', data);
+
+  if (!data.success) {
+    throw new Error(data.error);
+  }
+
+  return data.result;
 }
 
 export function openSales(hallId) {
