@@ -201,10 +201,22 @@ export async function createSeance(data) {
   return result.result;
 }
 
-export function deleteSeance(seanceId) {
-  return request(`/seance/${seanceId}`, {
-    method: 'DELETE'
-  });
+export async function deleteSeance(seanceId) {
+  const response = await fetch(
+    `https://shfe-diplom.neto-server.ru/seance/${seanceId}`,
+    {
+      method: 'DELETE'
+    }
+  );
+
+  const data = await response.json();
+  console.log('DELETE SEANCE RESPONSE:', data);
+
+  if (!data.success) {
+    throw new Error(data.error);
+  }
+
+  return data.result;
 }
 
 /**
