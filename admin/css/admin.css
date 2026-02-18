@@ -572,13 +572,19 @@ display: none;
 }
 
 .seance-trash {
-  margin: 20px auto;
-  padding: 15px;
-  border: none;
   display: none;
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 80px;
+  background: url('../../img/bin.png') center/contain no-repeat;
+  opacity: 0.6;
+  z-index: 1000;
 }
 
-.seance-trash:active {
+.seance-trash.active {
   display: block;
 }
 
