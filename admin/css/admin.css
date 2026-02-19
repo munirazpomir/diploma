@@ -571,14 +571,18 @@ display: none;
   font-weight: 400;
 }
 
+.halls-panel {
+  position: relative;
+}
+
 .seance-trash {
-  /*display: none;*/
-  position: fixed;
-  left: 20px;
-  top: 50%;
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
   transform: translateY(-50%);
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: url('../../img/bin.png') center/contain no-repeat;
   opacity: 0.6;
   z-index: 1000;
