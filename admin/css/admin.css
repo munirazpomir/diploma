@@ -576,7 +576,7 @@ display: none;
 }
 
 .seance-trash {
-  display: none;
+  /*display: none;*/
   position: absolute;
   top: 20px;
   right: 20px;
