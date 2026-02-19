@@ -582,7 +582,7 @@ display: none;
   right: -170px;
   width: 60px;
   height: 60px;
-  background: url('../../img/bin.png') center/contain no-repeat;
+  background: red;
   opacity: 0.6;
   z-index: 1000;
 }
