@@ -628,8 +628,18 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
 
       session.addEventListener('dragstart', e => {
         draggedSeanceId = seance.id;
-        session.classList.add('dragging');
-        seanceTrash.classList.add('active')
+      
+        const hallElement = session.closest('.hall-schedule');
+        const hallRect = hallElement.getBoundingClientRect();
+        const panelRect = hallsPanel.getBoundingClientRect();
+      
+        seanceTrash.style.top =
+          (hallRect.top - panelRect.top) + 'px';
+      
+        seanceTrash.style.left =
+          (hallRect.left - panelRect.left - 60) + 'px';
+      
+        seanceTrash.classList.add('active');
       });
 
       session.addEventListener('dragend', () => {
