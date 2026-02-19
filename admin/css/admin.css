@@ -129,6 +129,7 @@ body::before {
     padding: 15px;
     display: block;
     margin-left: 104px;
+    position: relative;
 }
 
 .admin-text {
@@ -569,10 +570,6 @@ display: none;
   margin: 30px 0;
   font-size: 16px;
   font-weight: 400;
-}
-
-.halls-panel {
-  position: relative;
 }
 
 .seance-trash {
