@@ -630,11 +630,17 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
         draggedSeanceId = seance.id;
       
         const hall = session.closest('.hall-schedule');
-        const rect = hall.getBoundingClientRect();
-        const parentRect = hallsPanel.getBoundingClientRect();
+        const timeline = hall.querySelector('.timeline-wrapper');
+      
+        const timelineRect = timeline.getBoundingClientRect();
+        const panelRect = hallsPanel.getBoundingClientRect();
+      
+        const trashHeight = 50; 
       
         seanceTrash.style.top =
-          rect.top - parentRect.top + rect.height / 2 + 'px';
+          (timelineRect.top - panelRect.top +
+           timelineRect.height / 2 -
+           trashHeight / 2) + 'px';
       
         seanceTrash.classList.add('active');
       });
