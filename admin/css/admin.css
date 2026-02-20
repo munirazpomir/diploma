@@ -580,7 +580,7 @@ display: none;
   left: -25px;
   width: 50px;
   height: 50px;
-  background: red;
+  background: url(../../img/bin.png) center/contain no-repeat;
   border-radius: 8px;
   z-index: 1000;
 
