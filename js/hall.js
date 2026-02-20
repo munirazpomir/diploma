@@ -10,7 +10,7 @@ async function renderClientPage() {
   moviesContainer.innerHTML = '';
 
   movies.forEach(movie => {
-    const movieSeances = seances.filter(s => s.movieId == movie.id);
+    const movieSeances = seances.filter(s => s.seance_filmid == movie.id);
 
     if (!movieSeances.length) return;
 
@@ -22,7 +22,7 @@ async function renderClientPage() {
       <div class="movie-info">
         <h2>${movie.film_name}</h2>
         <p class="desc">${movie.film_description || ''}</p>
-        <p class="meta">${movie.film_duration} минут ${movie.film_country || ''}</p>
+        <p class="meta">${movie.film_duration} минут ${movie.film_origin || ''}</p>
       </div>
       <div class="hall"></div>
     `;
@@ -32,7 +32,7 @@ async function renderClientPage() {
     const groupedByHall = {};
 
     movieSeances.forEach(seance => {
-      if (!groupedByHall[seance.hallId]) {
+      if (!groupedByHall[seance.seance_hallId]) {
         groupedByHall[seance.hallId] = [];
       }
       groupedByHall[seance.hallId].push(seance);
@@ -54,13 +54,13 @@ async function renderClientPage() {
       groupedByHall[hallId].forEach(seance => {
         const a = document.createElement('a');
         a.className = 'time';
-        a.textContent = seance.time;
+        a.textContent = seance.seance_time;
       
         const selectedDate = localStorage.getItem('selectedDate') || new Date().toISOString().slice(0, 10);
         
         const today = new Date().toISOString().slice(0, 10);
         
-        const [hours, minutes] = seance.time.split(':').map(Number);
+        const [hours, minutes] = seance_time.split(':').map(Number);
         
         const seanceMinutes = hours * 60 + minutes;
         
