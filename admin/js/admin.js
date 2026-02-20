@@ -394,14 +394,43 @@ console.log('CONFIG VALUE:', hallConfig);
     }
   }
 
+  async function openSales(hall) {
+    const newStatus = hall.hall_open === 1 ? 0 : 1;
+  
+    const params = new FormData();
+    params.set('hallOpen', newStatus.toString());
+  
+    const response = await fetch(
+      `https://shfe-diplom.neto-server.ru/open/${hall.id}`,
+      {
+        method: 'POST',
+        body: params
+      }
+    );
+  
+    const data = await response.json();
+  
+    return data;
+  }
+
   toggleSalesBtn.addEventListener('click', async () => {
     if (!selectedSalesHall) {
       alert('Выберите зал');
       return;
     }
   
-    await openSales(selectedSalesHall.id);
-    await loadData();
+    try {
+      const updatedHall = await openSales(selectedSalesHall);
+  
+      selectedSalesHall.hall_open = updatedHall.hall_open;
+  
+      updateSalesUI();
+  
+      await loadData();
+  
+    } catch (error) {
+      alert('Ошибка изменения статуса продаж');
+    }
   });
 
   /* ================== ФИЛЬМЫ ================== */
