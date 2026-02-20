@@ -1,3 +1,5 @@
+import { getAllData } from "./api.js";
+
 const moviesContainer = document.getElementById('moviesContainer');
 
 async function renderClientPage() {
