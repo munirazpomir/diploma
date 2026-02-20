@@ -6,7 +6,6 @@ async function renderClientPage() {
   const movies = data.films;
   const seances = data.seances;
   const halls = data.halls;
-  const hallOpen = JSON.parse(localStorage.getItem('hallOpen') || '[]');
 
   moviesContainer.innerHTML = '';
 
@@ -19,7 +18,7 @@ async function renderClientPage() {
     section.className = 'movie';
 
     section.innerHTML = `
-      <img class="poster" src="img/poster1.jpg" alt="">
+      <img class="poster" src="${movie.film_poster}" alt="">
       <div class="movie-info">
         <h2>${movie.film_name}</h2>
         <p class="desc">${movie.film_description || ''}</p>
@@ -43,8 +42,7 @@ async function renderClientPage() {
       const hall = halls.find(h => h.id == hallId);
       if (!hall) return;
 
-      const openInfo = hallOpen.find(h => h.id == hall.id);
-      if (openInfo && openInfo.open === 0) return;
+      if (hall.hall_open === 0) return;
 
       const hallTitle = document.createElement('h3');
       hallTitle.className = 'hall-title';
