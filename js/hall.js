@@ -8,9 +8,9 @@ async function renderClientPage() {
 
   console.log(data);
 
-  const movies = data.films;
-  const seances = data.seances;
-  const halls = data.halls;
+  const movies = data.result.films;
+  const seances = data.result.seances;
+  const halls = data.result.halls;
 
   moviesContainer.innerHTML = '';
 
