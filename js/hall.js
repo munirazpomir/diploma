@@ -6,6 +6,8 @@ const moviesContainer = document.getElementById('moviesContainer');
 async function renderClientPage() {
   const data = await getAllData();
 
+  console.log(data);
+
   const movies = data.films;
   const seances = data.seances;
   const halls = data.halls;
