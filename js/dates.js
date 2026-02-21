@@ -59,9 +59,7 @@ function renderDates() {
       const selectedDate = currentDate;
       localStorage.setItem('selectedDate', selectedDate);
 
-      if (typeof renderClientPage === 'function') {
-        renderClientPage();
-      }
+      renderClientPage();
     });
 
     datesContainer.appendChild(button);

@@ -58,23 +58,28 @@ async function renderClientPage() {
         a.className = 'time';
         a.textContent = seance.seance_time;
       
-        const selectedDate = localStorage.getItem('selectedDate') || new Date().toISOString().slice(0, 10);
-        
+        const selectedDate =
+          localStorage.getItem('selectedDate') ||
+          new Date().toISOString().slice(0, 10);
+      
         const today = new Date().toISOString().slice(0, 10);
-        
-        const [hours, minutes] = seance.seance_time.split(':').map(Number);
-        
-        const seanceMinutes = hours * 60 + minutes;
-        
-        const now = new Date();
-        const nowMinutes = now.getHours() * 60 + now.getMinutes();
-        
+      
         let isPast = false;
-        
-        if (selectedDate === today && seanceMinutes < nowMinutes) {
-          isPast = true;
+      
+        // Проверяем прошедший сеанс ТОЛЬКО если выбрана сегодняшняя дата
+        if (selectedDate === today) {
+          const [hours, minutes] = seance.seance_time.split(':').map(Number);
+      
+          const seanceMinutes = hours * 60 + minutes;
+      
+          const now = new Date();
+          const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      
+          if (seanceMinutes < nowMinutes) {
+            isPast = true;
+          }
         }
-        
+      
         if (isPast) {
           a.classList.add('time--disabled');
         } else {
