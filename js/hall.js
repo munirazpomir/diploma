@@ -1,4 +1,5 @@
-import { getAllData } from "./api.js";
+import { getAllData } from './api.js';
+import './dates.js'
 
 const moviesContainer = document.getElementById('moviesContainer');
 
