@@ -1,5 +1,3 @@
-import {renderClientPage} from './hall.js'
-
 const datesContainer = document.getElementById('dates');
 const daysCount = 6;
 let offset = 0;
@@ -61,7 +59,7 @@ function renderDates() {
       const selectedDate = currentDate;
       localStorage.setItem('selectedDate', selectedDate);
 
-      renderClientPage(selectedDate);
+      window.renderClientPage(selectedDate);
     });
 
     datesContainer.appendChild(button);

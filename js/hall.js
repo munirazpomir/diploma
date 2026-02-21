@@ -1,5 +1,4 @@
 import { getAllData } from './api.js';
-import { renderDates} from './dates.js'
 
 const moviesContainer = document.getElementById('moviesContainer');
 
@@ -101,4 +100,4 @@ async function renderClientPage(selectedDateParam) {
 }
 
 renderClientPage();
-renderDates();
+window.renderClientPage = renderClientPage;
