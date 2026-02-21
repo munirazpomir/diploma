@@ -6,9 +6,6 @@ const moviesContainer = document.getElementById('moviesContainer');
 async function renderClientPage() {
   const data = await getAllData();
 
-  console.log('SEANCES:', seances);
-  console.log('HALLS:', halls)
-
   const movies = data.result.films;
   const seances = data.result.seances;
   const halls = data.result.halls;
@@ -93,6 +90,10 @@ async function renderClientPage() {
 
     moviesContainer.appendChild(section);
   });
+
+  
+  console.log('SEANCES:', seances);
+  console.log('HALLS:', halls)
 }
 
 renderClientPage();
