@@ -35,10 +35,10 @@ async function renderClientPage() {
     const groupedByHall = {};
 
     movieSeances.forEach(seance => {
-      if (!groupedByHall[seance.seance_hallId]) {
-        groupedByHall[seance.seance_hallId] = [];
+      if (!groupedByHall[seance.seance_hallid]) {
+        groupedByHall[seance.seance_hallid] = [];
       }
-      groupedByHall[seance.seance_hallId].push(seance);
+      groupedByHall[seance.seance_hallid].push(seance);
     });
 
     Object.keys(groupedByHall).forEach(hallId => {
@@ -62,7 +62,7 @@ async function renderClientPage() {
         
         const today = new Date().toISOString().slice(0, 10);
         
-        const [hours, minutes] = seance_time.split(':').map(Number);
+        const [hours, minutes] = seance.seance_time.split(':').map(Number);
         
         const seanceMinutes = hours * 60 + minutes;
         
