@@ -1,5 +1,5 @@
 import { getAllData } from './api.js';
-import './dates.js'
+import { renderDates} from './dates.js'
 
 const moviesContainer = document.getElementById('moviesContainer');
 
@@ -80,7 +80,7 @@ async function renderClientPage(selectedDateParam) {
         }
       
         if (!isPast) {
-          `a.href = hall.html?seanceId=${seance.id}`;
+          a.href = `hall.html?seanceId=${seance.id}`;
         } else {
           a.classList.add('time--disabled');
         }
@@ -101,3 +101,4 @@ async function renderClientPage(selectedDateParam) {
 }
 
 renderClientPage();
+renderDates();

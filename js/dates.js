@@ -1,3 +1,5 @@
+import {renderClientPage} from './hall.js'
+
 const datesContainer = document.getElementById('dates');
 const daysCount = 6;
 let offset = 0;
