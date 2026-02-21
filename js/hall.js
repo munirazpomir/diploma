@@ -6,7 +6,8 @@ const moviesContainer = document.getElementById('moviesContainer');
 async function renderClientPage() {
   const data = await getAllData();
 
-  console.log(data);
+  console.log('SEANCES:', seances);
+  console.log('HALLS:', halls)
 
   const movies = data.result.films;
   const seances = data.result.seances;
@@ -38,15 +39,14 @@ async function renderClientPage() {
 
     movieSeances.forEach(seance => {
       if (!groupedByHall[seance.seance_hallId]) {
-        groupedByHall[seance.hallId] = [];
+        groupedByHall[seance.seance_hallId] = [];
       }
-      groupedByHall[seance.hallId].push(seance);
+      groupedByHall[seance.seance_hallId].push(seance);
     });
 
     Object.keys(groupedByHall).forEach(hallId => {
       const hall = halls.find(h => h.id == hallId);
       if (!hall) return;
-
       if (hall.hall_open === 0) return;
 
       const hallTitle = document.createElement('h3');
