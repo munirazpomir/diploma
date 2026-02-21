@@ -3,8 +3,13 @@ import './dates.js'
 
 const moviesContainer = document.getElementById('moviesContainer');
 
-async function renderClientPage() {
+async function renderClientPage(selectedDateParam) {
   const data = await getAllData();
+
+  const selectedDate =
+    selectedDateParam ||
+    localStorage.getItem('selectedDate') ||
+    new Date().toISOString().slice(0, 10);
 
   const movies = data.result.films;
   const seances = data.result.seances;
@@ -58,32 +63,26 @@ async function renderClientPage() {
         a.className = 'time';
         a.textContent = seance.seance_time;
       
-        const selectedDate =
-          localStorage.getItem('selectedDate') ||
-          new Date().toISOString().slice(0, 10);
-      
         const today = new Date().toISOString().slice(0, 10);
       
         let isPast = false;
       
-        // Проверяем прошедший сеанс ТОЛЬКО если выбрана сегодняшняя дата
         if (selectedDate === today) {
           const [hours, minutes] = seance.seance_time.split(':').map(Number);
       
-          const seanceMinutes = hours * 60 + minutes;
-      
           const now = new Date();
           const nowMinutes = now.getHours() * 60 + now.getMinutes();
+          const seanceMinutes = hours * 60 + minutes;
       
           if (seanceMinutes < nowMinutes) {
             isPast = true;
           }
         }
       
-        if (isPast) {
-          a.classList.add('time--disabled');
+        if (!isPast) {
+          `a.href = hall.html?seanceId=${seance.id}`;
         } else {
-          a.href = `hall.html?seanceId=${seance.id}`;
+          a.classList.add('time--disabled');
         }
       
         times.appendChild(a);

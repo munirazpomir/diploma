@@ -59,7 +59,7 @@ function renderDates() {
       const selectedDate = currentDate;
       localStorage.setItem('selectedDate', selectedDate);
 
-      renderClientPage();
+      renderClientPage(selectedDate);
     });
 
     datesContainer.appendChild(button);
