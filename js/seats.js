@@ -1,22 +1,20 @@
+import { getAllData, getHallConfig } from './api.js'
+
 const params = new URLSearchParams(window.location.search);
 const seanceId = params.get('seanceId');
 
-// загружаем занятые места для сеанса
-const takenSeatsMap =
-  JSON.parse(localStorage.getItem('takenSeats') || '{}');
-
-const takenSeatsForSeance =
-  takenSeatsMap[seanceId] || [];
 
 if (!seanceId) {
   alert('Сеанс не найден');
   throw new Error('No seanceId');
 }
 
+const selectedDate = localStorage.getItem('selectedDate') || new Date().toISOString().slice(0, 10);
+
 const data = await getAllData();
-const seances = data.seances;
-const movies = JSON.parse(localStorage.getItem('movies')) || [];
-const halls = data.halls;
+const seances = data.result.seances;
+const movies = data.result.films;
+const halls = data.result.halls;
 
 // 3. Находим сеанс
 const seance = seances.find(s => Number(s.id) === Number(seanceId));
@@ -26,12 +24,17 @@ if (!seance) {
   throw new Error('Invalid seanceId');
 }
 
+const hallConfigResponse = await getHallConfig(seanceId, selectedDate);
+
+const hallScheme = hallConfigResponse.result;
+
 const seanceMovieId = seance.movieId ?? seance.seance_filmid;
 const seanceHallId  = seance.hallId ?? seance.seance_hallid;
-const seanceTime    = seance.seance_time ?? seance.time ?? '--:--';
+const seanceTime    = seance.seance_time || '--:--';
 
 // 4. Фильм и зал
-const movieTitle = seance.title || movie?.title || 'Название фильма';
+const movie = movies.find(m => Number(m.id) === Number(seance.seance_filmid));
+const movieTitle = movie?.film_name || 'Название фильм';
 
 const hall = halls.find(
   h => Number(h.id) === Number(seanceHallId)
@@ -51,14 +54,12 @@ document.getElementById('vipPrice').textContent = `Свободно VIP (${vipPr
 // 5. Заполняем информацию о сеансе
 document.getElementById('movieTitle').textContent = movieTitle;
 
-document.getElementById('sessionTime').textContent =
-  seance.time ?? '--:--';
+document.getElementById('sessionTime').textContent = seanceTime;
 
 document.getElementById('hallNumber').textContent =
   hall?.hall_name ?? '-';
 
 // 6. Схема зала
-const hallScheme = hall.hall_config;
 
 const seatsContainer = document.getElementById('seats');
 seatsContainer.innerHTML = '';
@@ -68,54 +69,37 @@ hallScheme.forEach((row, rowIndex) => {
   rowDiv.classList.add('row');
 
   row.forEach((seatType, seatIndex) => {
-    if (seatType === 'disabled') {
-      const empty = document.createElement('div');
-      empty.classList.add('seat', 'empty');
-      empty.dataset.disabled = 'true';
-      rowDiv.appendChild(empty);
-      return;
-    }
-  
     const seat = document.createElement('div');
     seat.classList.add('seat', seatType);
-  
+
     seat.dataset.row = rowIndex + 1;
     seat.dataset.seat = seatIndex + 1;
-    
-    const isTaken = takenSeatsForSeance.some(
-      s =>
-        s.row === rowIndex + 1 &&
-      s.seat === seatIndex + 1
-    );
-    
-    if (isTaken) {
-      seat.classList.add('taken');
-      seat.dataset.price = 0;
+
+    if (seatType === 'standart') {
+      seat.dataset.price = regularPrice;
     }
-  
-    if (!seat.classList.contains('taken')) {
-      if (seatType === 'standart') {
-        seat.dataset.price = regularPrice;
-      }
-    
-      if (seatType === 'vip') {
-        seat.dataset.price = vipPrice;
-      }
+
+    if (seatType === 'vip') {
+      seat.dataset.price = vipPrice;
     }
-  
+
     if (seatType === 'taken') {
       seat.classList.add('taken');
     }
-  
+
+    if (seatType === 'disabled') {
+      seat.classList.add('empty');
+    }
+
     seat.addEventListener('click', () => {
       if (
         seat.classList.contains('taken') ||
         seat.classList.contains('empty')
       ) return;
-    
+
       seat.classList.toggle('selected');
     });
-  
+
     rowDiv.appendChild(seat);
   });
 

@@ -133,8 +133,8 @@ export function openSales(hallId) {
   });
 }
 
-export function getHallConfig() {
-  return request('/hallconfig');
+export function getHallConfig(seanceId, date) {
+  return request(`/hallconfig?seanceId=${seanceId}&date=${date}`);
 }
 
 /**
