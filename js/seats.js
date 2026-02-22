@@ -132,12 +132,15 @@ bookBtn.addEventListener('click', () => {
 
   const booking = {
     seanceId: seance.id,
+    ticketDate: selectedDate,
+    tickets: selectedSeats.map(seat => ({
+      row: Number(seat.dataset.row),
+      place: Number(seat.dataset.seat),
+      coast: Number(seat.dataset.price)
+    })),
     movie: movieTitle,
     hall: hall.hall_name,
-    time: seanceTime,
-    date: new Date().toLocaleDateString('ru-Ru'),
-    seats: seatsNumbers,
-    price: totalPrice
+    time: seanceTime
   };
 
   localStorage.setItem('currentBooking', JSON.stringify(booking));

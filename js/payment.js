@@ -1,17 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
+import { request } from './api.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
   const booking = JSON.parse(localStorage.getItem('currentBooking'));
 
   if (!booking) {
     alert('Данные бронирования не найдены');
+    window.location.href = 'index.html';
     return;
   }
-
-  // вывод информации
-  document.getElementById('movie').textContent = booking.movie;
-  document.getElementById('hall').textContent = booking.hall;
-  document.getElementById('time').textContent = booking.time;
-  document.getElementById('seats').textContent = booking.seats.map(s => `${s.row}-${s.seat}`).join(', ');
-  document.getElementById('price').textContent = booking.price;
 
   const getCodeBtn = document.querySelector('.pay-btn');
   const qrWrapper = document.getElementById('qrWrapper');
@@ -19,50 +15,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const priceRow = document.querySelector('#priceRow');
   const note = document.querySelector('.note');
 
-  getCodeBtn.addEventListener('click', () => {
-    const bookingCode =
-      'VK-' +
-      Math.random()
-        .toString(36)
-        .substring(2, 10)
-        .toUpperCase();
+  // вывод выбранной информации
+  document.getElementById('movie').textContent = booking.movie;
+  document.getElementById('hall').textContent = booking.hall;
+  document.getElementById('time').textContent = booking.time;
+  document.getElementById('seats').textContent =
+    booking.tickets.map(t => `${t.row}-${t.place}`).join(', ');
+  document.getElementById('price').textContent =
+    booking.tickets.reduce((sum, t) => sum + t.coast, 0);
 
-    // сохраняем итоговую бронь
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+  getCodeBtn.addEventListener('click', async () => {
+    try {
+      const response = await request('/ticket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(booking)
+      });
 
-    bookings.push({
-      ...booking,
-      code: bookingCode,
-      createdAt: Date.now()
-    });
+      const tickets = response.result.tickets;
 
-    localStorage.setItem('bookings', JSON.stringify(bookings));
+      if (!tickets.length) {
+        alert('Ошибка покупки билета');
+        return;
+      }
 
-    // сохраняем занятые места
-    const takenSeats = JSON.parse(localStorage.getItem('takenSeats') || '{}');
-    
-    if (!takenSeats[booking.seanceId]) {
-      takenSeats[booking.seanceId] = [];
+      // Используем id первого билета как код
+      const bookingCode = `TICKET-${tickets[0].id}`;
+
+      qrContainer.innerHTML = '';
+
+      new QRCode(qrContainer, {
+        text: bookingCode,
+        width: 200,
+        height: 200
+      });
+
+      qrWrapper.style.display = 'block';
+      getCodeBtn.style.display = 'none';
+      if (priceRow) priceRow.style.display = 'none';
+      if (note) note.style.display = 'none';
+
+    } catch (error) {
+      console.error(error);
+      alert('Ошибка при отправке билета');
     }
-    
-    booking.seats.forEach(({ row, seat }) => {
-      takenSeats[booking.seanceId].push({ row, seat });
-    });
-    
-    localStorage.setItem('takenSeats', JSON.stringify(takenSeats));
-
-    // QR
-    qrContainer.innerHTML = '';
-    new QRCode(qrContainer, {
-      text: bookingCode,
-      width: 200,
-      height: 200,
-      correctLevel: QRCode.CorrectLevel.L
-    });
-
-    qrWrapper.style.display = 'block';
-    getCodeBtn.style.display = 'none';
-    if (priceRow) priceRow.style.display = 'none';
-    if (note) note.style.display = 'none';
   });
 });
