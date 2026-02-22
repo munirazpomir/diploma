@@ -1,4 +1,4 @@
-import { request } from './api.js';
+import { buyTicket } from './api.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const booking = JSON.parse(localStorage.getItem('currentBooking'));
@@ -26,13 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   getCodeBtn.addEventListener('click', async () => {
     try {
-      const response = await request('/ticket', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(booking)
-      });
+      const response = await buyTicket(booking);
 
       const tickets = response.result.tickets;
 
