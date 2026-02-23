@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   getCodeBtn.addEventListener('click', async () => {
     try {
+      console.log(JSON.stringify(booking, null, 2));
+
       const response = await buyTicket(booking);
 
       const tickets = response.result.tickets;
