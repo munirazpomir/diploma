@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log(JSON.stringify(ticketData, null, 2));
 
         console.log('Дата отправки:', booking.ticketDate);
-        confsole.log('Тип даты:', typeof booking.ticketDate);
+        console.log('Тип даты:', typeof booking.ticketDate);
     
         const response = await buyTicket(ticketData);
     
