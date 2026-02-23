@@ -225,9 +225,6 @@ export async function deleteSeance(seanceId) {
 export function buyTicket(ticketData) {
   return request('/ticket', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'aplication/json'
-    },
-    body: JSON.stringify(ticketData)
+    body: ticketData
   });
 }
