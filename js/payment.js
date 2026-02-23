@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         console.log('Отправляем на сервер:');
         console.log(JSON.stringify(ticketData, null, 2));
-        c
+      
     
         const response = await buyTicket(ticketData);
     
