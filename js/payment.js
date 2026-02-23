@@ -24,38 +24,48 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('price').textContent =
     booking.tickets.reduce((sum, t) => sum + t.coast, 0);
 
-  getCodeBtn.addEventListener('click', async () => {
-    try {
-      console.log(JSON.stringify(booking, null, 2));
-
-      const response = await buyTicket(booking);
-
-      const tickets = response.result.tickets;
-
-      if (!tickets.length) {
-        alert('Ошибка покупки билета');
-        return;
+    getCodeBtn.addEventListener('click', async () => {
+      try {
+        const ticketData = {
+          seanceId: Number(booking.seanceId),
+          ticketDate: booking.ticketDate,
+          tickets: booking.tickets.map(t => ({
+            row: Number(t.row),
+            place: Number(t.place),
+            coast: Number(t.coast)
+          }))
+        };
+    
+        console.log('Отправляем на сервер:');
+        console.log(JSON.stringify(ticketData, null, 2));
+    
+        const response = await buyTicket(ticketData);
+    
+        const tickets = response.result.tickets;
+    
+        if (!tickets.length) {
+          alert('Ошибка покупки билета');
+          return;
+        }
+    
+        const bookingCode = `TICKET-${tickets[0].id}`;
+    
+        qrContainer.innerHTML = '';
+    
+        new QRCode(qrContainer, {
+          text: bookingCode,
+          width: 200,
+          height: 200
+        });
+    
+        qrWrapper.style.display = 'block';
+        getCodeBtn.style.display = 'none';
+        if (priceRow) priceRow.style.display = 'none';
+        if (note) note.style.display = 'none';
+    
+      } catch (error) {
+        console.error(error);
+        alert('Ошибка при отправке билета');
       }
-
-      // Используем id первого билета как код
-      const bookingCode = `TICKET-${tickets[0].id}`;
-
-      qrContainer.innerHTML = '';
-
-      new QRCode(qrContainer, {
-        text: bookingCode,
-        width: 200,
-        height: 200
-      });
-
-      qrWrapper.style.display = 'block';
-      getCodeBtn.style.display = 'none';
-      if (priceRow) priceRow.style.display = 'none';
-      if (note) note.style.display = 'none';
-
-    } catch (error) {
-      console.error(error);
-      alert('Ошибка при отправке билета');
-    }
-  });
+    });
 });
