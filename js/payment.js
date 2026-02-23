@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const ticketData = {
           seanceId: Number(booking.seanceId),
-          ticketDate: booking.ticketDate,
+          ticketDate: new Date().toISOString().slice(0, 10),
           tickets: booking.tickets.map(t => ({
             row: Number(t.row),
             place: Number(t.place),
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         console.log('Отправляем на сервер:');
         console.log(JSON.stringify(ticketData, null, 2));
+        c
     
         const response = await buyTicket(ticketData);
     
