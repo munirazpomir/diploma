@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           tickets: booking.tickets.map(t => ({
             row: Number(t.row),
             place: Number(t.place),
-            coast: Number(t.coast)
+            cost: Number(t.coast)
           }))
         };
     
