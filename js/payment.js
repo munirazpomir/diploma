@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const ticketData = {
           seanceId: Number(booking.seanceId),
-          ticketDate: booking.ticketDate,
+          ticketDate: '2023-11-28',
           tickets: booking.tickets.map(t => ({
             row: Number(t.row),
             place: Number(t.place),
