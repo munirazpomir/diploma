@@ -143,7 +143,10 @@ bookBtn.addEventListener('click', () => {
     time: seanceTime
   };
 
-  localStorage.setItem('currentBooking', JSON.stringify(booking));
+  const seatsParam = selectedSeats
+  .map(seat => `${seat.dataset.row}-${seat.dataset.seat}`)
+  .join(',');
 
-  window.location.href = 'payment.html';
+window.location.href =
+  `payment.html?seanceId=${seance.id}&date=${selectedDate}&seats=${seatsParam}`;
 });
