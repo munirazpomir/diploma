@@ -222,9 +222,28 @@ export async function deleteSeance(seanceId) {
 /**
  * Покупка билетов
  */
-export function buyTicket(ticketData) {
-  return request('/ticket', {
-    method: 'POST',
-    body: ticketData
+export async function buyTicket(ticketData) {
+  const params = new FormData();
+
+  params.append('seanceId', ticketData.seanceId);
+  params.append('ticketDate', ticketData.ticketDate);
+
+  ticketData.tickets.forEach(ticket => {
+    params.append('row', ticket.row);
+    params.append('place', ticket.place);
+    params.append('coast', ticket.coast);
   });
+
+  const response = await fetch(`${API_URL}/ticket`, {
+    method: 'POST',
+    body: params
+  });
+
+  const data = await response.json();
+
+  if (!data.success) {
+    throw new Error(data.error || 'Ошибка покупки');
+  }
+
+  return data;
 }
