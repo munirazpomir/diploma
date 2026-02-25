@@ -9,7 +9,9 @@ if (!seanceId) {
   throw new Error('No seanceId');
 }
 
-const selectedDate = localStorage.getItem('selectedDate') || new Date().toISOString().slice(0, 10);
+const selectedDate =
+  new URLSearchParams(window.location.search).get('date') ||
+  new Date().toISOString().slice(0, 10);
 
 const data = await getAllData();
 const seances = data.result.seances;
@@ -143,10 +145,7 @@ bookBtn.addEventListener('click', () => {
     time: seanceTime
   };
 
-  const seatsParam = selectedSeats
-  .map(seat => `${seat.dataset.row}-${seat.dataset.seat}`)
-  .join(',');
+  const bookingParam = encodeURIComponent(JSON.stringify(booking));
 
-window.location.href =
-  `payment.html?seanceId=${seance.id}&date=${selectedDate}&seats=${seatsParam}`;
+window.location.href = `payment.html?booking=${bookingParam}`;
 });

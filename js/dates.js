@@ -1,3 +1,6 @@
+const today = new Date();
+let selectedDate = new URLSearchParams(window.location.search).get('date') || today.toISOString().slice(0, 10);
+
 const datesContainer = document.getElementById('dates');
 const daysCount = 6;
 let offset = 0;
@@ -8,13 +11,6 @@ function renderDates() {
   datesContainer.innerHTML = '';
 
   const today = new Date();
-
-  if (!localStorage.getItem('selectedDate')) {
-    localStorage.setItem(
-      'selectedDate',
-      today.toISOString().slice(0, 10)
-    );
-  }
   
   const prevBtn = document.createElement('button');
   prevBtn.textContent = '<';
@@ -42,10 +38,9 @@ function renderDates() {
         ? `Сегодня, ${dayNumber}`
         : `${dayName}, ${dayNumber}`;
 
-        const savedDate = localStorage.getItem('selectedDate');
         const currentDate = date.toISOString().slice(0, 10);
         
-        if (savedDate === currentDate) {
+        if (selectedDate === currentDate) {
           button.classList.add('active');
         }
 
@@ -56,9 +51,10 @@ function renderDates() {
     
       button.classList.add('active');
     
-      const selectedDate = currentDate;
-      localStorage.setItem('selectedDate', selectedDate);
-
+      selectedDate = currentDate;
+      
+      window.history.replaceState({}, '', `?date=${selectedDate}`);
+      
       window.renderClientPage(selectedDate);
     });
 

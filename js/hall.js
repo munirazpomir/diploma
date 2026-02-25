@@ -6,9 +6,9 @@ async function renderClientPage(selectedDateParam) {
   const data = await getAllData();
 
   const selectedDate =
-    selectedDateParam ||
-    localStorage.getItem('selectedDate') ||
-    new Date().toISOString().slice(0, 10);
+  selectedDateParam ||
+  new URLSearchParams(window.location.search).get('date') ||
+  new Date().toISOString().slice(0, 10);
 
   const movies = data.result.films;
   const seances = data.result.seances;
@@ -79,7 +79,7 @@ async function renderClientPage(selectedDateParam) {
         }
       
         if (!isPast) {
-          a.href = `hall.html?seanceId=${seance.id}`;
+          a.href = `hall.html?seanceId=${seance.id}&date=${selectedDate}`;
         } else {
           a.classList.add('time--disabled');
         }
