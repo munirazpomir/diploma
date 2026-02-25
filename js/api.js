@@ -227,12 +227,7 @@ export async function buyTicket(ticketData) {
 
   params.append('seanceId', ticketData.seanceId);
   params.append('ticketDate', ticketData.ticketDate);
-
-  ticketData.tickets.forEach(ticket => {
-    params.append('row', ticket.row);
-    params.append('place', ticket.place);
-    params.append('coast', ticket.coast);
-  });
+  params.append('tickets', JSON.stringify(ticketData.tickets));
 
   const response = await fetch(`${API_URL}/ticket`, {
     method: 'POST',
