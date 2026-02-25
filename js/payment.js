@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
     
         const response = await buyTicket(ticketData);
-    
-        const tickets = response.result.tickets;
-    
-        if (!tickets.length) {
+        
+        const tickets = response.result;
+        
+        if (!tickets || !tickets.length) {
           alert('Ошибка покупки билета');
           return;
         }
-    
-        const ticketIds = tickets.map(t => t.id).join(',');
+
+const ticketIds = tickets.map(t => t.id).join(',');
     
         const qrText = JSON.stringify({
           seanceId: booking.seanceId,
