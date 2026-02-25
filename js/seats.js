@@ -146,6 +146,6 @@ bookBtn.addEventListener('click', () => {
   };
 
   const bookingParam = encodeURIComponent(JSON.stringify(booking));
-
-window.location.href = `payment.html?booking=${bookingParam}`;
+  
+  window.location.href = `payment.html?booking=${bookingParam}`;
 });

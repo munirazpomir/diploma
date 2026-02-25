@@ -45,12 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           }))
         };
     
-        console.log('Отправляем на сервер:');
-        console.log(JSON.stringify(ticketData, null, 2));
-
-        console.log('Дата отправки:', booking.ticketDate);
-        console.log('Тип даты:', typeof booking.ticketDate);
-    
         const response = await buyTicket(ticketData);
     
         const tickets = response.result.tickets;
@@ -60,12 +54,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
     
-        const bookingCode = `TICKET-${tickets[0].id}`;
+        const ticketIds = tickets.map(t => t.id).join(',');
+    
+        const qrText = JSON.stringify({
+          seanceId: booking.seanceId,
+          tickets: ticketIds
+        });
     
         qrContainer.innerHTML = '';
     
         new QRCode(qrContainer, {
-          text: bookingCode,
+          text: qrText,
           width: 200,
           height: 200
         });
