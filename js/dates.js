@@ -23,7 +23,7 @@ function renderDates() {
     }
   });
 
-  datesContainer.appendChild(prevBtn);
+  datesContainer.append(prevBtn);
 
   for (let i = 0; i < daysCount; i++) {
     const date = new Date(today);
@@ -58,7 +58,7 @@ function renderDates() {
       window.renderClientPage(selectedDate);
     });
 
-    datesContainer.appendChild(button);
+    datesContainer.append(button);
   }
 
   const nextBtn = document.createElement('button');
@@ -69,7 +69,7 @@ function renderDates() {
     renderDates();
   });
 
-  datesContainer.appendChild(nextBtn);
+  datesContainer.append(nextBtn);
 }
 
 renderDates();

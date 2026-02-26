@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   
       li.append(name, del);
-      hallList.appendChild(li);
+      hallList.append(li);
     });
   }
 
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectHallForConfig(hall);
       });
   
-      configHallList.appendChild(btn);
+      configHallList.append(btn);
     });
   }
 
@@ -238,19 +238,31 @@ function renderHallGrid() {
         toggleSeatType(rowIndex, seatIndex);
       });
 
-      rowEl.appendChild(seatEl);
+      rowEl.append(seatEl);
     });
 
-    hallGrid.appendChild(rowEl);
+    hallGrid.append(rowEl);
   });
 }
 
 function toggleSeatType(row, seat) {
   const order = ['standart', 'vip', 'disabled'];
-  const current = hallConfig[row][seat];
-  const next = order[(order.indexOf(current) + 1) % order.length];
 
-  hallConfig[row][seat] = next;
+  const current = hallConfig[row][seat];
+
+  // если место занято — не даём менять
+  if (current === 'taken') return;
+
+  const currentIndex = order.indexOf(current);
+
+  // если тип не найден — делаем его стандартным
+  if (currentIndex === -1) {
+    hallConfig[row][seat] = 'standart';
+  } else {
+    const next = order[(currentIndex + 1) % order.length];
+    hallConfig[row][seat] = next;
+  }
+
   renderHallGrid();
 }
 
@@ -328,7 +340,7 @@ console.log('CONFIG VALUE:', hallConfig);
         priceVipInput.value = hall.hall_price_vip || 0;
       });
 
-      priceHallList.appendChild(btn);
+      priceHallList.append(btn);
     });
   }
 
@@ -378,7 +390,7 @@ console.log('CONFIG VALUE:', hallConfig);
         updateSalesUI();
       });
 
-      salesHallList.appendChild(btn);
+      salesHallList.append(btn);
     });
   }
 
@@ -472,7 +484,7 @@ console.log('CONFIG VALUE:', hallConfig);
         }
       });
   
-      movieList.appendChild(card);
+      movieList.append(card);
     });
   }
 
@@ -571,7 +583,7 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
       option.value = h.id;
       option.textContent = h.hall_name;
       if (h.id == hallId) option.selected = true;
-      sessionHall.appendChild(option);
+      sessionHall.append(option);
     });
   
     movies.forEach(m => {
@@ -579,7 +591,7 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
       option.value = m.id;
       option.textContent = m.film_name;
       if (m.id == movieId) option.selected = true;
-      sessionMovie.appendChild(option);
+      sessionMovie.append(option);
     });
   
     sessionModal.style.display = 'flex';
@@ -693,7 +705,7 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
       session.style.left = (minutesFromStart / TOTAL_MINUTES) * 100 + '%';
       session.style.width = (duration / TOTAL_MINUTES) * 100 + '%';
   
-      timeline.appendChild(session);
+      timeline.append(session);
     });
   }
 
@@ -715,7 +727,7 @@ function renderHallSchedules() {
       </div>
     `;
 
-    hallsPanel.appendChild(wrap);
+    hallsPanel.append(wrap);
   });
 
   initTimelineDnD();

@@ -84,14 +84,14 @@ async function renderClientPage(selectedDateParam) {
           a.classList.add('time--disabled');
         }
       
-        times.appendChild(a);
+        times.append(a);
       });
 
-      hallBlock.appendChild(hallTitle);
-      hallBlock.appendChild(times);
+      hallBlock.append(hallTitle);
+      hallBlock.append(times);
     });
 
-    moviesContainer.appendChild(section);
+    moviesContainer.append(section);
   });
 
   

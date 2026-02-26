@@ -102,10 +102,10 @@ hallScheme.forEach((row, rowIndex) => {
       seat.classList.toggle('selected');
     });
 
-    rowDiv.appendChild(seat);
+    rowDiv.append(seat);
   });
 
-  seatsContainer.appendChild(rowDiv);
+  seatsContainer.append(rowDiv);
 });
 
 // 7. Бронирование
