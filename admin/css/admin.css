@@ -270,7 +270,6 @@ body::before {
 .seat.disabled {
     background: transparent;
     border: 1px solid #C4C4C4;
-    pointer-events: none;
   }
 
   .hall-size {
