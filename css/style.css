@@ -41,17 +41,6 @@ body {
   width: 212px;
 }
 
-.logo {
-  font-size: 34px;
-  font-weight: 900;
-  text-transform: uppercase;
-  padding: 14px;
-}
-
-.logo span {
-  font-weight: 100;
-}
-
 .login {
   background-color: #16A6af;
   border: none;
@@ -64,31 +53,55 @@ body {
 
 .dates {
   display: flex;
-  width: 100%;
-  gap: 6px;
+  gap: 8px;             
   padding-bottom: 10px;
-  overflow: visible;
 }
 
-.dates button {
+.date-item {
+  display: flex;
+  flex-direction: column;     
+  align-items: flex-start;     
+  justify-content: center;
+
+  width: 70px;                 
+  height: 60px;
+
+  padding: 6px 8px;
+
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 3px;
-  padding: 6px 10px;
-  min-width: 0;
-  height: 48px;
-  font-size: 14px;
+
   font-weight: 500;
-  color: black;
   cursor: pointer;
-  opacity: 0.9;
-  flex: 1;
-  text-align: center;
 }
 
-.dates button.active {
-  opacity: 1;
-  transform: scale(1.10);
+.day-name {
+  font-size: 12px;             
+  line-height: 14px;
+}
+
+.day-number {
+  font-size: 18px;             
+  font-weight: 700;
+  line-height: 20px;
+}
+
+/* Выходные */
+.weekend .day-name,
+.weekend .day-number {
+  color: #D0021B;
+}
+
+/* Активная дата */
+.date-item.active {
+  width: 95px;                 
+  background: #ffffff;
+  border: 2px solid #000;
+}
+
+.date-item.active .day-number {
+  font-size: 20px;
 }
 
 .content {
