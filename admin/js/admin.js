@@ -247,22 +247,11 @@ function renderHallGrid() {
 
 function toggleSeatType(row, seat) {
   const order = ['standart', 'vip', 'disabled'];
-
   const current = hallConfig[row][seat];
+  const next = order[(order.indexOf(current) + 1) % order.length];
 
-  // если место занято — не даём менять
-  if (current === 'taken') return;
-
-  const currentIndex = order.indexOf(current);
-
-  // если тип не найден — делаем его стандартным
-  if (currentIndex === -1) {
-    hallConfig[row][seat] = 'standart';
-  } else {
-    const next = order[(currentIndex + 1) % order.length];
-    hallConfig[row][seat] = next;
-  }
-
+  console.log('CURRENT TYPE:', current);
+  hallConfig[row][seat] = next;
   renderHallGrid();
 }
 
