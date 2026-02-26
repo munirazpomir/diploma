@@ -34,6 +34,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px;
+}
+
+.header-top img {
+  width: 212px;
 }
 
 .logo {
