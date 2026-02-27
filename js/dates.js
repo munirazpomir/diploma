@@ -11,9 +11,10 @@ function renderDates() {
   datesContainer.innerHTML = '';
 
   const today = new Date();
-  
+
   const prevBtn = document.createElement('button');
   prevBtn.textContent = '<';
+  prevBtn.className = 'nav-btn';
   prevBtn.disabled = offset === 0;
 
   prevBtn.addEventListener('click', () => {
@@ -33,28 +34,36 @@ function renderDates() {
     const dayNumber = date.getDate();
 
     const button = document.createElement('button');
-    button.textContent =
-      offset + i === 0
-        ? `Сегодня, ${dayNumber}`
-        : `${dayName}, ${dayNumber}`;
+    button.className = 'date-item';
 
-        const currentDate = date.toISOString().slice(0, 10);
-        
-        if (selectedDate === currentDate) {
-          button.classList.add('active');
-        }
+    button.innerHTML = `
+      <span class="day-name">${dayName}</span>
+      <span class="day-number">${dayNumber}</span>
+    `;
+
+    const currentDate = date.toISOString().slice(0, 10);
+
+    // активная дата
+    if (selectedDate === currentDate) {
+      button.classList.add('active');
+    }
+
+    // выходные
+    if (date.getDay() === 0 || date.getDay() === 6) {
+      button.classList.add('weekend');
+    }
 
     button.addEventListener('click', () => {
       document
-        .querySelectorAll('.dates button')
+        .querySelectorAll('.date-item')
         .forEach(b => b.classList.remove('active'));
-    
+
       button.classList.add('active');
-    
+
       selectedDate = currentDate;
-      
+
       window.history.replaceState({}, '', `?date=${selectedDate}`);
-      
+
       window.renderClientPage(selectedDate);
     });
 
@@ -62,7 +71,8 @@ function renderDates() {
   }
 
   const nextBtn = document.createElement('button');
-  nextBtn.textContent = '›';
+  nextBtn.textContent = '>';
+  nextBtn.className = 'nav-btn';
 
   nextBtn.addEventListener('click', () => {
     offset += daysCount;
