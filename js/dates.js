@@ -45,7 +45,7 @@ function renderDates() {
       `;
     } else {
       button.innerHTML = `
-      <span class="day-name">${dayName}</span>
+      <span class="day-name">${dayName},</span>
       <span class="day-number">${dayNumber}</span>
       `;
     }
