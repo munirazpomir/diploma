@@ -148,9 +148,7 @@ body {
 }
 
 .hall {
-  margin-top: 10px;
   grid-area: hall;
- margin-bottom: 10px;
 }
 
 .hall-title {
@@ -167,7 +165,7 @@ body {
   margin-bottom: 18px;
 }
 
-times:last-child {
+.times:last-child {
   margin-bottom: 0px;
 }
 
