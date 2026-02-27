@@ -24,6 +24,10 @@ body {
     padding: 14px;
 }
 
+.header-top img {
+    width: 212px;
+}
+
 .seat-page {
     max-width: 990px;
     margin: 30px auto;
