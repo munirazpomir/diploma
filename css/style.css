@@ -21,8 +21,6 @@ body {
 .container {
   max-width: 990px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -53,55 +51,61 @@ body {
 
 .dates {
   display: flex;
-  gap: 8px;              /* меньше отступ */
+  gap: 1px;              
   padding-bottom: 10px;
+  align-items: center;
+}
+
+.nav-btn {
+  font-size: 24px;
+  font-weight: bold;
+  width: 14%;
+  height: 48px;
+  border: none;
+  border-radius: 3px;
+  background: rgba(225, 225, 225, 0.9);
 }
 
 .date-item {
   display: flex;
-  flex-direction: column;      /* строго 2 строки */
-  align-items: flex-start;     /* по левому краю */
+  flex-direction: column;      
+  align-items: flex-start;     
   justify-content: center;
 
-  width: 70px;                 /* фиксированная ширина */
-  height: 60px;
+  width: 14%;                 
+  height: 48px;
 
   padding: 6px 8px;
 
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: rgba(225, 225, 225, 0.9);
+  border: none;
   border-radius: 3px;
 
   font-weight: 500;
   cursor: pointer;
 }
 
-.day-name {
-  font-size: 12px;             /* меньше */
+.day-name .day-number{
+  font-size: 12px;            
   line-height: 14px;
-}
-
-.day-number {
-  font-size: 18px;             /* больше */
-  font-weight: 700;
-  line-height: 20px;
 }
 
 /* Выходные */
 .weekend .day-name,
 .weekend .day-number {
-  color: #D0021B;
+  color: #FF0000;
 }
 
 /* Активная дата */
 .date-item.active {
-  width: 95px;                 /* шире */
+  width: 28%; 
+  height: 52px;               
   background: #ffffff;
-  border: 2px solid #000;
 }
 
-.date-item.active .day-number {
-  font-size: 20px;
+.date-item.active .day-name .day-number {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .content {

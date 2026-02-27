@@ -36,10 +36,19 @@ function renderDates() {
     const button = document.createElement('button');
     button.className = 'date-item';
 
-    button.innerHTML = `
+    const isToday = offset + i === 0;
+    
+    if (isToday) {
+      button.innerHTML = `
+      <span class="day-name">Сегодня</span>
+      <span class="day-number">${dayName}, ${dayNumber}</span>
+      `;
+    } else {
+      button.innerHTML = `
       <span class="day-name">${dayName}</span>
       <span class="day-number">${dayNumber}</span>
-    `;
+      `;
+    }
 
     const currentDate = date.toISOString().slice(0, 10);
 
