@@ -24,10 +24,6 @@ body {
   align-items: center;
 }
 
-.header {
-  color: white;
-}
-
 .header-top {
   display: flex;
   justify-content: space-between;

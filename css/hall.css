@@ -21,21 +21,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-  
-.header {
-    color: white;
-}
-  
-.logo {
-    font-size: 34px;
-    font-weight: 900;
-    text-transform: uppercase;
     padding: 14px;
-}
-
-.logo span {
-    font-weight: 100;
 }
 
 .seat-page {
