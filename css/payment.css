@@ -24,19 +24,17 @@ body {
     align-items: center;
 }
   
-.header {
-    color: white;
-}
-
-.logo {
-    font-size: 34px;
-    font-weight: 900;
-    text-transform: uppercase;
+.container {
+    max-width: 990px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 14px;
 }
 
-.logo span {
-    font-weight: 100;
+.container img {
+    width: 212px;
 }
 
 .payment-page {
