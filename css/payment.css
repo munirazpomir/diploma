@@ -45,8 +45,12 @@ body {
 .payment-card {
     position: relative;
     overflow: visible;
-    background: rgba(225, 225, 225, 0.9);
-    padding: 40px 25px;
+    background: rgba(225, 225, 225, 0.95);
+    padding: 25px 15px;
+}
+
+.payment-card.title {
+    margin-top: 0;
 }
 
 .payment-card::before {
@@ -79,9 +83,8 @@ body {
 }
 
 .info p {
-    margin: 6px 0;
-    font-size: 14px;
-    font-weight: 300;
+    margin: 11px 0;
+    font-size: 16px;
 }
 
 .pay-btn {
