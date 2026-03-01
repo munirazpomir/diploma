@@ -347,9 +347,7 @@ body::before {
 }
 
 .admin-actions.center {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
+  margin: 0 auto;
 }
 .admin-actions.center button {
   text-transform: uppercase;
@@ -603,9 +601,14 @@ display: none;
   justify-content: center;
 }
 
+.sales-section .admin-text, .sales-section .hall-list {
+  padding-bottom: 29px;
+  margin: 0;
+}
+
 .sales-status {
   text-align: center;
-  margin: 30px 0;
+  margin: 0 0 29px;
   font-size: 16px;
   font-weight: 400;
 }
