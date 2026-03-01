@@ -309,7 +309,7 @@ body::before {
 
   .ex {
     position: relative;
-    top: 9px;
+    padding-top: 26px;
     font-size: 18px;
     color: #848484;
   }
