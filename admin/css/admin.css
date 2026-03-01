@@ -698,18 +698,89 @@ display: none;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
-/* ================== MOBILE ================== */
-@media (max-width: 768px) {
+/* ================== SMALL MOBILE ================== */
+@media (max-width: 532px) {
 
-  .admin-title::before {
-    width: 22px;      
-    height: 22px;     
-    border-width: 2px; 
-    left: 20px;       
-    bottom: 28px;     
+  /* Контейнер */
+  .container,
+  .header-top {
+    padding: 15px;
   }
 
+  /* Заголовок блока */
+  .admin-title {
+    padding: 18px 15px 18px 55px;
+    font-size: 16px;
+  }
+
+  /* Кружок */
+  .admin-title::before {
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+    left: 15px;
+    bottom: 22px;
+  }
+
+  /* Убираем вертикальную линию полностью */
   .admin-block::before {
     display: none;
   }
+
+  /* Контент */
+  .admin-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  /* Кнопки залов */
+  .hall-btn {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  /* Настройка размеров зала */
+  .hall-size {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hall-size input {
+    width: 100%;
+  }
+
+  /* Модалки */
+  .modal {
+    width: 95%;
+  }
+
+  .modal-body {
+    padding: 15px;
+  }
+
+  .modal-body input,
+  .modal-body textarea,
+  .modal-body select {
+    width: 100%;
+  }
+
+  /* Карточки фильмов */
+  .movie-card {
+    width: 100%;
+  }
+
+  /* Таймлайн */
+  .hall-schedule {
+    padding: 0 10px;
+  }
+
+  .timeline {
+    height: 50px;
+  }
+
+  .session {
+    font-size: 8px;
+    padding: 3px;
+  }
+
 }
