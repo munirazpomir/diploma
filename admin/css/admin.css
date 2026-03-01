@@ -46,7 +46,7 @@ body::before {
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 5px;
-    margin-left: 104px;
+    margin-top: -5px;
   }
   
 .admin-page {
@@ -585,7 +585,6 @@ display: none;
 /* ================== LOGIN ================== */
 
 .login-page {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
