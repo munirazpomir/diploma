@@ -30,25 +30,16 @@ body::before {
     margin: 0 auto;
 }
   
-.header {
-    padding: 10px 0;
-    color: #fff;
-}
-  
-.logo {
-    font-size: 34px;
-    font-weight: 900;
-    text-transform: uppercase;
-    padding-left: 104px;
-}
-  
-.logo span {
-    font-weight: 300;
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
 }
 
-.logo-wrap {
-    display: inline-block;
-  }
+.header-top img {
+  width: 212px;
+}
   
   .admin-subtitle {
     font-size: 10px;
