@@ -455,6 +455,16 @@ body::before {
   font-size: 12px;
 }
 
+.timeline-time::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 49%;
+  width: 1px;
+  height: 5px;
+  background: #848484;
+}
+
 .movie-list {
   display: flex;
   gap: 15px;
