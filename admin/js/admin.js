@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderMovies();
       renderHallSchedules();
       renderSeances();
+      renderTimelineTimes();
       initTimelineDnD();
   
       if (halls.length && !selectedHallId) {
@@ -731,6 +732,34 @@ function renderHallSchedules() {
   });
 
   initTimelineDnD();
+}
+
+function renderTimelineTimes() {
+  const TOTAL_MINUTES = 24 * 60;
+
+  document.querySelectorAll('.hall-schedule').forEach(schedule => {
+    const hallId = Number(schedule.dataset.hall);
+    const timesContainer = schedule.querySelector('.timeline-times');
+
+    timesContainer.innerHTML = '';
+
+    const hallSeances = seances.filter(s => s.hallId === hallId);
+
+    hallSeances.forEach(seance => {
+      if (!seance.time) return;
+
+      const [h, m] = seance.time.split(':').map(Number);
+      const minutes = h * 60 + m;
+
+      const label = document.createElement('div');
+      label.className = 'timeline-time';
+      label.textContent = seance.time;
+
+      label.style.left = (minutes / TOTAL_MINUTES) * 100 + '%';
+
+      timesContainer.append(label);
+    });
+  });
 }
 
 function getRandomColor() {

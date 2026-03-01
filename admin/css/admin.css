@@ -437,18 +437,22 @@ body::before {
 
 .timeline-wrapper {
   position: relative;
+  margin-bottom: 25px;
 }
 
 .timeline-times {
   position: relative;
   font-size: 12px;
   color: #848484;
+  height: 20px;
+  margin-top: 5px;
 }
 
 .timeline-time {
   position: absolute;
   transform: translateX(-50%);
   white-space: nowrap;
+  font-size: 12px;
 }
 
 .movie-list {
