@@ -31,10 +31,9 @@ body::before {
 }
   
 .header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 35px 42px 35px 104px;
 }
 
 .header-top img {
