@@ -356,8 +356,7 @@ body::before {
 .price-config {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 13px;
 }
 
 .price-config label {
@@ -370,20 +369,23 @@ body::before {
 .price-row {
   display: flex;
   align-items: flex-end;
-  gap: 10px;
+  gap: 6px;
   font-size: 14px;
 }
 
 .price-row input {
-  width: 80px;
-  padding: 4px;
+  width: 100px;
+  padding: 9px;
   border: 1px solid #B7B7B7;
+  font-size: 16px;
+  color: #757575;
 }
 
 .price-label {
   display: flex;
   align-items: center;
   gap: 6px;
+  padding-bottom: 6px;
   color: #848484;
 }
 
