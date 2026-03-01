@@ -225,6 +225,7 @@ body::before {
 
 .legend {
   display: flex;
+  flex-wrap: wrap;
   gap: 23px;
   margin: 11px 0;
   font-size: 14px;
@@ -538,6 +539,7 @@ display: none;
   display: flex;
   gap: 14px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .movie-poster {
@@ -701,57 +703,37 @@ display: none;
 /* ================== SMALL MOBILE ================== */
 @media (max-width: 768px) {
 
-  /* Контейнер */
-  .container,
-  .header-top {
-    padding: 15px;
-  }
-
-  /* Заголовок блока */
   .admin-title {
-    padding: 18px 15px 18px 55px;
-    font-size: 16px;
+    padding: 20px 20px 20px 67px;
   }
 
-  /* Кружок */
   .admin-title::before {
-    width: 18px;
-    height: 18px;
-    border-width: 2px;
-    left: 15px;
-    bottom: 22px;
+    width: 22px;
+    height: 22px;
+    left: 20px;
+    bottom: 20px;
   }
 
-  /* Убираем вертикальную линию полностью */
   .admin-block::before {
     display: none;
   }
 
-  /* Контент */
+  
   .admin-content {
-    margin-left: 0;
-    padding: 15px;
+    margin-left: 31px;
   }
 
-  /* Кнопки залов */
-  .hall-btn {
-    font-size: 12px;
-    padding: 6px 8px;
+  .hall-grid, .conf-step__row {
+    gap: 4px;
   }
 
-  /* Настройка размеров зала */
-  .hall-size {
-    flex-direction: column;
-    gap: 10px;
+  .seat {
+    width: 20px;
+    height: 20px;
   }
 
-  .hall-size input {
-    width: 100%;
-  }
-
-  /* Модалки */
   .modal {
-    width: 95%;
+    width: 100%;
   }
 
   .modal-body {
@@ -764,23 +746,25 @@ display: none;
     width: 100%;
   }
 
-  /* Карточки фильмов */
-  .movie-card {
-    width: 100%;
+  .movie-list {
+    margin: 36px 99px 36px 0;
   }
 
-  /* Таймлайн */
+  .halls-panel-wrapper {
+    margin-top: 0;
+  }
+
+  .seance-trash {
+    width: 25px;
+    height: 25px;
+  }
+
+  
   .hall-schedule {
     padding: 0 10px;
   }
 
-  .timeline {
-    height: 50px;
+  .modal-footer .btn {
+    width: 200px;
   }
-
-  .session {
-    font-size: 8px;
-    padding: 3px;
-  }
-
 }
