@@ -87,9 +87,13 @@ body {
     font-size: 16px;
 }
 
+.info p:first-child {
+    margin: 0;
+}
+
 .pay-btn {
     display: block;
-    margin: 20px auto 0;
+    margin: 30px auto;
     padding: 12px 25px;
     background: #16a6af;
     color: white;
@@ -98,12 +102,14 @@ body {
     cursor: pointer;
     font-size: 14px;
     max-width: 337px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
   
 .note {
-    font-size: 12px;
-    color: #444;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 100;
+    margin: 0;
 }
 
 .qr-wrapper {
