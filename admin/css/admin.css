@@ -584,22 +584,16 @@ display: none;
 
 /* ================== LOGIN ================== */
 
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .login-block {
-  width: 360px;
+  height: 294px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .login-block .admin-content {
-  margin-left: 0;
-}
-
-.login-block.admin-block {
-  border-radius: 3px;
+  width: 272px;
+  margin: 35px auto;
+  padding: 0;
 }
 
 .login-block.admin-block::before {
@@ -607,7 +601,7 @@ display: none;
 }
 
 .login-block .admin-title {
-  padding: 10px;
+  padding: 16px 104px;
   text-align: center;
 }
 
@@ -624,12 +618,12 @@ display: none;
 .login-label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 14px;
+  gap: 2px;
+  font-size: 12px;
 }
 
 .login-label span {
-  color: #555;
+  color: #848484;
 }
 
 .login-label input {
