@@ -699,7 +699,7 @@ display: none;
 }
 
 /* ================== SMALL MOBILE ================== */
-@media (max-width: 532px) {
+@media (max-width: 768px) {
 
   /* Контейнер */
   .container,
