@@ -86,15 +86,25 @@ document.addEventListener('DOMContentLoaded', () => {
   
       halls = data.halls || [];
       movies = data.films || [];
-      seances = (data.seances || []).map(s => ({
-        id: s.id,
-        hallId: s.seance_hallid,
-        movieId: s.seance_filmid,
-        time: s.seance_time,
-        duration: movies.find(m => m.id === s.seance_filmid)?.film_duration || 0,
-        title: movies.find(m => m.id === s.seance_filmid)?.film_name || '',
-        color: '#ccc'
+      
+      movies = data.films.map(movie => ({
+        ...movie,
+        color: getRandomColor()
       }));
+
+      seances = (data.seances || []).map(s => {
+  const movie = movies.find(m => m.id === s.seance_filmid);
+
+  return {
+    id: s.id,
+    hallId: s.seance_hallid,
+    movieId: s.seance_filmid,
+    time: s.seance_time,
+    duration: movie?.film_duration || 0,
+    title: movie?.film_name || '',
+    color: movie?.color || getRandomColor()
+  };
+});
   
       renderHalls();
       renderConfigHallList();

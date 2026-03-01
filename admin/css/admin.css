@@ -159,6 +159,8 @@ body::before {
 
 .hall-name {
     cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
 .hall-delete, .movie-delete{
@@ -396,15 +398,19 @@ body::before {
   background: #16A6AF;
   color: #fff;
   cursor: pointer;
+  margin-top: 17px;
+  width: 194px;
+  font-size: 14px;
+  text-transform: uppercase;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
 .movie-card {
   display: flex;
   width: 259px;
-  height: 50px;
   background: #fff;
-  border: 1px solid #0000004D;
-  margin: 10px 0;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin-top: 12px;
   cursor: grab;
   position: relative;
   overflow: hidden;
@@ -417,8 +423,8 @@ body::before {
 }
 
 .hall-schedule {
-  padding: 0 60px 0 35px;
-  margin-bottom: 20px;
+  padding: 0 102px 0 35px;
+  margin-bottom: 35px;
 }
 
 .timeline {
@@ -431,7 +437,6 @@ body::before {
 
 .timeline-wrapper {
   position: relative;
-  margin-bottom: 20px;
 }
 
 .timeline-times {
@@ -448,7 +453,7 @@ body::before {
 
 .movie-list {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
@@ -531,7 +536,7 @@ display: none;
 }
 
 .movie-info {
-  padding: 10px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -574,7 +579,6 @@ display: none;
   min-width: 70px;
   font-size: 10px;
   text-align: center;
-  padding: 5px;
   cursor: grab;
   white-space: normal;
   overflow: hidden;
@@ -594,11 +598,13 @@ display: none;
 
 .halls-panel-wrapper {
   position: relative;
+  margin: 53px 0 13px;
 }
 
 .seance-trash {
   position: absolute;
   left: -25px;
+  top: 23px;
   width: 50px;
   height: 50px;
   background: url(../../img/bin.png) center/contain no-repeat;
