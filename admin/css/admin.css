@@ -612,7 +612,7 @@ display: none;
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 7px;
 }
 
 .login-label {
@@ -627,9 +627,9 @@ display: none;
 }
 
 .login-label input {
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  padding: 8px 9px;
+  border: 1px solid #B7B7B7;
+  font-size: 16px;
 }
 
 .login-label input:focus {
@@ -639,6 +639,7 @@ display: none;
 
 .login-btn {
   margin-top: 10px;
-  align-self: flex-end;
+  align-self: center;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
