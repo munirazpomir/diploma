@@ -132,6 +132,7 @@ body::before {
 
 .hall-manager .hall-list {
   padding-left: 16px;
+  margin-bottom: 22px;
 }
 
 .admin-text {
@@ -143,7 +144,7 @@ body::before {
 .hall-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 15px 0;
+    margin: 0 0 36px 0;
 }
 
 .hall-item {
@@ -196,30 +197,34 @@ body::before {
     border-radius: 3px;
     border: none;
     cursor: pointer;
-    margin-top: 12px;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
     font-size: 14px;
 }
 
 .hall-btn {
-  padding: 6px 12px;
+  padding: 12px 20px;
   font-size: 14px;
+  font-weight: 500;
   text-transform: uppercase;
   border: none;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.45);
   cursor: pointer;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
 .hall-btn.active {
   background: #fff;
-  transform: scale(1.10);
+  transform: scale(1.1);
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.24);
 }
 
 .legend {
   display: flex;
-  gap: 25px;
-  margin: 15px 0 20px;
+  gap: 23px;
+  margin: 11px 0;
   font-size: 14px;
   color: #848484;
 }
@@ -227,20 +232,20 @@ body::before {
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
 }
 
 .hall-config {
   border: 1px solid #000;
-    padding: 20px;
-    margin: 15px 0;
+  padding: 26px 0 36px;
+  margin-right: 32px;
 }
   
 .screen {
     text-align: center;
     color: #000;
     font-size: 16px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 19px;
 }
@@ -248,28 +253,30 @@ body::before {
   .hall-grid {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
     align-items: center;
   }
   
   .conf-step__row {
     display: flex;
-    gap: 6px;
+    gap: 10px;
   }
   
 .seat {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: 3px;
     cursor: pointer;
   }
   
 .seat.standart {
-    background: #fff;
+    background-color: #C4C4C4;
+    border: 1px solid #393939;
   }
   
 .seat.vip {
     background: #B0D6D8;
+    background-image: url(../../img/drops.png);
     border: 1px solid #0A828A;
   }
   
@@ -280,8 +287,8 @@ body::before {
 
   .hall-size {
     display: flex;
-    gap: 20px;
-    margin: 10px 0 15px;
+    gap: 14px;
+    margin-bottom: 35px;
   }
   
   .hall-size label {
@@ -289,40 +296,52 @@ body::before {
     color: #848484;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
   
   .hall-size input {
-    width: 80px;
-    padding: 6px 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
+    width: 100px;
+    padding: 9px;
+    font-size: 16px;
+    border: 1px solid #B7B7B7;
+    color: #757575;
+  }
+
+  .ex {
+    position: relative;
+    top: 9px;
+    font-size: 18px;
+    color: #848484;
   }
 
 .admin-actions {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-top: 25px;
+  margin-top: 26px;
 }
 
 .admin-actions .btn {
-  padding: 10px 22px;
+  padding: 11px 32px;
+  height: 40px;
   font-size: 14px;
   border: none;
   cursor: pointer;
   border-radius: 3px;
+  text-transform: uppercase;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
 .admin-actions .cancel {
   background: #fff;
   color: #63536C;
-  
+  width: 121px;
 }
 
 .admin-actions .save {
   background: #16A6AF;
   color: #fff;
+  width: 146px;
 }
 
 .admin-actions.center {
