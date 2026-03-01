@@ -49,10 +49,6 @@ body::before {
     margin-top: -5px;
   }
   
-.admin-page {
-    margin: 30px auto;
-}
-  
 .admin-block {
     position: relative;
     background: rgba(230,230,230,0.95);
@@ -100,6 +96,11 @@ body::before {
     width: 24px;
     height: 16px;
     background-size: contain;
+    transition: transform 0.3s ease;
+}
+
+.admin-title.active::after {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .admin-title::before {
@@ -119,6 +120,10 @@ body::before {
     padding: 15px;
     display: block;
     margin-left: 104px;
+}
+
+.admin-content.collapsed {
+  display: none;
 }
 
 .admin-text {

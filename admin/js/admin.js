@@ -48,8 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.admin-title').forEach(title => {
     title.addEventListener('click', () => {
       const content = title.nextElementSibling;
-      content.style.display =
-        content.style.display === 'none' ? 'block' : 'none';
+  
+      title.classList.toggle('active');
+      content.classList.toggle('collapsed');
     });
   });
 
