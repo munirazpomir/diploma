@@ -698,3 +698,18 @@ display: none;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
+/* ================== MOBILE ================== */
+@media (max-width: 768px) {
+
+  .admin-title::before {
+    width: 22px;      
+    height: 22px;     
+    border-width: 2px; 
+    left: 20px;       
+    bottom: 28px;     
+  }
+
+  .admin-block::before {
+    display: none;
+  }
+}
