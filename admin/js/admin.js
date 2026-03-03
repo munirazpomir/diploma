@@ -228,6 +228,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         selectHallForConfig(hall);
       });
+
+      if (index === 0) {
+        btn.classList.add('active');
+        selectHallForConfig(hall);
+      }
   
       configHallList.append(btn);
     });
@@ -341,6 +346,13 @@ console.log('CONFIG VALUE:', hallConfig);
         priceVipInput.value = hall.hall_price_vip || 0;
       });
 
+      if(index === 0) {
+        btn.classList.add('active');
+        selectedPriceHall = null;
+        priceRegularInput.value = hall.hall_price_standart || 0;
+        priceVipInput.value = hall.hall_price_vip || 0;
+      }
+
       priceHallList.append(btn);
     });
   }
@@ -390,6 +402,12 @@ console.log('CONFIG VALUE:', hallConfig);
         selectedSalesHall = hall;
         updateSalesUI();
       });
+
+      if (index === 0) {
+        btn.classList.add('active');
+        selectedSalesHall = null;
+        updateSalesUI();
+      }
 
       salesHallList.append(btn);
     });
