@@ -64,13 +64,13 @@ const seatsText = booking.tickets
 .join('; ');
 
 const qrText = `
-Бронь №: ${ticketIds}
-Дата: ${booking.ticketDate}
-Время: ${booking.time}
-Фильм: ${booking.movie}
-Зал: ${booking.hall}
+${ticketIds}
+${booking.ticketDate}
+${booking.time}
+${booking.movie}
+${booking.hall}
 ${seatsText}
-Стоимость: ${totalPrice} руб.
+${totalPrice} руб.
 Билет действителен строго на свой сеанс
 `;
     
