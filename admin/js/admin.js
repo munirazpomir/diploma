@@ -839,6 +839,13 @@ cancelDeleteSeance.addEventListener('click', () => {
   pendingDeleteSeanceId = null;
 });
 
+
+const cancelBtn = document.querySelector('.admin-actions .cancel');
+
+cancelBtn.addEventListener('click', () => {
+  renderSeances();
+});
+
   /* ================== СТАРТ ================== */
 
   (async () => {
