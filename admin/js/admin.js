@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderConfigHallList() {
     configHallList.innerHTML = '';
   
-    halls.forEach(hall => {
+    halls.forEach(hall, index => {
       const btn = document.createElement('button');
       btn.className = 'hall-btn';
       btn.textContent = hall.hall_name;
@@ -329,7 +329,7 @@ console.log('CONFIG VALUE:', hallConfig);
   function renderPriceHalls() {
     priceHallList.innerHTML = '';
 
-    halls.forEach(hall => {
+    halls.forEach(hall, index => {
       const btn = document.createElement('button');
       btn.className = 'hall-btn';
       btn.textContent = hall.hall_name;
@@ -388,7 +388,7 @@ console.log('CONFIG VALUE:', hallConfig);
   function renderSalesHalls() {
     salesHallList.innerHTML = '';
 
-    halls.forEach(hall => {
+    halls.forEach(hall, index => {
       const btn = document.createElement('button');
       btn.className = 'hall-btn';
       btn.textContent = hall.hall_name;
