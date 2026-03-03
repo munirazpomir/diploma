@@ -56,10 +56,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const ticketIds = tickets.map(t => t.id).join(',');
     
-        const qrText = JSON.stringify({
-          seanceId: booking.seanceId,
-          tickets: ticketIds
-        });
+const totalPrice = booking.tickets
+.reduce((sum, t) => sum + Number(t.coast), 0);
+
+const seatsText = booking.tickets
+.map(t => `Ряд ${t.row}, Место ${t.place}`)
+.join('; ');
+
+const qrText = `
+Бронь №: ${ticketIds}
+Дата: ${booking.ticketDate}
+Время: ${booking.time}
+Фильм: ${booking.movie}
+Зал: ${booking.hall}
+${seatsText}
+Стоимость: ${totalPrice} руб.
+Билет действителен строго на свой сеанс
+`;
     
         qrContainer.innerHTML = '';
     
