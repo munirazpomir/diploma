@@ -74,13 +74,25 @@ ${totalPrice} руб.
 Билет действителен строго на свой сеанс
 `;
     
-        qrContainer.innerHTML = '';
-    
-        new QRCode(qrContainer, {
-          text: qrText,
-          width: 200,
-          height: 200
-        });
+qrContainer.innerHTML = '';
+
+const qrCode = new QRCodeStyling({
+  width: 250,
+  height: 250,
+  data: qrText,
+  dotsOptions: {
+    color: "#000",
+    type: "square"
+  },
+  backgroundOptions: {
+    color: "#ffffff"
+  },
+  qrOptions: {
+    errorCorrectionLevel: "L" 
+  }
+});
+
+qrCode.append(qrContainer);
     
         qrWrapper.style.display = 'block';
         getCodeBtn.style.display = 'none';
