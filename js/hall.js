@@ -57,7 +57,7 @@ async function renderClientPage(selectedDateParam) {
       const times = document.createElement('div');
       times.className = 'times';
 
-      groupedByHall[hallId].forEach(seance => {
+      groupedByHall[hallId].sort((a, b) => a.seance_time.localeCompare(b.seance_time)).forEach(seance => {
         const a = document.createElement('a');
         a.className = 'time';
         a.textContent = seance.seance_time;
