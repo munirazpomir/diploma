@@ -690,6 +690,7 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
     const block = document.createElement('div');
     block.className = 'session';
     block.textContent = movie.film_name;
+    block.style.background = movie.color || getRandomColor();
   
     block.dataset.movieId = movieId;
     block.dataset.hallId = hallId;
@@ -876,9 +877,9 @@ saveBtn.addEventListener('click', async () => {
       // сохраняем только те, которых нет в базе
       if (!s.dataset.saved) {
         await createSeance({
-          hallId: Number(s.dataset.hallId),
-          movieId: Number(s.dataset.movieId),
-          time: s.dataset.time
+          seance_hallid: Number(s.dataset.hallId),
+          seance_filmid: Number(s.dataset.movieId),
+          seance_time: s.dataset.time
         });
       }
     }
