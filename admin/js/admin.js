@@ -868,23 +868,27 @@ cancelDeleteSeance.addEventListener('click', () => {
 const saveBtn = document.getElementById('seanceSaveBtn');
 
 saveBtn.addEventListener('click', async () => {
-  const sessions = document.querySelectorAll('.session');
+  const sessions = document.querySelectorAll('.session:not([data-seance-id])');
+
+  if (!sessions.length) {
+    alert('Нет новых сеансов');
+    return;
+  }
 
   try {
     for (const s of sessions) {
-      // сохраняем только те, которых нет в базе
-      if (!s.dataset.saved) {
-        await createSeance({
-          seance_hallid: Number(s.dataset.hallId),
-          seance_filmid: Number(s.dataset.movieId),
-          seance_time: s.dataset.time
-        });
-      }
+      await createSeance({
+        seance_hallid: Number(s.dataset.hallId),
+        seance_filmid: Number(s.dataset.movieId),
+        seance_time: s.dataset.time
+      });
     }
 
     await loadData();
     alert('Сеансы сохранены');
+
   } catch (e) {
+    console.error('CREATE SEANCE RESPONSE:', e);
     alert('Ошибка сохранения');
   }
 });
