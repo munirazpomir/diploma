@@ -80,31 +80,29 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await getAllData();
   
       console.log('ALDATA RESPONSE:', response);
-      console.log('HALLS FROM SERVERE:', response.result?.halls);
   
       const data = response.result || response;
   
       halls = data.halls || [];
-      movies = data.films || [];
-      
-      movies = data.films.map(movie => ({
+  
+      movies = (data.films || []).map(movie => ({
         ...movie,
         color: getRandomColor()
       }));
-
+  
       seances = (data.seances || []).map(s => {
-  const movie = movies.find(m => m.id === s.seance_filmid);
-
-  return {
-    id: s.id,
-    hallId: s.seance_hallid,
-    movieId: s.seance_filmid,
-    time: s.seance_time,
-    duration: movie?.film_duration || 0,
-    title: movie?.film_name || '',
-    color: movie?.color || getRandomColor()
-  };
-});
+        const movie = movies.find(m => m.id === s.seance_filmid);
+  
+        return {
+          id: s.id,
+          hallId: s.seance_hallid,
+          movieId: s.seance_filmid,
+          time: s.seance_time,
+          duration: movie ? Number(movie.film_duration) : 0,
+          title: movie ? movie.film_name : '',
+          color: movie ? movie.color : getRandomColor()
+        };
+      });
   
       renderHalls();
       renderConfigHallList();
