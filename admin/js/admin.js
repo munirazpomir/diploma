@@ -877,6 +877,13 @@ saveBtn.addEventListener('click', async () => {
 
   try {
     for (const s of sessions) {
+      console.log(
+        'SAVING:',
+        s.dataset.hallId,
+        s.dataset.movieId,
+        s.dataset.time
+      );
+    
       await createSeance({
         seance_hallid: Number(s.dataset.hallId),
         seance_filmid: Number(s.dataset.movieId),
