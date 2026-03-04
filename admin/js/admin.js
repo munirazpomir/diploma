@@ -92,12 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         color: getRandomColor()
       }));
 
-      seances = data.result.seances.map(s => ({
-        id: s.id,
-        hallId: s.seance_hallid,
-        movieId: s.seance_filmid,
-        time: s.seance_time
-      }));
+      seances = (data.seances || []).map(s => {
+  const movie = movies.find(m => m.id === s.seance_filmid);
 
   return {
     id: s.id,
