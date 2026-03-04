@@ -667,13 +667,40 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
     }
   
     try {
-      await createSeance({ hallId, movieId, time });
+     addSessionToTimeline(movieId, hallId, time);
       sessionModal.style.display = 'none';
-      await loadData();
     } catch (err) {
       alert(err.message);
     }
   });
+
+  function addSessionToTimeline(movieId, hallId, time) {
+    const movie = movies.find(m => m.id == movieId);
+    if (!movie) return;
+  
+    const timeline = document.querySelector(
+      `.hall-schedule[data-hall="${hallId}"] .timeline`
+    );
+    if (!timeline) return;
+  
+    const TOTAL_MINUTES = 24 * 60;
+    const [h, m] = time.split(':').map(Number);
+    const minutes = h * 60 + m;
+  
+    const block = document.createElement('div');
+    block.className = 'session';
+    block.textContent = movie.film_name;
+  
+    block.dataset.movieId = movieId;
+    block.dataset.hallId = hallId;
+    block.dataset.time = time;
+  
+    block.style.left = (minutes / TOTAL_MINUTES) * 100 + '%';
+    block.style.width =
+      (movie.film_duration / TOTAL_MINUTES) * 100 + '%';
+  
+    timeline.append(block);
+  }
 
   function renderSeances() {
     document.querySelectorAll('.timeline').forEach(t => t.innerHTML = '');
@@ -839,12 +866,37 @@ cancelDeleteSeance.addEventListener('click', () => {
   pendingDeleteSeanceId = null;
 });
 
+const saveBtn = document.getElementById('seanceSaveBtn');
 
-const cancelBtn = document.querySelector('.admin-actions .cancel');
+saveBtn.addEventListener('click', async () => {
+  const sessions = document.querySelectorAll('.session');
+
+  try {
+    for (const s of sessions) {
+      // сохраняем только те, которых нет в базе
+      if (!s.dataset.saved) {
+        await createSeance({
+          hallId: Number(s.dataset.hallId),
+          movieId: Number(s.dataset.movieId),
+          time: s.dataset.time
+        });
+      }
+    }
+
+    await loadData();
+    alert('Сеансы сохранены');
+  } catch (e) {
+    alert('Ошибка сохранения');
+  }
+});
+
+const cancelBtn = document.getElementById('cancelSeanceBtn');
 
 cancelBtn.addEventListener('click', () => {
   renderSeances();
 });
+
+
 
   /* ================== СТАРТ ================== */
 
