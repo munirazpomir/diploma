@@ -189,16 +189,22 @@ document.addEventListener('DOMContentLoaded', () => {
   function selectHallForConfig(hall) {
     selectedHall = hall;
     selectedHallId = hall.id;
-
-    if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
-      hallConfig = hall.hall_config;
-    
-      rowsInput.value = hall.hall_rows;
-      seatsInput.value = hall.hall_places;
-    } else {
-      const rows = Number(rowsInput.value);
-      const seats = Number(seatsInput.value);
-    
+  
+    rowsInput.value = hall.hall_rows;
+    seatsInput.value = hall.hall_places;
+  
+    if (hall.hall_config) {
+      try {
+        hallConfig = JSON.parse(hall.hall_config);
+      } catch {
+        hallConfig = [];
+      }
+    }
+  
+    if (!hallConfig || !hallConfig.length) {
+      const rows = Number(hall.hall_rows);
+      const seats = Number(hall.hall_places);
+  
       hallConfig = Array.from({ length: rows }, () =>
         Array.from({ length: seats }, () => 'standart')
       );
@@ -322,21 +328,9 @@ console.log('CONFIG VALUE:', hallConfig);
 const configCancelBtn = document.getElementById('configCancelBtn');
 
 configCancelBtn.addEventListener('click', () => {
+  if (!selectedHall) return;
 
-  if (!selectedHallId) return;
-
-  const hall = halls.find(h => h.id === selectedHallId);
-  if (!hall) return;
-
-  rowsInput.value = hall.hall_rows;
-  seatsInput.value = hall.hall_places;
-
-  // восстановить конфигурацию
-  hallConfig = JSON.parse(hall.hall_config);
-
-  // перерисовать сетку
-  renderHallGrid();
-
+  selectHallForConfig(selectedHall);
 });
 
 
