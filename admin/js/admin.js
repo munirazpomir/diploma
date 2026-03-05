@@ -319,6 +319,21 @@ console.log('CONFIG VALUE:', hallConfig);
   }
 });
 
+const configCancelBtn = document.getElementById('configCancelBtn');
+
+configCancelBtn.addEventListener('click', () => {
+
+  if (!selectedHallId) return;
+
+  const hall = halls.find(h => h.id === selectedHallId);
+
+  rowsInput.value = hall.hall_rows;
+  seatsInput.value = hall.hall_places;
+
+  renderHallGrid(hall);
+
+});
+
 
   /* ================== ЦЕНЫ ================== */
 
@@ -383,6 +398,17 @@ console.log('CONFIG VALUE:', hallConfig);
   
     alert('Цены сохранены');
   });
+
+  const priceCancelBtn = document.getElementById('priceCancel');
+
+priceCancelBtn.addEventListener('click', () => {
+
+  if (!selectedPriceHall) return;
+
+  priceRegular.value = selectedPriceHall.hall_price_standart;
+  priceVip.value = selectedPriceHall.hall_price_vip;
+
+});
 
   /* ================== ОТКРЫТИЕ ПРОДАЖ ================== */
 
