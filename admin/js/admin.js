@@ -331,10 +331,12 @@ configCancelBtn.addEventListener('click', () => {
   rowsInput.value = hall.hall_rows;
   seatsInput.value = hall.hall_places;
 
-  // восстанавливаем конфигурацию
+  // восстановить конфигурацию
   hallConfig = JSON.parse(hall.hall_config);
 
+  // перерисовать сетку
   renderHallGrid();
+
 });
 
 
