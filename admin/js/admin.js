@@ -326,12 +326,15 @@ configCancelBtn.addEventListener('click', () => {
   if (!selectedHallId) return;
 
   const hall = halls.find(h => h.id === selectedHallId);
+  if (!hall) return;
 
   rowsInput.value = hall.hall_rows;
   seatsInput.value = hall.hall_places;
 
-  renderHallGrid(hall);
+  // восстанавливаем конфигурацию
+  hallConfig = JSON.parse(hall.hall_config);
 
+  renderHallGrid();
 });
 
 
