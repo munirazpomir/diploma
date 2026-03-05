@@ -194,14 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
     seatsInput.value = hall.hall_places;
   
     if (hall.hall_config) {
-      try {
-        hallConfig = JSON.parse(hall.hall_config);
-      } catch {
-        hallConfig = [];
+  
+      if (typeof hall.hall_config === 'string') {
+        try {
+          hallConfig = JSON.parse(hall.hall_config);
+        } catch {
+          hallConfig = [];
+        }
+      } else {
+        hallConfig = hall.hall_config;
       }
+  
+    } else {
+      hallConfig = [];
     }
   
-    if (!hallConfig || !hallConfig.length) {
+    if (!hallConfig.length) {
       const rows = Number(hall.hall_rows);
       const seats = Number(hall.hall_places);
   
