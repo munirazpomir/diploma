@@ -346,7 +346,7 @@ configCancelBtn.addEventListener('click', () => {
   rowsInput.value = selectedHall.hall_rows;
   seatsInput.value = selectedHall.hall_places;
 
-  hallConfig = JSON.parse(JSON.stringify(originalHallConfig));
+  hallConfig = JSON.parse(JSON.stringify(originHallConfig));
 
   renderHallGrid();
 });
