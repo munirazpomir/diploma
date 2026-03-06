@@ -218,27 +218,30 @@ if (hall) selectHallForConfig(hall);
     if (!halls.length) return;
   
     halls.forEach(hall => {
-      if (!hall) return;
-  
       const btn = document.createElement('button');
       btn.className = 'hall-btn';
       btn.textContent = hall.hall_name;
   
       btn.addEventListener('click', () => {
-        document
-          .querySelectorAll('#configHallList .hall-btn')
-          .forEach(b => b.classList.remove('active'));
-  
+        document.querySelectorAll('#configHallList .hall-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        selectedHallId = hall.id; // сохраняем активный зал
         selectHallForConfig(hall);
       });
   
       configHallList.append(btn);
     });
   
+    // Восстанавливаем ранее выбранный зал
     if (selectedHallId) {
       const hall = halls.find(h => h.id === selectedHallId);
-      if (hall) selectHallForConfig(hall);
+      if (hall) {
+        const btn = Array.from(configHallList.children).find(b => b.textContent === hall.hall_name);
+        if (btn) btn.classList.add('active');
+        selectHallForConfig(hall);
+      } else {
+        selectHallForConfig(halls[0])
+      }
     }
   }
 
@@ -345,20 +348,14 @@ configCancelBtn.addEventListener('click', () => {
     if (!halls.length) return;
   
     halls.forEach(hall => {
-      if (!hall) return;
-  
       const btn = document.createElement('button');
       btn.className = 'hall-btn';
       btn.textContent = hall.hall_name;
   
       btn.addEventListener('click', () => {
-        document
-          .querySelectorAll('#priceHallList .hall-btn')
-          .forEach(b => b.classList.remove('active'));
-  
+        document.querySelectorAll('#priceHallList .hall-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         selectedPriceHall = hall;
-  
         priceRegularInput.value = hall.hall_price_standart || 0;
         priceVipInput.value = hall.hall_price_vip || 0;
       });
@@ -366,12 +363,10 @@ configCancelBtn.addEventListener('click', () => {
       priceHallList.append(btn);
     });
   
-    const firstBtn = priceHallList.querySelector('.hall-btn');
-    if (firstBtn) {
-      firstBtn.classList.add('active');
-      selectedPriceHall = halls[0];
-      priceRegularInput.value = halls[0].hall_price_standart || 0;
-      priceVipInput.value = halls[0].hall_price_vip || 0;
+    // Восстанавливаем выбранный зал
+    if (selectedPriceHall) {
+      const btn = Array.from(priceHallList.children).find(b => b.textContent === selectedPriceHall.hall_name);
+      if (btn) btn.classList.add('active');
     }
   }
 
@@ -426,23 +421,20 @@ priceCancelBtn.addEventListener('click', () => {
       btn.textContent = hall.hall_name;
   
       btn.addEventListener('click', () => {
-        document
-          .querySelectorAll('#salesHallList .hall-btn')
-          .forEach(b => b.classList.remove('active'));
-  
+        document.querySelectorAll('#salesHallList .hall-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         selectedSalesHall = hall;
         updateSalesUI();
       });
   
-      if (index === 0) {
-        btn.classList.add('active');
-        selectedSalesHall = hall;
-        updateSalesUI();
-      }
-  
       salesHallList.append(btn);
     });
+  
+    // Восстанавливаем выбранный зал
+    if (selectedSalesHall) {
+      const btn = Array.from(salesHallList.children).find(b => b.textContent === selectedSalesHall.hall_name);
+      if (btn) btn.classList.add('active');
+    }
   }
 
   function updateSalesUI() {
