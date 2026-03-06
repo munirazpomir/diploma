@@ -728,7 +728,7 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
         startMinutes < existingEnd &&
         endMinutes > existingStart
       ) {
-        alert('Сеансы пересекаются!');
+        alert(`Сеансы пересекаются!` + `(${s.time} - ${timeEnd || '??'})`);
         return;
       }
     }
