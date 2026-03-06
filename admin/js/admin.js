@@ -554,12 +554,22 @@ addMovieBtn.addEventListener('click', () => {
   movieModal.style.display = 'flex';
 });
 
+function clearMovieForm() {
+  movieTitle.value = '';
+  movieDuration.value = '';
+  movieDescription.value = '';
+  movieCountry.value = '';
+  posterInput.value = '';
+}
+
 closeMovieModal.addEventListener('click', () => {
   movieModal.style.display = 'none';
+  clearMovieForm();
 });
 
 cancelMovie.addEventListener('click', () => {
   movieModal.style.display = 'none';
+  clearMovieForm();
 });
 
 addMovieConfirm.addEventListener('click', async () => {
@@ -570,18 +580,38 @@ addMovieConfirm.addEventListener('click', async () => {
   const posterInput = document.getElementById('moviePoster');
   const file = posterInput.files[0];
 
-  if (!title || duration <= 0 || !description || !country || !file) {
-    alert('Заполните все поля и загрузите постер');
+  if (!title) {
+    alert('Введите название фильма');
+    return;
+  }
+
+  if (!duration || duration <= 0) {
+    alert('Введите корректную продолжительность фильма');
+    return;
+  }
+
+  if (!description) {
+    alert('Введите описание фильма');
+    return;
+  }
+
+  if (!country) {
+    alert('Введите страну фильма');
+    return;
+  }
+
+  if (!file) {
+    alert('Загрузите постер фильма (PNG)');
     return;
   }
 
   if (file.type !== 'image/png') {
-    alert('Файл должен быть PNG');
+    alert('Файл постера должен быть в формате PNG');
     return;
   }
 
   if (file.size > 3 * 1024 * 1024) {
-    alert('Файл больше 3MB');
+    alert('Файл постера не должен превышать 3MB');
     return;
   }
 
@@ -594,10 +624,19 @@ addMovieConfirm.addEventListener('click', async () => {
       poster: file
     });
 
+    alert('Фильм успешно добавлен!');
+
+    // очистка полей после успешного сохранения
+    movieTitle.value = '';
+    movieDuration.value = '';
+    movieDescription.value = '';
+    movieCountry.value = '';
+    posterInput.value = '';
+
     movieModal.style.display = 'none';
     await loadData();
   } catch (err) {
-    alert(err.message);
+    alert('Ошибка при добавлении фильма: ' + err.message);
   }
 });
 
