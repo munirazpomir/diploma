@@ -15,7 +15,7 @@ import {
 let selectedHallId = null;
 let selectedHall = null;
 let hallConfig = [];
-let originHallConfig = [];
+let originalHallConfig = [];
 
 let pendingMovieId = null;
 let pendingHallId = null;
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
 
-    originHallConfig = JSON.parse(JSON.stringify(hallConfig));
+    originalHallConfigHallConfig = JSON.parse(JSON.stringify(hallConfig));
   
     renderHallGrid();
   }
@@ -329,7 +329,7 @@ console.log('CONFIG VALUE:', hallConfig);
 
   try {
     await updateHall(selectedHallId, rows, seats, hallConfig);
-    originHallConfig = JSON.parse(JSON.stringify(hallConfig));
+    originalHallConfig = JSON.parse(JSON.stringify(hallConfig));
     await loadData();
     alert('Конфигурация зала сохранена');
   } catch (e) {
@@ -346,7 +346,7 @@ configCancelBtn.addEventListener('click', () => {
   rowsInput.value = selectedHall.hall_rows;
   seatsInput.value = selectedHall.hall_places;
 
-  hallConfig = JSON.parse(JSON.stringify(originHallConfig));
+  hallConfig = JSON.parse(JSON.stringify(originalHallConfig));
 
   renderHallGrid();
 });
