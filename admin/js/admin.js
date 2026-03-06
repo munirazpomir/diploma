@@ -225,22 +225,26 @@ if (hall) selectHallForConfig(hall);
       btn.addEventListener('click', () => {
         document.querySelectorAll('#configHallList .hall-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        selectedHallId = hall.id; // сохраняем активный зал
+        selectedHallId = hall.id;
         selectHallForConfig(hall);
       });
   
       configHallList.append(btn);
     });
   
-    // Восстанавливаем ранее выбранный зал
-    if (selectedHallId) {
+    // Если ранее выбранного зала нет, активируем первый
+    if (!selectedHallId && halls.length) {
+      const firstHall = halls[0];
+      const firstBtn = configHallList.children[0];
+      firstBtn.classList.add('active');
+      selectedHallId = firstHall.id;
+      selectHallForConfig(firstHall);
+    } else if (selectedHallId) {
       const hall = halls.find(h => h.id === selectedHallId);
       if (hall) {
         const btn = Array.from(configHallList.children).find(b => b.textContent === hall.hall_name);
         if (btn) btn.classList.add('active');
         selectHallForConfig(hall);
-      } else {
-        selectHallForConfig(halls[0])
       }
     }
   }
@@ -363,8 +367,12 @@ configCancelBtn.addEventListener('click', () => {
       priceHallList.append(btn);
     });
   
-    // Восстанавливаем выбранный зал
-    if (selectedPriceHall) {
+    if (!selectedPriceHall && halls.length) {
+      selectedPriceHall = halls[0];
+      priceRegularInput.value = halls[0].hall_price_standart || 0;
+      priceVipInput.value = halls[0].hall_price_vip || 0;
+      priceHallList.children[0].classList.add('active');
+    } else if (selectedPriceHall) {
       const btn = Array.from(priceHallList.children).find(b => b.textContent === selectedPriceHall.hall_name);
       if (btn) btn.classList.add('active');
     }
@@ -430,10 +438,14 @@ priceCancelBtn.addEventListener('click', () => {
       salesHallList.append(btn);
     });
   
-    // Восстанавливаем выбранный зал
-    if (selectedSalesHall) {
+    if (!selectedSalesHall && halls.length) {
+      selectedSalesHall = halls[0];
+      salesHallList.children[0].classList.add('active');
+      updateSalesUI();
+    } else if (selectedSalesHall) {
       const btn = Array.from(salesHallList.children).find(b => b.textContent === selectedSalesHall.hall_name);
       if (btn) btn.classList.add('active');
+      updateSalesUI();
     }
   }
 
