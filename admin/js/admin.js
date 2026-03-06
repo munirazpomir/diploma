@@ -695,50 +695,63 @@ closeSessionBtn.addEventListener('click', closeSessionModal);
   addSessionConfirm.addEventListener('click', async () => {
     const hallId = Number(sessionHall.value);
     const movieId = Number(sessionMovie.value);
-    const time = sessionTime.value;
+    const time = sessionTime.value; // формат "HH:MM"
   
     if (!hallId || !movieId || !time) {
-      alert('Заполните все поля');
+      alert('Заполните все поля для сеанса');
       return;
     }
   
     const movie = movies.find(m => m.id === movieId);
+    if (!movie) {
+      alert('Выбран неверный фильм');
+      return;
+    }
+  
     const duration = Number(movie.film_duration);
+    if (duration <= 0) {
+      alert('У фильма указана некорректная продолжительность');
+      return;
+    }
   
     const [h, m] = time.split(':').map(Number);
     const startMinutes = h * 60 + m;
     const endMinutes = startMinutes + duration;
   
-    if (endMinutes > 23 * 60 + 59) {
-      alert('Сеанс выходит за пределы 23:59');
+    if (startMinutes < 0 || startMinutes >= 24 * 60) {
+      alert('Время начала сеанса некорректно');
       return;
     }
   
+    if (endMinutes > 24 * 60) {
+      alert('Сеанс не может заканчиваться позже 23:59');
+      return;
+    }
+  
+    // Проверка пересечения с уже существующими сеансами в этом зале
     const hallSeances = seances.filter(s => s.hallId === hallId);
   
     for (const s of hallSeances) {
       const existingMovie = movies.find(m => m.id === s.movieId);
-      const existingDuration = Number(existingMovie.film_duration);
+      const existingDuration = Number(existingMovie?.film_duration || 0);
   
       const [eh, em] = s.time.split(':').map(Number);
       const existingStart = eh * 60 + em;
       const existingEnd = existingStart + existingDuration;
   
-      if (
-        startMinutes < existingEnd &&
-        endMinutes > existingStart
-      ) {
-        alert(`Сеансы пересекаются!` + `(${s.time} - ${timeEnd || '??'})`);
+      // проверка пересечения
+      if (startMinutes < existingEnd && endMinutes > existingStart) {
+        alert(
+          `Сеанс пересекается с фильмом "${existingMovie.film_name}"`  +
+          `(${s.time} - ${s.timeEnd || '??'})`
+        );
         return;
       }
     }
   
-    try {
-     addSessionToTimeline(movieId, hallId, time);
-      sessionModal.style.display = 'none';
-    } catch (err) {
-      alert(err.message);
-    }
+    // Если всё ок — добавляем сеанс на таймлайн
+    addSessionToTimeline(movieId, hallId, time);
+    sessionModal.style.display = 'none';
   });
 
   function addSessionToTimeline(movieId, hallId, time) {
