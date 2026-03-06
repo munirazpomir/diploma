@@ -188,35 +188,35 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function selectHallForConfig(hall) {
+    if (!hall) return;
+  
     selectedHall = hall;
     selectedHallId = hall.id;
   
-    rowsInput.value = hall.hall_rows;
-    seatsInput.value = hall.hall_places;
+    const rows = Number(hall.hall_rows) || 0;
+    const seats = Number(hall.hall_places) || 0;
+  
+    rowsInput.value = rows;
+    seatsInput.value = seats;
   
     let config = hall.hall_config;
   
-    // сервер часто присылает строку JSON
     if (typeof config === 'string') {
       try {
         config = JSON.parse(config);
       } catch {
-        config = [];
+        config = null;
       }
     }
   
-    if (Array.isArray(config) && config.length) {
+    if (Array.isArray(config)) {
       hallConfig = config;
     } else {
-      const rows = Number(hall.hall_rows);
-      const seats = Number(hall.hall_places);
-  
       hallConfig = Array.from({ length: rows }, () =>
         Array.from({ length: seats }, () => 'standart')
       );
     }
   
-    // сохраняем оригинал для кнопки отмены
     originalHallConfig = JSON.parse(JSON.stringify(hallConfig));
   
     renderHallGrid();
