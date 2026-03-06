@@ -180,7 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
       await createHall(name);
       closeHallModalFn();
       await loadData();
-      selectHallForConfig(halls[halls.length - 1]);
+
+const hall = halls.find(h => h.id === selectedHallId);
+if (hall) selectHallForConfig(hall);
     } catch (err) {
       alert(err.message);
     }
@@ -234,10 +236,9 @@ document.addEventListener('DOMContentLoaded', () => {
       configHallList.append(btn);
     });
   
-    const firstBtn = configHallList.querySelector('.hall-btn');
-    if (firstBtn) {
-      firstBtn.classList.add('active');
-      selectHallForConfig(halls[0]);
+    if (selectedHallId) {
+      const hall = halls.find(h => h.id === selectedHallId);
+      if (hall) selectHallForConfig(hall);
     }
   }
 
@@ -390,6 +391,9 @@ configCancelBtn.addEventListener('click', () => {
   
     await setPrices(selectedPriceHall.id, regular, vip);
     await loadData();
+
+selectedPriceHall = halls.find(h => h.id === selectedPriceHall.id);
+renderPriceHalls();
   
     alert('Цены сохранены');
   });
@@ -486,7 +490,8 @@ priceCancelBtn.addEventListener('click', () => {
       updateSalesUI();
   
       await loadData();
-  
+      selectedSalesHall = halls.find(h => h.id === selectedSalesHall.id);
+renderSalesHalls();
     } catch (error) {
       alert('Ошибка изменения статуса продаж');
     }
