@@ -187,30 +187,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function selectHallForConfig(hall) {
-    if (!hall) return;
-  
     selectedHall = hall;
     selectedHallId = hall.id;
   
-    const rows = Number(hall.hall_rows) || 0;
-    const seats = Number(hall.hall_places) || 0;
+    if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
+      hallConfig = hall.hall_config;
   
-    rowsInput.value = rows;
-    seatsInput.value = seats;
-  
-    let config = hall.hall_config;
-  
-    if (typeof config === 'string') {
-      try {
-        config = JSON.parse(config);
-      } catch {
-        config = null;
-      }
-    }
-  
-    if (Array.isArray(config)) {
-      hallConfig = config;
+      rowsInput.value = hall.hall_rows;
+      seatsInput.value = hall.hall_places;
     } else {
+      const rows = Number(rowsInput.value);
+      const seats = Number(rowsInput.value);
+  
       hallConfig = Array.from({ length: rows }, () =>
         Array.from({ length: seats }, () => 'standart')
       );
@@ -337,22 +325,8 @@ configCancelBtn.addEventListener('click', () => {
 
   if (!selectedHall) return;
 
-  rowsInput.value = selectedHall.hall_rows;
-  seatsInput.value = selectedHall.hall_places;
+  selectHallForConfig(selectedHall);
 
-  let config = selectedHall.hall_config;
-
-  if (typeof config === 'string') {
-    try {
-      config = JSON.parse(config);
-    } catch {
-      config = [];
-    }
-  }
-
-  hallConfig = JSON.parse(JSON.stringify(config));
-
-  renderHallGrid();
 });
 
 
