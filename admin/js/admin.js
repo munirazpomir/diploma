@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedHallId = hall.id;
   
     if (Array.isArray(hall.hall_config) && hall.hall_config.length) {
-      hallConfig = hall.hall_config;
+      hallConfig = JSON.parse(JSON.stringify(hall.hall_config));
   
       rowsInput.value = hall.hall_rows;
       seatsInput.value = hall.hall_places;
