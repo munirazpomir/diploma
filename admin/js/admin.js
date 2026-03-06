@@ -194,23 +194,20 @@ document.addEventListener('DOMContentLoaded', () => {
     rowsInput.value = hall.hall_rows;
     seatsInput.value = hall.hall_places;
   
-    if (hall.hall_config) {
+    let config = hall.hall_config;
   
-      if (typeof hall.hall_config === 'string') {
-        try {
-          hallConfig = JSON.parse(hall.hall_config);
-        } catch {
-          hallConfig = [];
-        }
-      } else {
-        hallConfig = hall.hall_config;
+    // сервер часто присылает строку JSON
+    if (typeof config === 'string') {
+      try {
+        config = JSON.parse(config);
+      } catch {
+        config = [];
       }
-  
-    } else {
-      hallConfig = [];
     }
   
-    if (!hallConfig.length) {
+    if (Array.isArray(config) && config.length) {
+      hallConfig = config;
+    } else {
       const rows = Number(hall.hall_rows);
       const seats = Number(hall.hall_places);
   
@@ -218,8 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
         Array.from({ length: seats }, () => 'standart')
       );
     }
-
-    originalHallConfigHallConfig = JSON.parse(JSON.stringify(hallConfig));
+  
+    // сохраняем оригинал для кнопки отмены
+    originalHallConfig = JSON.parse(JSON.stringify(hallConfig));
   
     renderHallGrid();
   }
