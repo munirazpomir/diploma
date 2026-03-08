@@ -1,34 +1,34 @@
 * {
-    box-sizing: border-box;
-    font-family: 'Roboto', Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 a {
-    color: inherit; 
-    text-decoration: none; 
-    background-color: transparent; 
-    cursor: pointer
+  color: inherit; 
+  text-decoration: none; 
+  background-color: transparent; 
+  cursor: pointer
 }
   
 body {
-    position: relative;
-    background: #fff url(../../img/background-adm.jpg) center no-repeat;
-    background-size: cover;
-    margin: 0;
-    min-height: 100vh;
+  position: relative;
+  background: #fff url(../../img/background-adm.jpg) center no-repeat;
+  background-size: cover;
+  margin: 0;
+  min-height: 100vh;
 }
 
 body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: -1;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
 }
   
 .container {
-    max-width: 990px;
-    margin: 0 auto;
+  max-width: 990px;
+  margin: 0 auto;
 }
   
 .header-top {
@@ -41,33 +41,33 @@ body::before {
   width: 212px;
 }
   
-  .admin-subtitle {
-    font-size: 10px;
-    font-weight: 300;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    margin-top: -5px;
-  }
+.admin-subtitle {
+  font-size: 10px;
+  font-weight: 300;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  margin-top: -5px;
+}
   
 .admin-block {
-    position: relative;
-    background: rgba(230,230,230,0.95);
+  position: relative;
+  background: rgba(230,230,230,0.95);
 }
 
 .admin-block::before {
-    content: "";
-    position: absolute;
-    left: 54px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #BC95D6;
-    z-index: 1;
+  content: "";
+  position: absolute;
+  left: 54px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #BC95D6;
+  z-index: 1;
 }
 
 .admin-block:first-child::before {
-    top: 50px;
+  top: 50px;
 }
 
 .admin-block:last-child::before {
@@ -88,16 +88,16 @@ body::before {
 }
   
 .admin-title::after {
-    content: "";
-    background: url(../../img/dropdown.png) no-repeat center;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px;
-    height: 16px;
-    background-size: contain;
-    transition: transform 0.3s ease;
+  content: "";
+  background: url(../../img/dropdown.png) no-repeat center;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 16px;
+  background-size: contain;
+  transition: transform 0.3s ease;
 }
 
 .admin-title.active::after {
@@ -105,22 +105,22 @@ body::before {
 }
 
 .admin-title::before {
-    content: "";
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border: 4px solid #BC95D6;
-    border-radius: 50%;
-    background-color: #fff;
-    left: 31px;
-    bottom: 21px;
-    z-index: 2;
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #BC95D6;
+  border-radius: 50%;
+  background-color: #fff;
+  left: 31px;
+  bottom: 21px;
+  z-index: 2;
 }
  
 .admin-content {
-    padding: 35px 0;
-    display: block;
-    margin-left: 104px;
+  padding: 35px 0;
+  display: block;
+  margin-left: 104px;
 }
 
 .admin-content.collapsed {
@@ -137,71 +137,71 @@ body::before {
 }
 
 .admin-text {
-    font-size: 16px;
-    margin: 0 0 12px;
-    color: #000;
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: #000;
 }
   
 .hall-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 36px 0;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 36px 0;
 }
 
 .hall-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .hall-name {
-    cursor: pointer;
-    font-size: 16px;
-    text-transform: uppercase;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
 .hall-delete, .movie-delete{
-    position: relative;
-    background: #fff;
-    cursor: pointer;
-    padding: 4px;
-    width: 20px;
-    height: 20px;
-    border: none;
-    border-radius: 3px;
+  position: relative;
+  background: #fff;
+  cursor: pointer;
+  padding: 4px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 3px;
 }
 
 .hall-delete::before, .movie-delete::before{
-    content: "";
-    background: url(../../img/trash.png) no-repeat;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-size: 28px 14px;
-    background-position: 6px 4px;
-    left: -3px;
-    bottom: 1px;
+  content: "";
+  background: url(../../img/trash.png) no-repeat;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-size: 28px 14px;
+  background-position: 6px 4px;
+  left: -3px;
+  bottom: 1px;
 }
 
 
 .hall-delete:hover::before {
-    opacity: 1;
+  opacity: 1;
 }
 
 .add-hall-btn {
-    width: 159px;
-    height: 40px;
-    color: #fff;
-    background-color: #16A6AF;
-    border-radius: 3px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
-    font-size: 14px;
+  width: 159px;
+  height: 40px;
+  color: #fff;
+  background-color: #16A6AF;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
+  font-size: 14px;
 }
 
 .hall-btn {
@@ -246,12 +246,12 @@ body::before {
 }
   
 .screen {
-    text-align: center;
-    color: #000;
-    font-size: 16px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 19px;
+  text-align: center;
+  color: #000;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 19px;
 }
   
   .hall-grid {
@@ -408,6 +408,7 @@ body::before {
 .movie-card {
   display: flex;
   width: 259px;
+  min-height: 50px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);
   margin-top: 12px;
@@ -424,7 +425,7 @@ body::before {
 
 .hall-schedule {
   padding: 0 102px 0 35px;
-  margin-bottom: 35px;
+  margin-bottom: 15px;
 }
 
 .timeline {
@@ -437,7 +438,6 @@ body::before {
 
 .timeline-wrapper {
   position: relative;
-  margin-bottom: 25px;
 }
 
 .timeline-times {
@@ -706,14 +706,14 @@ display: none;
 @media (max-width: 480px) {
 
   .admin-title {
-    padding: 20px 20px 20px 67px;
+    padding: 20px 67px 20px 67px;
   }
 
   .admin-title::before {
     width: 18px;
     height: 18px;
     left: 20px;
-    bottom: 20px;
+    top: 30%;
   }
 
   .admin-block::before {
@@ -749,7 +749,7 @@ display: none;
   }
 
   .movie-list {
-    margin: 36px 99px 36px 0;
+    margin: 36px auto 36px 0;
   }
 
   .halls-panel-wrapper {
@@ -768,5 +768,21 @@ display: none;
 
   .modal-footer .btn {
     width: 200px;
+  }
+
+  .add-hall-btn {
+    margin-left: 24%;
+  }
+
+  .admin-actions.seance-actions {
+    margin-top: 6px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-top.login-page {
+    margin: 14px;
+    padding: 0;
   }
 }

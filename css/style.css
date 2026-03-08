@@ -204,7 +204,7 @@ time:hover {
 .time--disabled {
   pointer-events: none;
   opacity: 0.4;
-  cursor: default;
+  cursor: not-allowed;
 }
 
 @media (max-width: 480px) {

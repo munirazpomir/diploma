@@ -28,80 +28,77 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('movie').textContent = booking.movie;
   document.getElementById('hall').textContent = booking.hall;
   document.getElementById('time').textContent = booking.time;
-  document.getElementById('seats').textContent =
-    booking.tickets.map(t => `${t.row}-${t.place}`).join(', ');
-  document.getElementById('price').textContent =
-    booking.tickets.reduce((sum, t) => sum + t.coast, 0);
-
-    getCodeBtn.addEventListener('click', async () => {
-      try {
-        const ticketData = {
-          seanceId: Number(booking.seanceId),
-          ticketDate: booking.ticketDate,
-          tickets: booking.tickets.map(t => ({
-            row: Number(t.row),
-            place: Number(t.place),
-            coast: Number(t.coast)
-          }))
-        };
+  document.getElementById('seats').textContent = booking.tickets.map(t => `${t.row}-${t.place}`).join(', ');
+  document.getElementById('price').textContent = booking.tickets.reduce((sum, t) => sum + t.coast, 0);
+  
+  getCodeBtn.addEventListener('click', async () => {
+    try {
+      const ticketData = {
+        seanceId: Number(booking.seanceId),
+        ticketDate: booking.ticketDate,
+        tickets: booking.tickets.map(t => ({
+          row: Number(t.row),
+          place: Number(t.place),
+          coast: Number(t.coast)
+        }))
+      };
     
-        const response = await buyTicket(ticketData);
+      const response = await buyTicket(ticketData);
         
-        const tickets = response.result;
+      const tickets = response.result;
         
-        if (!tickets || !tickets.length) {
-          alert('Ошибка покупки билета');
-          return;
-        }
-
-const ticketIds = tickets.map(t => t.id).join(',');
-    
-const totalPrice = booking.tickets
-.reduce((sum, t) => sum + Number(t.coast), 0);
-
-const seatsText = booking.tickets
-.map(t => `Ряд ${t.row}, Место ${t.place}`)
-.join('; ');
-
-const qrText = `
-${ticketIds}
-${booking.ticketDate}
-${booking.time}
-${booking.movie}
-${booking.hall}
-${seatsText}
-${totalPrice} руб.
-Билет действителен строго на свой сеанс
-`;
-    
-qrContainer.innerHTML = '';
-
-const qrCode = new QRCodeStyling({
-  width: 250,
-  height: 250,
-  data: qrText,
-  dotsOptions: {
-    color: "#000",
-    type: "square"
-  },
-  backgroundOptions: {
-    color: "#ffffff"
-  },
-  qrOptions: {
-    errorCorrectionLevel: "L" 
-  }
-});
-
-qrCode.append(qrContainer);
-    
-        qrWrapper.style.display = 'block';
-        getCodeBtn.style.display = 'none';
-        if (priceRow) priceRow.style.display = 'none';
-        if (note) note.style.display = 'none';
-    
-      } catch (error) {
-        console.error(error);
-        alert('Ошибка при отправке билета');
+      if (!tickets || !tickets.length) {
+        alert('Ошибка покупки билета');
+        return;
       }
-    });
+        
+      const ticketIds = tickets.map(t => t.id).join(',');
+        
+      const totalPrice = booking.tickets.reduce((sum, t) => sum + Number(t.coast), 0);
+        
+      const seatsText = booking.tickets.map(t => `Ряд ${t.row}, Место ${t.place}`).join('; ');
+        
+      const qrText = `
+      ${ticketIds}
+      ${booking.ticketDate}
+      ${booking.time}
+      ${booking.movie}
+      ${booking.hall}
+      ${seatsText}
+      ${totalPrice} руб.
+      Билет действителен строго на свой сеанс
+      `;
+        
+      qrContainer.innerHTML = '';
+
+      const qrCode = new QRCodeStyling({
+        width: 250,
+        height: 250,
+        data: qrText,
+        dotsOptions: {
+          color: "#000",
+          type: "square"
+        },
+          
+        backgroundOptions: {
+          color: "#ffffff"
+        },
+          
+        qrOptions: {
+          errorCorrectionLevel: "L" 
+        }
+      });
+
+      qrCode.append(qrContainer);
+    
+      qrWrapper.style.display = 'block';
+      getCodeBtn.style.display = 'none';
+      if (priceRow) priceRow.style.display = 'none';
+      if (note) note.style.display = 'none';
+      
+    } catch (error) {
+      console.error(error);
+      alert('Ошибка при отправке билета');
+    }
+  });
 });
