@@ -207,7 +207,7 @@ time:hover {
   cursor: default;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 480px) {
   .date-item {
     padding: 10px;
   }
