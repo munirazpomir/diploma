@@ -13,6 +13,7 @@ a {
 body {
     background: #fff url(../img/background.jpg) center no-repeat;
     background-size: cover;
+    margin: 0;
 }
 
 .container {

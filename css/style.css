@@ -134,7 +134,7 @@ body {
   content: "";
   position: absolute;
   top:0;
-  right:0;
+  right:-6px;
   width: 6px;
   height: 14px;
   background: #393939;
@@ -173,7 +173,7 @@ body {
 
 .times {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(53px, 1fr));
   gap: 4px;
   margin-bottom: 18px;
 }
@@ -205,4 +205,14 @@ time:hover {
   pointer-events: none;
   opacity: 0.4;
   cursor: default;
+}
+
+@media (max-width: 390px) {
+  .date-item {
+    padding: 10px;
+  }
+
+  .date-item.active {
+    padding: 11px;
+  }
 }
