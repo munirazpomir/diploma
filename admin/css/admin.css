@@ -15,6 +15,7 @@ body {
     background: #fff url(../../img/background-adm.jpg) center no-repeat;
     background-size: cover;
     margin: 0;
+    min-height: 100vh;
 }
 
 body::before {
@@ -57,7 +58,7 @@ body::before {
 .admin-block::before {
     content: "";
     position: absolute;
-    left: 55px;
+    left: 54px;
     top: 0;
     bottom: 0;
     width: 2px;
@@ -70,7 +71,7 @@ body::before {
 }
 
 .admin-block:last-child::before {
-  bottom: 80%;
+  bottom: calc(100% - 50px);
 }
   
 .admin-title {
@@ -106,8 +107,8 @@ body::before {
 .admin-title::before {
     content: "";
     position: absolute;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border: 4px solid #BC95D6;
     border-radius: 50%;
     background-color: #fff;
@@ -574,6 +575,7 @@ display: none;
   border-radius: 3px;
   font-size: 14px;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 .btn.primary {
@@ -700,16 +702,16 @@ display: none;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.24);
 }
 
-/* ================== MOBILE/TABLET ================== */
-@media (max-width: 768px) {
+/* ================== MOBILE ================== */
+@media (max-width: 480px) {
 
   .admin-title {
     padding: 20px 20px 20px 67px;
   }
 
   .admin-title::before {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     left: 20px;
     bottom: 20px;
   }
