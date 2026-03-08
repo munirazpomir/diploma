@@ -25,7 +25,9 @@ async function renderClientPage(selectedDateParam) {
     section.className = 'movie';
 
     section.innerHTML = `
+      <div class="poster-wrapper">
       <img class="poster" src="${movie.film_poster}" alt="">
+      </div>
       <div class="movie-info">
         <h2>${movie.film_name}</h2>
         <p class="desc">${movie.film_description || ''}</p>

@@ -126,6 +126,20 @@ body {
   height: auto;
 }
 
+.poster-wrapper {
+  position: relative;
+}
+
+.poster-wrapper::after {
+  content: "";
+  position: absolute;
+  top:0;
+  right:0;
+  width: 6px;
+  height: 14px;
+  background: #393939;
+}
+
 .movie-info {
   grid-area: info;
 }
