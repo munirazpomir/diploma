@@ -73,25 +73,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         
       qrContainer.innerHTML = '';
 
-      const qrCode = new QRCodeStyling({
+      new QRCode(qrContainer, {
+        text: qrText,
         width: 250,
         height: 250,
-        data: qrText,
-        dotsOptions: {
-          color: "#000",
-          type: "square"
-        },
-          
-        backgroundOptions: {
-          color: "#ffffff"
-        },
-          
-        qrOptions: {
-          errorCorrectionLevel: "L" 
-        }
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.L
       });
-
-      qrCode.append(qrContainer);
     
       qrWrapper.style.display = 'block';
       getCodeBtn.style.display = 'none';
