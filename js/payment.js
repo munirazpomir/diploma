@@ -74,10 +74,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         
       qrContainer.innerHTML = '';
 
+      const encoder = new TextEncoder();
+      const qrData = encoder.encode(qrText);
+
       const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,
-        data: encodeURIComponent(qrText),
+        data: qrData,
         dotsOptions: {
           color: "#000",
           type: "square"
