@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         height: 250,
         colorDark: "#000000",
         colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.L
+        correctLevel: QRCode.CorrectLevel.H
+        version: 10;
       });
     
       qrWrapper.style.display = 'block';
