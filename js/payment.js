@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const qrContainer = document.getElementById('qrcode');
   const priceRow = document.querySelector('#priceRow');
   const note = document.querySelector('.note');
+  const paymentTitle = document.getElementById('paymentTitle');
 
   // вывод выбранной информации
   document.getElementById('movie').textContent = booking.movie;
@@ -59,13 +60,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       const seatsText = booking.tickets.map(t => `Ряд ${t.row}, Место ${t.place}`).join('; ');
         
       const qrText = `
-      ${ticketIds}
-      ${booking.ticketDate}
-      ${booking.time}
-      ${booking.movie}
-      ${booking.hall}
+      ID билета: ${ticketIds}
+      Дата: ${booking.ticketDate}
+      Время: ${booking.time}
+      Фильм: ${booking.movie}
+      Зал: ${booking.hall}
       ${seatsText}
-      ${totalPrice} руб.
+      Стоимость: ${totalPrice} руб.
       Билет действителен строго на свой сеанс
       `;
         
@@ -95,6 +96,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       getCodeBtn.style.display = 'none';
       if (priceRow) priceRow.style.display = 'none';
       if (note) note.style.display = 'none';
+
+      paymentTitle.textContent = 'ЭЛЕКТРОННЫЙ БИЛЕТ';
       
     } catch (error) {
       console.error(error);

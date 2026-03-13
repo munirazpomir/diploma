@@ -104,7 +104,7 @@ body {
 
 .content {
   max-width: 990px;
-  margin: 30px auto;
+  margin: 30px auto 0;
 }
 
 .movie {
@@ -118,6 +118,10 @@ body {
   margin-bottom: 30px;
   padding: 13px;
   border-radius: 3px;
+}
+
+.movie:last-child {
+  margin-bottom: 0;
 }
 
 .poster {
