@@ -61,26 +61,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       .map(t => `Ряд ${t.row}, Место ${t.place}`)
       .join('; ');
         
-      const qrText = [
-      `ID билета: ${ticketIds}`,
-      `Дата: ${booking.ticketDate}`,
-      `Время: ${booking.time}`,
-      `Фильм: ${booking.movie}`,
-      `Зал: ${booking.hall}`,
-      seatsText,
-      `Стоимость: ${totalPrice} руб.`,
-      `Билет действителен строго на свой сеанс`
-      ].join('\n');
+      const qrText =
+      'ID билета: ' + ticketIds + '\n' +
+      'Дата: ' + booking.ticketDate + '\n' +
+      'Время: ' + booking.time + '\n' +
+      'Фильм: ' + booking.movie + '\n' +
+      'Зал: ' + booking.hall + '\n' +
+      seatsText + '\n' +
+      'Стоимость: ' + totalPrice + ' руб.\n' +
+      'Билет действителен строго на свой сеанс';
         
       qrContainer.innerHTML = '';
-
-      const encoder = new TextEncoder();
-      const qrData = encoder.encode(qrText);
 
       const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,
-        data: qrData,
+        data: qrText,
         dotsOptions: {
           color: "#000",
           type: "square"
