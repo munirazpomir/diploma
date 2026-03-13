@@ -57,11 +57,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         
       const totalPrice = booking.tickets.reduce((sum, t) => sum + Number(t.coast), 0);
         
-      const seatsText = booking.tickets.map(t => `Ряд ${t.row}, Место ${t.place}`).join('; ');
+      const seatsText = booking.tickets
+      .map(t => `Ряд ${t.row}, Место ${t.place}`)
+      .join('; ');
         
       const qrText = [
       `ID билета: ${ticketIds}`,
-     ` Дата: ${booking.ticketDate}`,
+      `Дата: ${booking.ticketDate}`,
       `Время: ${booking.time}`,
       `Фильм: ${booking.movie}`,
       `Зал: ${booking.hall}`,
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,
-        data: qrText,
+        data: encodeURIComponent(qrText),
         dotsOptions: {
           color: "#000",
           type: "square"
