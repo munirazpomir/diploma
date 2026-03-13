@@ -59,16 +59,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         
       const seatsText = booking.tickets.map(t => `Ряд ${t.row}, Место ${t.place}`).join('; ');
         
-      const qrText = `
-      ID билета: ${ticketIds}
-      Дата: ${booking.ticketDate}
-      Время: ${booking.time}
-      Фильм: ${booking.movie}
-      Зал: ${booking.hall}
-      ${seatsText}
-      Стоимость: ${totalPrice} руб.
-      Билет действителен строго на свой сеанс
-      `;
+      const qrText = [
+      `ID билета: ${ticketIds}`,
+     ` Дата: ${booking.ticketDate}`,
+      `Время: ${booking.time}`,
+      `Фильм: ${booking.movie}`,
+      `Зал: ${booking.hall}`,
+      seatsText,
+      `Стоимость: ${totalPrice} руб.`,
+      `Билет действителен строго на свой сеанс`
+      ].join('\n');
         
       qrContainer.innerHTML = '';
 
