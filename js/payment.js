@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
-        version: 10;
       });
     
       qrWrapper.style.display = 'block';
