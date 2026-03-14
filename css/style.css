@@ -28,11 +28,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px;
+  padding: 14px 12px;
 }
 
 .header-top img {
   width: 212px;
+  margin-top: 4px;
 }
 
 .login {

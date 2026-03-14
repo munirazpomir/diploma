@@ -100,9 +100,13 @@ body {
   
 .note {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 16px;
     font-weight: 100;
     margin: 0;
+}
+
+.note.enjoy {
+    margin-top: 11px;
 }
 
 .qr-wrapper {
