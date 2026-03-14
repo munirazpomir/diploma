@@ -37,6 +37,12 @@ body {
     padding-bottom: 30px;
 }
 
+.sesion-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .session-info {
     padding: 15px;
 }
